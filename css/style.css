@@ -150,6 +150,8 @@ main {
   cursor: grab;
   background:
     radial-gradient(ellipse at center, #2a2018 0%, #15100a 100%);
+  /* Isolate map rendering so paint/layout don't spill into the rest of the page. */
+  contain: strict;
 }
 
 .map-viewport.dragging { cursor: grabbing; }
@@ -161,14 +163,20 @@ main {
   transform-origin: 0 0;
   will-change: transform;
   user-select: none;
+  /* Promote to its own compositor layer so pan/zoom is GPU-only. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .map-image {
   display: block;
+  width: 100%;
+  height: 100%;
   max-width: none;
   pointer-events: none;
-  filter: sepia(0.12) contrast(1.04) saturate(0.92);
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+  /* Filter is baked into the image files (terkep_lo/md/hi.jpg) — no CSS filter. */
+  /* Lower-cost scaling during transforms. */
+  image-rendering: auto;
 }
 
 .map-vignette {
@@ -181,7 +189,16 @@ main {
     rgba(31, 24, 18, 0.55) 90%,
     rgba(31, 24, 18, 0.85) 100%
   );
+  /* Vignette is a pure overlay; keep it off the map canvas's compositing path. */
+  will-change: opacity;
+  transition: opacity 0.2s ease;
 }
+
+/* Adaptive quality: during pan/zoom drop costly animations to keep 60fps.
+   The LOD swapper in map.js also holds back higher-res image upgrades
+   until interaction ends. */
+.map-viewport.interacting .hotspot::after { animation: none; opacity: 0.25; }
+.map-viewport.interacting .map-vignette { opacity: 0.4; }
 
 .hotspots-layer {
   position: absolute;

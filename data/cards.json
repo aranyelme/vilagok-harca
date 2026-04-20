@@ -4,9 +4,12 @@
     "title": "Itt kezdtek el harcolni a manók és a Boszik",
     "era": "Az Első Háború",
     "era_order": 1,
-    "front_image": "assets/cards/mc_1a.png",
-    "back_image": "assets/cards/mc_1b.png",
-    "map_location": { "x": 35, "y": 28 },
+    "front_image": "assets/cards/mc_1a.webp",
+    "back_image": "assets/cards/mc_1b.webp",
+    "map_location": {
+      "x": 35,
+      "y": 28
+    },
     "description": ""
   },
   {
@@ -14,9 +17,12 @@
     "title": "A Nagy Összecsapás",
     "era": "Az Első Háború",
     "era_order": 1,
-    "front_image": "assets/cards/mc_2a.png",
-    "back_image": "assets/cards/mc_2b.png",
-    "map_location": { "x": 42, "y": 34 },
+    "front_image": "assets/cards/mc_2a.webp",
+    "back_image": "assets/cards/mc_2b.webp",
+    "map_location": {
+      "x": 42,
+      "y": 34
+    },
     "description": ""
   },
   {
@@ -24,9 +30,12 @@
     "title": "A Manók Szövetsége",
     "era": "Az Első Háború",
     "era_order": 1,
-    "front_image": "assets/cards/mc_3a.png",
-    "back_image": "assets/cards/mc_3b.png",
-    "map_location": { "x": 28, "y": 45 },
+    "front_image": "assets/cards/mc_3a.webp",
+    "back_image": "assets/cards/mc_3b.webp",
+    "map_location": {
+      "x": 28,
+      "y": 45
+    },
     "description": ""
   },
   {
@@ -34,9 +43,12 @@
     "title": "A Boszik Tanácsa",
     "era": "Az Első Háború",
     "era_order": 1,
-    "front_image": "assets/cards/mc_4a.png",
-    "back_image": "assets/cards/mc_4b.png",
-    "map_location": { "x": 55, "y": 22 },
+    "front_image": "assets/cards/mc_4a.webp",
+    "back_image": "assets/cards/mc_4b.webp",
+    "map_location": {
+      "x": 55,
+      "y": 22
+    },
     "description": ""
   },
   {
@@ -44,9 +56,12 @@
     "title": "A Fegyverszünet",
     "era": "A Csendes Kor",
     "era_order": 2,
-    "front_image": "assets/cards/mc_5a.png",
-    "back_image": "assets/cards/mc_5b.png",
-    "map_location": { "x": 48, "y": 50 },
+    "front_image": "assets/cards/mc_5a.webp",
+    "back_image": "assets/cards/mc_5b.webp",
+    "map_location": {
+      "x": 48,
+      "y": 50
+    },
     "description": ""
   },
   {
@@ -54,9 +69,12 @@
     "title": "Az Erdők Királya",
     "era": "A Csendes Kor",
     "era_order": 2,
-    "front_image": "assets/cards/mc_6a.png",
-    "back_image": "assets/cards/mc_6b.png",
-    "map_location": { "x": 22, "y": 60 },
+    "front_image": "assets/cards/mc_6a.webp",
+    "back_image": "assets/cards/mc_6b.webp",
+    "map_location": {
+      "x": 22,
+      "y": 60
+    },
     "description": ""
   },
   {
@@ -64,9 +82,12 @@
     "title": "A Kristály Völgy",
     "era": "A Csendes Kor",
     "era_order": 2,
-    "front_image": "assets/cards/mc_7a.png",
-    "back_image": "assets/cards/mc_7b.png",
-    "map_location": { "x": 65, "y": 42 },
+    "front_image": "assets/cards/mc_7a.webp",
+    "back_image": "assets/cards/mc_7b.webp",
+    "map_location": {
+      "x": 65,
+      "y": 42
+    },
     "description": ""
   },
   {
@@ -74,9 +95,12 @@
     "title": "Az Első Találkozás",
     "era": "A Csendes Kor",
     "era_order": 2,
-    "front_image": "assets/cards/mc_8a.png",
-    "back_image": "assets/cards/mc_8b.png",
-    "map_location": { "x": 40, "y": 65 },
+    "front_image": "assets/cards/mc_8a.webp",
+    "back_image": "assets/cards/mc_8b.webp",
+    "map_location": {
+      "x": 40,
+      "y": 65
+    },
     "description": ""
   },
   {
@@ -84,9 +108,12 @@
     "title": "A Sárkány Ébredése",
     "era": "A Sárkányok Kora",
     "era_order": 3,
-    "front_image": "assets/cards/mc_9a.png",
-    "back_image": "assets/cards/mc_9b.png",
-    "map_location": { "x": 72, "y": 30 },
+    "front_image": "assets/cards/mc_9a.webp",
+    "back_image": "assets/cards/mc_9b.webp",
+    "map_location": {
+      "x": 72,
+      "y": 30
+    },
     "description": ""
   },
   {
@@ -94,9 +121,12 @@
     "title": "A Tűz Hegye",
     "era": "A Sárkányok Kora",
     "era_order": 3,
-    "front_image": "assets/cards/mc_10a.png",
-    "back_image": "assets/cards/mc_10b.png",
-    "map_location": { "x": 78, "y": 55 },
+    "front_image": "assets/cards/mc_10a.webp",
+    "back_image": "assets/cards/mc_10b.webp",
+    "map_location": {
+      "x": 78,
+      "y": 55
+    },
     "description": ""
   },
   {
@@ -104,9 +134,12 @@
     "title": "A Hősök Útja",
     "era": "A Sárkányok Kora",
     "era_order": 3,
-    "front_image": "assets/cards/mc_11a.png",
-    "back_image": "assets/cards/mc_11b.png",
-    "map_location": { "x": 32, "y": 70 },
+    "front_image": "assets/cards/mc_11a.webp",
+    "back_image": "assets/cards/mc_11b.webp",
+    "map_location": {
+      "x": 32,
+      "y": 70
+    },
     "description": ""
   },
   {
@@ -114,9 +147,12 @@
     "title": "A Végső Csata",
     "era": "A Sárkányok Kora",
     "era_order": 3,
-    "front_image": "assets/cards/mc_12a.png",
-    "back_image": "assets/cards/mc_12b.png",
-    "map_location": { "x": 58, "y": 72 },
+    "front_image": "assets/cards/mc_12a.webp",
+    "back_image": "assets/cards/mc_12b.webp",
+    "map_location": {
+      "x": 58,
+      "y": 72
+    },
     "description": ""
   },
   {
@@ -124,9 +160,12 @@
     "title": "Az Új Hajnal",
     "era": "Az Újjászületés",
     "era_order": 4,
-    "front_image": "assets/cards/mc_13a.png",
-    "back_image": "assets/cards/mc_13b.png",
-    "map_location": { "x": 50, "y": 15 },
+    "front_image": "assets/cards/mc_13a.webp",
+    "back_image": "assets/cards/mc_13b.webp",
+    "map_location": {
+      "x": 50,
+      "y": 15
+    },
     "description": ""
   },
   {
@@ -134,9 +173,12 @@
     "title": "A Béke Fája",
     "era": "Az Újjászületés",
     "era_order": 4,
-    "front_image": "assets/cards/mc_14a.png",
-    "back_image": "assets/cards/mc_14b.png",
-    "map_location": { "x": 15, "y": 35 },
+    "front_image": "assets/cards/mc_14a.webp",
+    "back_image": "assets/cards/mc_14b.webp",
+    "map_location": {
+      "x": 15,
+      "y": 35
+    },
     "description": ""
   },
   {
@@ -144,9 +186,12 @@
     "title": "A Krónikás",
     "era": "Az Újjászületés",
     "era_order": 4,
-    "front_image": "assets/cards/mc_15a.png",
-    "back_image": "assets/cards/mc_15b.png",
-    "map_location": { "x": 85, "y": 80 },
+    "front_image": "assets/cards/mc_15a.webp",
+    "back_image": "assets/cards/mc_15b.webp",
+    "map_location": {
+      "x": 85,
+      "y": 80
+    },
     "description": ""
   }
 ]

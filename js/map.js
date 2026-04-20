@@ -1,18 +1,38 @@
 /* =========================================================
    MAP — Pan, zoom, hotspot layer
    Pure CSS-transform implementation (no external deps).
+   Adaptive LOD: swaps image source between lo/md/hi resolutions
+   based on zoom scale to keep interaction smooth on large maps.
    ========================================================= */
 
 const MapEngine = (() => {
+  // Reference (logical) image dimensions — MUST match the source aspect ratio.
+  // Layout uses these constants so that swapping LOD images does not shift
+  // the canvas.
+  const REF_W = 2400;
+  const REF_H = 1600;
+
+  const LODS = {
+    lo: { src: 'assets/map/terkep_lo.jpg', pxW: 900 },
+    md: { src: 'assets/map/terkep_md.jpg', pxW: 1500 },
+    hi: { src: 'assets/map/terkep_hi.jpg', pxW: 2400 },
+  };
+
   let viewport, canvas, image, hotspotsLayer;
   let scale = 1, minScale = 0.3, maxScale = 4;
   let posX = 0, posY = 0;
-  let naturalW = 0, naturalH = 0;
   let viewportW = 0, viewportH = 0;
   let dragging = false, dragStart = null;
   let onHotspotClick = null;
   let pinchDist = null;
   let onPanZoom = null;
+
+  let currentLod = 'lo';
+  let targetLod = 'lo';
+  let lodLoaded = { lo: false, md: false, hi: false };
+  let interacting = false;
+  let idleTimer = null;
+  let rafPending = false;
 
   function init(opts = {}) {
     viewport = document.getElementById('mapViewport');
@@ -24,24 +44,49 @@ const MapEngine = (() => {
 
     if (!viewport || !canvas || !image) return;
 
-    if (image.complete && image.naturalWidth) {
-      _onImageReady();
-    } else {
-      image.addEventListener('load', _onImageReady);
-      image.addEventListener('error', () => {
-        console.warn('[Map] Map image failed to load. Add assets/map/terkep_1.jpg.');
-        _showMissingImageNotice();
-      });
-    }
+    // Canvas uses logical dims; image stretches to fill it regardless of
+    // which LOD is currently loaded.
+    canvas.style.width = REF_W + 'px';
+    canvas.style.height = REF_H + 'px';
+    image.style.width = '100%';
+    image.style.height = '100%';
 
+    // Start with the smallest LOD for fastest first paint.
+    _setImageSrc(LODS.lo.src);
+    currentLod = 'lo';
+    lodLoaded.lo = true;
+
+    image.addEventListener('error', () => {
+      console.warn('[Map] Map image failed to load.');
+      _showMissingImageNotice();
+    });
+
+    _onResize();
     _bindEvents(opts);
     window.addEventListener('resize', _onResize);
+
+    // Preload higher-res LODs after initial paint so they're ready for zoom-in.
+    _schedulePreload();
   }
 
-  function _onImageReady() {
-    naturalW = image.naturalWidth;
-    naturalH = image.naturalHeight;
-    _onResize();
+  function _setImageSrc(src) {
+    if (image.src && image.src.endsWith(src)) return;
+    image.src = src;
+  }
+
+  function _schedulePreload() {
+    const preload = (key) => {
+      if (lodLoaded[key]) return;
+      const img = new Image();
+      img.onload = () => { lodLoaded[key] = true; _maybeUpgradeLod(); };
+      img.src = LODS[key].src;
+    };
+    const run = () => { preload('md'); preload('hi'); };
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      setTimeout(run, 400);
+    }
   }
 
   function _showMissingImageNotice() {
@@ -58,37 +103,78 @@ const MapEngine = (() => {
     notice.innerHTML = `
       <strong>A térkép képe hiányzik</strong><br/>
       <span style="font-family: 'Source Serif Pro', serif; font-style: italic; font-size: 0.9rem;">
-        Kérjük helyezd el a szkennelt térképet<br/>
-        <code>assets/map/terkep_1.jpg</code> néven.
+        Kérjük helyezd el a térkép LOD fájlokat<br/>
+        <code>assets/map/terkep_lo.jpg</code>
       </span>
     `;
     canvas.appendChild(notice);
-    naturalW = 1200;
-    naturalH = 900;
-    _onResize();
   }
 
   function _onResize() {
     const rect = viewport.getBoundingClientRect();
     viewportW = rect.width;
     viewportH = rect.height;
-    if (!naturalW || !naturalH) return;
-    const fit = Math.min(viewportW / naturalW, viewportH / naturalH);
+    const fit = Math.min(viewportW / REF_W, viewportH / REF_H);
     minScale = fit * 0.6;
     maxScale = fit * 4;
-    if (scale < minScale || scale > maxScale) scale = fit;
+    if (!scale || scale < minScale || scale > maxScale) scale = fit;
     if (!posX && !posY) {
-      posX = -naturalW * scale / 2;
-      posY = -naturalH * scale / 2;
+      posX = -REF_W * scale / 2;
+      posY = -REF_H * scale / 2;
     }
     _apply();
   }
 
   function _apply() {
-    canvas.style.transform = `translate(-50%, -50%) translate(${posX + naturalW / 2}px, ${posY + naturalH / 2}px) scale(${scale})`;
-    canvas.style.width = `${naturalW}px`;
-    canvas.style.height = `${naturalH}px`;
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(_commit);
+  }
+
+  function _commit() {
+    rafPending = false;
+    canvas.style.transform =
+      `translate(-50%, -50%) translate(${posX + REF_W / 2}px, ${posY + REF_H / 2}px) scale(${scale})`;
     if (onPanZoom) onPanZoom({ scale, posX, posY });
+    _updateLodTarget();
+  }
+
+  // Choose target LOD based on rendered pixels per source pixel.
+  // At scale = S, one logical pixel of REF_W covers S screen pixels.
+  // A LOD with pxW pixels covers the same area, so its screen-px per
+  // source-px = S * REF_W / pxW. We want this ratio near 1.
+  function _updateLodTarget() {
+    const screenPxPerRef = scale; // ref has REF_W logical px
+    // Effective resolution for each LOD = its pxW
+    // We want LOD pxW >= visible_screen_pixels_across_map, roughly.
+    // Simpler: use thresholds on scale.
+    let t;
+    if (screenPxPerRef < 0.45) t = 'lo';        // zoomed-out
+    else if (screenPxPerRef < 0.85) t = 'md';    // normal
+    else t = 'hi';                               // zoomed-in
+    targetLod = t;
+    _maybeUpgradeLod();
+  }
+
+  function _maybeUpgradeLod() {
+    if (targetLod === currentLod) return;
+    if (!lodLoaded[targetLod]) return;
+    // Defer upgrades until interaction settles, to avoid mid-gesture flicker.
+    if (interacting) return;
+    currentLod = targetLod;
+    _setImageSrc(LODS[currentLod].src);
+  }
+
+  function _setInteracting(on) {
+    if (interacting === on) return;
+    interacting = on;
+    if (viewport) viewport.classList.toggle('interacting', on);
+    clearTimeout(idleTimer);
+    if (!on) {
+      // Tiny debounce before promoting LOD, so brief pauses mid-gesture
+      // don't thrash the image element.
+      idleTimer = setTimeout(_maybeUpgradeLod, 120);
+    }
   }
 
   function _bindEvents(opts) {
@@ -119,6 +205,7 @@ const MapEngine = (() => {
     dragging = true;
     dragStart = { x: e.clientX - posX, y: e.clientY - posY };
     viewport.classList.add('dragging');
+    _setInteracting(true);
   }
 
   function _onMove(e) {
@@ -130,13 +217,18 @@ const MapEngine = (() => {
 
   function _onUp() {
     dragging = false;
-    viewport && viewport.classList.remove('dragging');
+    if (viewport) viewport.classList.remove('dragging');
+    _setInteracting(false);
   }
 
+  let wheelIdleTimer = null;
   function _onWheel(e) {
     e.preventDefault();
     const factor = e.deltaY < 0 ? 1.12 : 0.89;
+    _setInteracting(true);
     _zoomAt(e.clientX, e.clientY, factor);
+    clearTimeout(wheelIdleTimer);
+    wheelIdleTimer = setTimeout(() => _setInteracting(false), 180);
   }
 
   function _zoomAt(clientX, clientY, factor) {
@@ -161,9 +253,11 @@ const MapEngine = (() => {
     if (e.touches.length === 1) {
       dragging = true;
       dragStart = { x: e.touches[0].clientX - posX, y: e.touches[0].clientY - posY };
+      _setInteracting(true);
     } else if (e.touches.length === 2) {
       dragging = false;
       pinchDist = _touchDist(e);
+      _setInteracting(true);
     }
   }
 
@@ -188,6 +282,7 @@ const MapEngine = (() => {
     if (e.touches.length === 0) {
       dragging = false;
       pinchDist = null;
+      _setInteracting(false);
     }
   }
 
@@ -208,16 +303,17 @@ const MapEngine = (() => {
   }
 
   function reset() {
-    const fit = Math.min(viewportW / naturalW, viewportH / naturalH);
+    const fit = Math.min(viewportW / REF_W, viewportH / REF_H);
     scale = fit;
-    posX = -naturalW * scale / 2;
-    posY = -naturalH * scale / 2;
+    posX = -REF_W * scale / 2;
+    posY = -REF_H * scale / 2;
     _apply();
   }
 
   function renderHotspots(hotspots, opts = {}) {
     if (!hotspotsLayer) return;
     hotspotsLayer.innerHTML = '';
+    const frag = document.createDocumentFragment();
     hotspots.forEach(h => {
       const btn = document.createElement('button');
       btn.className = 'hotspot';
@@ -230,8 +326,9 @@ const MapEngine = (() => {
         e.stopPropagation();
         if (onHotspotClick) onHotspotClick(h);
       });
-      hotspotsLayer.appendChild(btn);
+      frag.appendChild(btn);
     });
+    hotspotsLayer.appendChild(frag);
   }
 
   function filterHotspotsByEra(eraName) {
