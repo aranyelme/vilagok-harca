@@ -171,6 +171,7 @@ const MapEngine = (() => {
     if (interacting === on) return;
     interacting = on;
     if (viewport) viewport.classList.toggle('interacting', on);
+    if (on) _hidePreview();
     clearTimeout(idleTimer);
     if (!on) {
       // Tiny debounce before promoting LOD, so brief pauses mid-gesture
@@ -321,17 +322,25 @@ const MapEngine = (() => {
     hotspotsLayer.innerHTML = '';
     const frag = document.createDocumentFragment();
     hotspots.forEach(h => {
+      const cardId = (h.card_ids || [])[0];
+      const num = cardId && window.DataStore ? DataStore.getCardNumber(cardId) : null;
+
       const btn = document.createElement('button');
       btn.className = 'hotspot';
       btn.style.left = `${h.x}%`;
       btn.style.top = `${h.y}%`;
       btn.dataset.id = h.id;
+      if (num != null) btn.dataset.cardId = cardId;
       btn.setAttribute('aria-label', h.label || 'Pecsét');
       if (opts.admin) btn.classList.add('admin-hotspot');
+
+      const numEl = document.createElement('span');
+      numEl.className = 'hotspot-num';
+      numEl.textContent = num != null ? String(num) : '·';
+      btn.appendChild(numEl);
+
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        // A drag that ended over this button still fires click; the flag
-        // tells us to swallow that synthetic click.
         if (btn._justDragged) { btn._justDragged = false; return; }
         if (onHotspotClick) onHotspotClick(h);
       });
@@ -341,9 +350,71 @@ const MapEngine = (() => {
         btn._justDragged = false;
         _startHotspotDrag(h, btn, e);
       });
+      btn.addEventListener('mouseenter', () => _showPreview(h, btn));
+      btn.addEventListener('mouseleave', _hidePreview);
+      btn.addEventListener('focus', () => _showPreview(h, btn));
+      btn.addEventListener('blur', _hidePreview);
       frag.appendChild(btn);
     });
     hotspotsLayer.appendChild(frag);
+  }
+
+  function _showPreview(hotspot, btn) {
+    const preview = document.getElementById('hotspotPreview');
+    if (!preview || !viewport) return;
+    const cardId = (hotspot.card_ids || [])[0];
+    const card = cardId && window.DataStore ? DataStore.getCard(cardId) : null;
+    if (!card) return;
+
+    const num = DataStore.getCardNumber(card.id);
+    const imgEl = document.getElementById('hotspotPreviewImg');
+    const titleEl = document.getElementById('hotspotPreviewTitle');
+    const eraEl = document.getElementById('hotspotPreviewEra');
+    const numEl = document.getElementById('hotspotPreviewNum');
+
+    if (numEl) numEl.textContent = num != null ? String(num) : '';
+    if (titleEl) titleEl.textContent = card.title || card.id;
+    if (eraEl) eraEl.textContent = card.era || '';
+    if (imgEl) {
+      imgEl.alt = card.title || '';
+      const thumb = (card.front_image || '').replace(/\.webp$/i, '.thumb.webp');
+      imgEl.onerror = () => {
+        if (imgEl.src.endsWith('.thumb.webp') && card.front_image) imgEl.src = card.front_image;
+        else imgEl.style.visibility = 'hidden';
+      };
+      imgEl.style.visibility = '';
+      imgEl.src = thumb || card.front_image || '';
+    }
+
+    preview.hidden = false;
+    _positionPreview(btn);
+  }
+
+  function _positionPreview(btn) {
+    const preview = document.getElementById('hotspotPreview');
+    if (!preview || !viewport) return;
+    const btnRect = btn.getBoundingClientRect();
+    const vpRect = viewport.getBoundingClientRect();
+    const pRect = preview.getBoundingClientRect();
+
+    const centerX = btnRect.left + btnRect.width / 2 - vpRect.left;
+    let left = centerX - pRect.width / 2;
+    let top = btnRect.top - vpRect.top - pRect.height - 12;
+
+    // If no room above, flip below.
+    if (top < 8) top = btnRect.bottom - vpRect.top + 12;
+    // Keep within viewport horizontally.
+    const maxLeft = vpRect.width - pRect.width - 8;
+    if (left < 8) left = 8;
+    if (left > maxLeft) left = Math.max(8, maxLeft);
+
+    preview.style.left = left + 'px';
+    preview.style.top = top + 'px';
+  }
+
+  function _hidePreview() {
+    const preview = document.getElementById('hotspotPreview');
+    if (preview) preview.hidden = true;
   }
 
   function _startHotspotDrag(hotspot, btn, startEvent) {

@@ -164,12 +164,50 @@
   color: var(--gold-dim);
   margin-right: 0.4rem;
 }
-.card-description {
-  font-size: 0.95rem;
+.card-number {
+  display: inline-block;
+  font-family: var(--font-title);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
   color: var(--ink);
-  max-width: 540px;
-  margin: 0 auto;
-  line-height: 1.5;
+  background: var(--gold);
+  border: 1px solid var(--gold-dim);
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  margin-right: 0.6rem;
+  vertical-align: middle;
+}
+.card-number[hidden] { display: none; }
+
+.card-description-section {
+  max-width: 620px;
+  margin: 0.6rem auto 0;
+  padding: 0.8rem 1rem 0.9rem;
+  background: rgba(244, 228, 193, 0.55);
+  border-top: 1px solid var(--gold-dim);
+  border-bottom: 1px solid var(--gold-dim);
+  text-align: left;
+}
+.card-description-section[hidden] { display: none; }
+
+.card-description-title {
+  font-family: var(--font-title);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin: 0 0 0.4rem;
+  text-align: center;
+  border-bottom: 1px dashed rgba(201, 168, 76, 0.5);
+  padding-bottom: 0.3rem;
+}
+
+.card-description {
+  font-size: 0.98rem;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
 }
 
 .modal-nav {

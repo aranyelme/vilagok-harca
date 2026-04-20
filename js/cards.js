@@ -3,7 +3,7 @@
    ========================================================= */
 
 const CardModal = (() => {
-  let modal, cardEl, frontImg, backImg, titleEl, eraEl, descEl, prevBtn, nextBtn, closeBtn;
+  let modal, cardEl, frontImg, backImg, titleEl, eraEl, descEl, descSection, numEl, prevBtn, nextBtn, closeBtn;
   let currentQueue = [];
   let currentIndex = 0;
   let isFlipped = false;
@@ -17,6 +17,8 @@ const CardModal = (() => {
     titleEl = document.getElementById('modalTitle');
     eraEl = document.getElementById('modalEra');
     descEl = document.getElementById('modalDescription');
+    descSection = document.getElementById('modalDescriptionSection');
+    numEl = document.getElementById('modalNumber');
     prevBtn = document.getElementById('prevCard');
     nextBtn = document.getElementById('nextCard');
     closeBtn = document.getElementById('modalClose');
@@ -61,7 +63,21 @@ const CardModal = (() => {
 
     titleEl.textContent = card.title || 'Névtelen kártya';
     eraEl.textContent = card.era || '—';
-    descEl.textContent = card.description || '';
+
+    const num = DataStore.getCardNumber(card.id);
+    if (numEl) {
+      if (num != null) {
+        numEl.textContent = '№ ' + num;
+        numEl.hidden = false;
+      } else {
+        numEl.textContent = '';
+        numEl.hidden = true;
+      }
+    }
+
+    const desc = (card.description || '').trim();
+    descEl.textContent = desc;
+    if (descSection) descSection.hidden = !desc;
 
     prevBtn.disabled = currentIndex === 0;
     nextBtn.disabled = currentIndex === currentQueue.length - 1;

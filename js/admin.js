@@ -194,6 +194,7 @@ const Admin = (() => {
     _removeGhost();
     MapEngine.renderHotspots(DataStore.hotspots);
     if (window.Timeline && Timeline.render) Timeline.render();
+    if (window.Legend && Legend.render) Legend.render();
 
     editingId = cardId;
     deleteBtn.hidden = false;
@@ -215,6 +216,7 @@ const Admin = (() => {
 
     MapEngine.renderHotspots(DataStore.hotspots);
     if (window.Timeline && Timeline.render) Timeline.render();
+    if (window.Legend && Legend.render) Legend.render();
     _reset();
     _setHint(`Törölve: ${id}.`);
   }

@@ -30,6 +30,8 @@
     },
   });
 
+  if (window.Legend) Legend.init();
+
   Admin.init();
 
   _bindViewNav();

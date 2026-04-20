@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=8" />
-  <link rel="stylesheet" href="css/cards.css?v=8" />
+  <link rel="stylesheet" href="css/style.css?v=9" />
+  <link rel="stylesheet" href="css/cards.css?v=9" />
 </head>
 <body class="view-map">
   <header class="topbar">
@@ -34,7 +34,28 @@
           <div class="hotspots-layer" id="hotspotsLayer" aria-label="Helyszínek"></div>
         </div>
         <div class="map-vignette" aria-hidden="true"></div>
+        <div class="hotspot-preview" id="hotspotPreview" hidden aria-hidden="true">
+          <div class="hotspot-preview-card">
+            <div class="hotspot-preview-img"><img id="hotspotPreviewImg" alt="" /></div>
+            <div class="hotspot-preview-meta">
+              <span class="hotspot-preview-num" id="hotspotPreviewNum"></span>
+              <span class="hotspot-preview-title" id="hotspotPreviewTitle"></span>
+              <span class="hotspot-preview-era" id="hotspotPreviewEra"></span>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- LEGEND -->
+      <aside class="map-legend" id="mapLegend" aria-label="Jelmagyarázat">
+        <button class="legend-toggle" id="legendToggle" aria-expanded="true" aria-controls="legendBody">
+          <span class="legend-toggle-label">Jelmagyarázat</span>
+          <span class="legend-toggle-chevron" aria-hidden="true">◂</span>
+        </button>
+        <div class="legend-body" id="legendBody">
+          <ol class="legend-list" id="legendList"></ol>
+        </div>
+      </aside>
       <div class="map-controls" aria-label="Térképvezérlők">
         <button class="map-btn" id="zoomIn" aria-label="Nagyítás">+</button>
         <button class="map-btn" id="zoomOut" aria-label="Kicsinyítés">−</button>
@@ -81,8 +102,14 @@
       </div>
       <div class="card-meta">
         <h2 id="modalTitle"></h2>
-        <p class="card-era"><span class="label">Korszak:</span> <span id="modalEra"></span></p>
-        <p class="card-description" id="modalDescription"></p>
+        <p class="card-era">
+          <span class="card-number" id="modalNumber"></span>
+          <span class="label">Korszak:</span> <span id="modalEra"></span>
+        </p>
+        <section class="card-description-section" id="modalDescriptionSection" hidden>
+          <h3 class="card-description-title">Leírás</h3>
+          <p class="card-description" id="modalDescription"></p>
+        </section>
       </div>
       <div class="modal-nav">
         <button class="modal-nav-btn" id="prevCard">◄ Előző</button>
@@ -136,11 +163,12 @@
     <p class="drawer-footer">Richard Fejes &amp; az Aranyelme műhely · 2026</p>
   </aside>
 
-  <script src="js/data-loader.js?v=8"></script>
-  <script src="js/map.js?v=8"></script>
-  <script src="js/cards.js?v=8"></script>
-  <script src="js/timeline.js?v=8"></script>
-  <script src="js/admin.js?v=8"></script>
-  <script src="js/app.js?v=8"></script>
+  <script src="js/data-loader.js?v=9"></script>
+  <script src="js/map.js?v=9"></script>
+  <script src="js/cards.js?v=9"></script>
+  <script src="js/legend.js?v=9"></script>
+  <script src="js/timeline.js?v=9"></script>
+  <script src="js/admin.js?v=9"></script>
+  <script src="js/app.js?v=9"></script>
 </body>
 </html>
