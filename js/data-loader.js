@@ -56,6 +56,13 @@ const DataStore = {
     });
   },
 
+  // 1-based display index used by pins + legend.
+  getCardNumber(cardId) {
+    const sorted = this.getSortedCards();
+    const idx = sorted.findIndex(c => c.id === cardId);
+    return idx === -1 ? null : idx + 1;
+  },
+
   getEras() {
     return (this.timeline && this.timeline.eras) || [];
   },
