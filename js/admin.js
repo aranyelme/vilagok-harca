@@ -6,11 +6,14 @@
    ========================================================= */
 
 const Admin = (() => {
+  const UNLOCK_KEY = 'vh.adminUnlocked';
   let active = false;
   let panel, toggleBtn;
   let titleEl, eraSelect, descEl, frontEl, backEl;
   let coordsEl, hintEl;
   let saveBtn, cancelBtn, deleteBtn, exportBtn;
+  let lockBtn, publishBtn, forgetTokenBtn, publishStatusEl;
+  let ownerEl, repoEl, branchEl, tokenEl;
   let editingId = null;
   let pinX = null, pinY = null;
   let ghostPin = null;
@@ -31,16 +34,70 @@ const Admin = (() => {
     cancelBtn = document.getElementById('adminCancel');
     deleteBtn = document.getElementById('adminDelete');
     exportBtn = document.getElementById('adminExport');
+    lockBtn   = document.getElementById('adminLock');
+    publishBtn      = document.getElementById('adminPublish');
+    forgetTokenBtn  = document.getElementById('adminForgetToken');
+    publishStatusEl = document.getElementById('adminPublishStatus');
+    ownerEl  = document.getElementById('adminRepoOwner');
+    repoEl   = document.getElementById('adminRepoName');
+    branchEl = document.getElementById('adminRepoBranch');
+    tokenEl  = document.getElementById('adminToken');
 
     _populateEras();
+    _setupUnlock();
+    _loadGithubConfig();
 
     toggleBtn.addEventListener('click', toggle);
     saveBtn.addEventListener('click', _onSave);
     cancelBtn.addEventListener('click', _onCancel);
     deleteBtn.addEventListener('click', _onDelete);
     exportBtn.addEventListener('click', _onExport);
+    if (lockBtn)          lockBtn.addEventListener('click', _onLock);
+    if (publishBtn)       publishBtn.addEventListener('click', _onPublish);
+    if (forgetTokenBtn)   forgetTokenBtn.addEventListener('click', _onForgetToken);
 
     MapEngine.setAdminClickHandler(_onMapClick);
+  }
+
+  /* ---------- Hidden unlock ---------- */
+
+  function _setupUnlock() {
+    const params = new URLSearchParams(location.search);
+    if (params.get('admin') === '1' || location.hash === '#admin') {
+      _unlock();
+    }
+    if (localStorage.getItem(UNLOCK_KEY) === '1') {
+      document.body.classList.add('admin-unlocked');
+    }
+    _bindShiftClickUnlock();
+  }
+
+  function _bindShiftClickUnlock() {
+    const title = document.querySelector('.topbar .title');
+    if (!title) return;
+    let count = 0;
+    let timer = null;
+    title.addEventListener('click', (e) => {
+      if (!e.shiftKey) return;
+      count += 1;
+      clearTimeout(timer);
+      timer = setTimeout(() => { count = 0; }, 2000);
+      if (count >= 3) {
+        count = 0;
+        _unlock();
+      }
+    });
+  }
+
+  function _unlock() {
+    localStorage.setItem(UNLOCK_KEY, '1');
+    document.body.classList.add('admin-unlocked');
+  }
+
+  function _onLock() {
+    if (active) toggle();
+    localStorage.removeItem(UNLOCK_KEY);
+    document.body.classList.remove('admin-unlocked');
   }
 
   function isActive() { return active; }
@@ -81,7 +138,7 @@ const Admin = (() => {
     }
 
     if (phase === 'end') {
-      _setHint(`${cardId || hotspot.id} új pozíciója: ${x}%, ${y}%. Ne felejtsd el exportálni!`);
+      _setHint(`${cardId || hotspot.id} új pozíciója: ${x}%, ${y}%. Kattints a „Mentés és publikálás” gombra a véglegesítéshez.`);
     }
   }
 
@@ -199,7 +256,7 @@ const Admin = (() => {
     editingId = cardId;
     deleteBtn.hidden = false;
     cancelBtn.hidden = false;
-    _setHint(`✓ Mentve: ${cardId}. Ne felejtsd el exportálni és commitálni!`);
+    _setHint(`✓ Mentve (memóriában): ${cardId}. A „Mentés és publikálás” gombbal véglegesítsd a GitHub-ra.`);
   }
 
   function _onDelete() {
@@ -269,6 +326,77 @@ const Admin = (() => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  }
+
+  /* ---------- GitHub publish ---------- */
+
+  function _loadGithubConfig() {
+    if (!window.GitHubSync) return;
+    const cfg = GitHubSync.loadConfig();
+    if (ownerEl)  ownerEl.value  = cfg.owner  || '';
+    if (repoEl)   repoEl.value   = cfg.repo   || '';
+    if (branchEl) branchEl.value = cfg.branch || '';
+    if (tokenEl)  tokenEl.value  = cfg.token  || '';
+  }
+
+  function _collectGithubConfig() {
+    return {
+      owner:  (ownerEl  && ownerEl.value.trim())  || '',
+      repo:   (repoEl   && repoEl.value.trim())   || '',
+      branch: (branchEl && branchEl.value.trim()) || '',
+      token:  (tokenEl  && tokenEl.value.trim())  || '',
+    };
+  }
+
+  function _setPublishStatus(msg, kind) {
+    if (!publishStatusEl) return;
+    publishStatusEl.textContent = msg;
+    publishStatusEl.classList.remove('is-ok', 'is-error', 'is-busy');
+    if (kind) publishStatusEl.classList.add(`is-${kind}`);
+  }
+
+  async function _onPublish() {
+    if (!window.GitHubSync) {
+      _setPublishStatus('GitHubSync modul nem érhető el.', 'error');
+      return;
+    }
+    const cfg = _collectGithubConfig();
+    if (!cfg.token)  { _setPublishStatus('Add meg a GitHub PAT-et.', 'error'); return; }
+    if (!cfg.owner || !cfg.repo || !cfg.branch) {
+      _setPublishStatus('Töltsd ki a repo tulajdonos / név / branch mezőket.', 'error');
+      return;
+    }
+
+    GitHubSync.saveConfig(cfg);
+
+    const files = [
+      { path: 'data/cards.json',    content: JSON.stringify(DataStore.cards, null, 2) + '\n' },
+      { path: 'data/hotspots.json', content: JSON.stringify(DataStore.hotspots, null, 2) + '\n' },
+      { path: 'data/timeline.json', content: JSON.stringify(DataStore.timeline, null, 2) + '\n' },
+    ];
+    const message = `Admin: pecsétek és kártyák frissítése (${new Date().toISOString()})`;
+
+    publishBtn.disabled = true;
+    _setPublishStatus('Publikálás folyamatban…', 'busy');
+    try {
+      const result = await GitHubSync.commitFiles(cfg, files, message);
+      const shortSha = result.sha.slice(0, 7);
+      _setPublishStatus(
+        `✓ Commit: ${shortSha} a ${cfg.branch} branch-en. A GitHub Pages néhány percen belül frissíti az élő verziót.`,
+        'ok'
+      );
+      _setHint(`✓ Publikálva: ${shortSha}`);
+    } catch (err) {
+      _setPublishStatus(`Hiba: ${err.message}`, 'error');
+    } finally {
+      publishBtn.disabled = false;
+    }
+  }
+
+  function _onForgetToken() {
+    if (window.GitHubSync) GitHubSync.forgetToken();
+    if (tokenEl) tokenEl.value = '';
+    _setPublishStatus('Token törölve a böngészőből.', 'ok');
   }
 
   return { init, toggle, isActive, editHotspot };
