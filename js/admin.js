@@ -1,256 +1,241 @@
 /* =========================================================
-   ADMIN — Visual editor for cards, hotspots, eras.
-   Client-side only; exports JSON for manual commit.
+   ADMIN — In-page sidebar editor for cards + hotspots.
+   Toggled from the top nav; shares map + data with the public
+   view. Changes live in memory; Exportálás writes JSON files
+   that the user commits to data/.
    ========================================================= */
 
-(async function adminBootstrap() {
-  await DataStore.loadAll();
+const Admin = (() => {
+  let active = false;
+  let panel, toggleBtn;
+  let titleEl, eraSelect, descEl, frontEl, backEl;
+  let coordsEl, hintEl;
+  let saveBtn, cancelBtn, deleteBtn, exportBtn;
+  let editingId = null;
+  let pinX = null, pinY = null;
+  let ghostPin = null;
 
-  // Working copies we mutate locally
-  const state = {
-    cards: JSON.parse(JSON.stringify(DataStore.cards)),
-    hotspots: JSON.parse(JSON.stringify(DataStore.hotspots)),
-    timeline: JSON.parse(JSON.stringify(DataStore.timeline || { eras: [] })),
-    selectedId: null,
-    pendingPoint: null,
-  };
+  function init() {
+    panel = document.getElementById('adminPanel');
+    toggleBtn = document.getElementById('adminToggle');
+    if (!panel || !toggleBtn) return;
 
-  const $ = id => document.getElementById(id);
-  const els = {
-    id: $('fId'),
-    title: $('fTitle'),
-    era: $('fEra'),
-    eraOrder: $('fEraOrder'),
-    newEra: $('fNewEra'),
-    front: $('fFront'),
-    back: $('fBack'),
-    x: $('fX'),
-    y: $('fY'),
-    description: $('fDescription'),
-    save: $('saveBtn'),
-    new: $('newBtn'),
-    delete: $('deleteBtn'),
-    status: $('status'),
-    pinList: $('pinList'),
-    exportCards: $('exportCards'),
-    exportHotspots: $('exportHotspots'),
-    exportTimeline: $('exportTimeline'),
-  };
+    titleEl   = document.getElementById('adminTitle');
+    eraSelect = document.getElementById('adminEra');
+    descEl    = document.getElementById('adminDesc');
+    frontEl   = document.getElementById('adminFront');
+    backEl    = document.getElementById('adminBack');
+    coordsEl  = document.getElementById('adminCoords');
+    hintEl    = document.getElementById('adminHint');
+    saveBtn   = document.getElementById('adminSave');
+    cancelBtn = document.getElementById('adminCancel');
+    deleteBtn = document.getElementById('adminDelete');
+    exportBtn = document.getElementById('adminExport');
 
-  MapEngine.init({
-    adminMode: true,
-    onHotspotClick: (hotspot) => {
-      const firstCardId = (hotspot.card_ids || [])[0];
-      if (firstCardId) selectCard(firstCardId);
-    },
-  });
-  MapEngine.setAdminClickHandler(({ x, y }) => {
-    if (!state.selectedId) {
-      state.pendingPoint = { x, y };
-      els.x.value = x;
-      els.y.value = y;
-      setStatus(`Új pecsét helye: ${x}%, ${y}% — töltsd ki az űrlapot, majd Mentés.`);
+    _populateEras();
+
+    toggleBtn.addEventListener('click', toggle);
+    saveBtn.addEventListener('click', _onSave);
+    cancelBtn.addEventListener('click', _onCancel);
+    deleteBtn.addEventListener('click', _onDelete);
+    exportBtn.addEventListener('click', _onExport);
+
+    MapEngine.setAdminClickHandler(_onMapClick);
+  }
+
+  function isActive() { return active; }
+
+  function toggle() {
+    active = !active;
+    document.body.classList.toggle('admin-active', active);
+    panel.hidden = !active;
+    toggleBtn.classList.toggle('active', active);
+
+    if (active) {
+      // Admin edits the map — make sure it's the visible view.
+      const mapBtn = document.querySelector('.nav-btn[data-view="map"]');
+      if (mapBtn && !mapBtn.classList.contains('active')) mapBtn.click();
+      _reset();
     } else {
-      els.x.value = x;
-      els.y.value = y;
-      setStatus(`A ${state.selectedId} kártya új pozíciója: ${x}%, ${y}%.`);
+      _reset();
     }
-  });
-
-  refreshEraSelect();
-  refreshHotspotsOnMap();
-  refreshPinList();
-
-  els.save.addEventListener('click', onSave);
-  els.new.addEventListener('click', () => clearForm(true));
-  els.delete.addEventListener('click', onDelete);
-
-  els.exportCards.addEventListener('click', () => downloadJSON('cards.json', state.cards));
-  els.exportHotspots.addEventListener('click', () => downloadJSON('hotspots.json', state.hotspots));
-  els.exportTimeline.addEventListener('click', () => downloadJSON('timeline.json', state.timeline));
-
-  els.newEra.addEventListener('change', () => {
-    const v = els.newEra.value.trim();
-    if (!v) return;
-    const exists = state.timeline.eras.some(e => e.name === v);
-    if (!exists) {
-      const nextOrder = (state.timeline.eras.reduce((m, e) => Math.max(m, e.order || 0), 0)) + 1;
-      state.timeline.eras.push({ name: v, order: nextOrder });
-      refreshEraSelect();
-      els.era.value = v;
-      els.eraOrder.value = nextOrder;
-    }
-  });
-
-  els.era.addEventListener('change', () => {
-    const era = state.timeline.eras.find(e => e.name === els.era.value);
-    if (era) els.eraOrder.value = era.order;
-  });
-
-  // ---------- Functions ----------
-
-  function setStatus(msg) { els.status.textContent = msg; }
-
-  function refreshEraSelect() {
-    const currentVal = els.era.value;
-    els.era.innerHTML = '';
-    const sorted = [...state.timeline.eras].sort((a, b) => (a.order || 0) - (b.order || 0));
-    sorted.forEach(e => {
-      const opt = document.createElement('option');
-      opt.value = e.name;
-      opt.textContent = e.name;
-      els.era.appendChild(opt);
-    });
-    if (currentVal && sorted.some(e => e.name === currentVal)) els.era.value = currentVal;
+    // Viewport shrank/grew — let the map recompute its fit.
+    requestAnimationFrame(() => MapEngine.relayout());
   }
 
-  function refreshHotspotsOnMap() {
-    MapEngine.renderHotspots(state.hotspots, { admin: true });
-    highlightActiveHotspot();
-  }
-
-  function highlightActiveHotspot() {
-    const hs = findHotspotForCard(state.selectedId);
-    MapEngine.setActiveHotspot(hs ? hs.id : null);
-  }
-
-  function refreshPinList() {
-    els.pinList.innerHTML = '';
-    if (!state.cards.length) {
-      els.pinList.innerHTML = '<em style="color:var(--ink-soft);font-size:.85rem;">Még nincsenek kártyák.</em>';
-      return;
-    }
-    const sorted = [...state.cards].sort((a, b) => (a.era_order || 0) - (b.era_order || 0) || a.id.localeCompare(b.id));
-    sorted.forEach(card => {
-      const row = document.createElement('div');
-      row.className = 'pin-list-item';
-      if (card.id === state.selectedId) row.classList.add('active');
-      row.innerHTML = `<span><strong>${card.id}</strong> · ${card.title || '—'}</span><span style="font-size:.75rem;color:var(--ink-soft);">${card.era || ''}</span>`;
-      row.addEventListener('click', () => selectCard(card.id));
-      els.pinList.appendChild(row);
-    });
-  }
-
-  function findHotspotForCard(cardId) {
-    return state.hotspots.find(h => (h.card_ids || []).includes(cardId));
-  }
-
-  function selectCard(cardId) {
-    const card = state.cards.find(c => c.id === cardId);
+  function editHotspot(hotspot) {
+    if (!active) return;
+    const cardId = (hotspot.card_ids || [])[0];
+    const card = cardId ? DataStore.getCard(cardId) : null;
     if (!card) return;
-    state.selectedId = cardId;
-    state.pendingPoint = null;
 
-    els.id.value = card.id;
-    els.title.value = card.title || '';
-    els.era.value = card.era || '';
-    els.eraOrder.value = card.era_order || '';
-    els.front.value = card.front_image || '';
-    els.back.value = card.back_image || '';
-    els.description.value = card.description || '';
+    editingId = card.id;
+    titleEl.value = card.title || '';
+    if (card.era && [...eraSelect.options].some(o => o.value === card.era)) {
+      eraSelect.value = card.era;
+    }
+    descEl.value  = card.description || '';
+    frontEl.value = card.front_image || '';
+    backEl.value  = card.back_image || '';
+    pinX = hotspot.x;
+    pinY = hotspot.y;
 
-    const hs = findHotspotForCard(cardId);
-    if (hs) {
-      els.x.value = hs.x;
-      els.y.value = hs.y;
-    } else if (card.map_location) {
-      els.x.value = card.map_location.x;
-      els.y.value = card.map_location.y;
+    _renderGhost();
+    _updateCoords();
+    deleteBtn.hidden = false;
+    cancelBtn.hidden = false;
+    _setHint(`Szerkesztés: „${card.title || card.id}”`);
+  }
+
+  function _onMapClick({ x, y }) {
+    if (!active) return;
+    pinX = x;
+    pinY = y;
+    _renderGhost();
+    _updateCoords();
+    cancelBtn.hidden = false;
+    if (editingId) {
+      _setHint(`${editingId} új pozíciója: ${x}%, ${y}%. Kattints Mentésre.`);
     } else {
-      els.x.value = '';
-      els.y.value = '';
+      _setHint(`Új pecsét helye: ${x}%, ${y}%. Töltsd ki az űrlapot, majd Mentés.`);
     }
-
-    highlightActiveHotspot();
-    refreshPinList();
-    setStatus(`${card.id} kiválasztva. Módosíts és Mentés, vagy kattints a térképre új pozícióért.`);
   }
 
-  function clearForm(resetAll) {
-    state.selectedId = null;
-    state.pendingPoint = null;
-    if (resetAll) {
-      els.id.value = '';
-      els.title.value = '';
-      els.description.value = '';
-      els.front.value = '';
-      els.back.value = '';
-      els.x.value = '';
-      els.y.value = '';
-    }
-    highlightActiveHotspot();
-    refreshPinList();
-    setStatus('Új kártya létrehozása — kattints a térképre a pozícióhoz.');
+  function _populateEras() {
+    eraSelect.innerHTML = '';
+    const eras = DataStore.getEras();
+    eras.forEach(era => {
+      const opt = document.createElement('option');
+      opt.value = era.name;
+      opt.textContent = era.name;
+      eraSelect.appendChild(opt);
+    });
   }
 
-  function onSave() {
-    const id = els.id.value.trim();
-    if (!id) { alert('Azonosító megadása kötelező (pl. mc_16).'); return; }
+  function _updateCoords() {
+    coordsEl.textContent = (pinX !== null && pinY !== null)
+      ? `Pozíció: X=${pinX.toFixed(2)}%, Y=${pinY.toFixed(2)}%`
+      : 'Pozíció: —';
+  }
 
-    const title = els.title.value.trim();
-    const era = els.era.value || '';
-    const eraOrder = parseInt(els.eraOrder.value, 10) || 0;
-    const description = els.description.value.trim();
-    const front = els.front.value.trim();
-    const back = els.back.value.trim();
-    const x = parseFloat(els.x.value);
-    const y = parseFloat(els.y.value);
+  function _renderGhost() {
+    const layer = document.getElementById('hotspotsLayer');
+    _removeGhost();
+    if (!layer || pinX === null || pinY === null) return;
+    ghostPin = document.createElement('div');
+    ghostPin.className = 'admin-new-pin';
+    ghostPin.style.left = pinX + '%';
+    ghostPin.style.top  = pinY + '%';
+    layer.appendChild(ghostPin);
+  }
 
-    if (isNaN(x) || isNaN(y)) {
-      alert('Kattints a térképre a pecsét elhelyezéséhez (x/y koordináták).');
+  function _removeGhost() {
+    if (ghostPin) { ghostPin.remove(); ghostPin = null; }
+  }
+
+  function _onSave() {
+    if (pinX === null || pinY === null) {
+      alert('Előbb kattints a térképre a pecsét elhelyezéséhez.');
       return;
     }
+    const title = titleEl.value.trim();
+    if (!title) { alert('A cím megadása kötelező.'); return; }
 
-    let card = state.cards.find(c => c.id === id);
+    const era = eraSelect.value;
+    const eraObj = DataStore.getEras().find(e => e.name === era);
+    const eraOrder = eraObj ? eraObj.order : 0;
+
+    const cardId = editingId || _nextCardId();
+    let card = DataStore.getCard(cardId);
     if (!card) {
-      card = { id };
-      state.cards.push(card);
+      card = { id: cardId };
+      DataStore.cards.push(card);
     }
-    card.title = title;
-    card.era = era;
-    card.era_order = eraOrder;
-    card.front_image = front;
-    card.back_image = back;
-    card.description = description;
-    card.map_location = { x, y };
+    card.title       = title;
+    card.era         = era;
+    card.era_order   = eraOrder;
+    card.front_image = frontEl.value.trim();
+    card.back_image  = backEl.value.trim();
+    card.description = descEl.value.trim();
+    card.map_location = { x: pinX, y: pinY };
 
-    let hotspot = findHotspotForCard(id);
-    if (!hotspot) {
-      hotspot = {
-        id: `hs_${id}`,
-        x, y,
-        card_ids: [id],
-        label: title || id,
-      };
-      state.hotspots.push(hotspot);
+    let hs = DataStore.getHotspotByCardId(cardId);
+    if (!hs) {
+      hs = { id: `hs_${cardId}`, x: pinX, y: pinY, card_ids: [cardId], label: title };
+      DataStore.hotspots.push(hs);
     } else {
-      hotspot.x = x;
-      hotspot.y = y;
-      hotspot.label = title || id;
+      hs.x = pinX;
+      hs.y = pinY;
+      hs.label = title;
     }
 
-    state.selectedId = id;
-    state.pendingPoint = null;
-    refreshHotspotsOnMap();
-    refreshPinList();
-    setStatus(`✓ Mentve: ${id}. Ne felejtsd el exportálni és commitálni!`);
+    _removeGhost();
+    MapEngine.renderHotspots(DataStore.hotspots);
+    if (window.Timeline && Timeline.render) Timeline.render();
+
+    editingId = cardId;
+    deleteBtn.hidden = false;
+    cancelBtn.hidden = false;
+    _setHint(`✓ Mentve: ${cardId}. Ne felejtsd el exportálni és commitálni!`);
   }
 
-  function onDelete() {
-    if (!state.selectedId) return;
-    if (!confirm(`Biztosan törlöd a ${state.selectedId} kártyát?`)) return;
-    const id = state.selectedId;
-    state.cards = state.cards.filter(c => c.id !== id);
-    state.hotspots = state.hotspots
+  function _onDelete() {
+    if (!editingId) return;
+    const card = DataStore.getCard(editingId);
+    const label = card ? (card.title || card.id) : editingId;
+    if (!confirm(`Biztosan törlöd: „${label}”?`)) return;
+
+    const id = editingId;
+    DataStore.cards = DataStore.cards.filter(c => c.id !== id);
+    DataStore.hotspots = DataStore.hotspots
       .map(h => ({ ...h, card_ids: (h.card_ids || []).filter(cid => cid !== id) }))
       .filter(h => h.card_ids.length > 0);
-    clearForm(true);
-    refreshHotspotsOnMap();
-    refreshPinList();
-    setStatus(`Törölve: ${id}.`);
+
+    MapEngine.renderHotspots(DataStore.hotspots);
+    if (window.Timeline && Timeline.render) Timeline.render();
+    _reset();
+    _setHint(`Törölve: ${id}.`);
   }
 
-  function downloadJSON(filename, data) {
+  function _onCancel() {
+    _reset();
+  }
+
+  function _reset() {
+    editingId = null;
+    pinX = null;
+    pinY = null;
+    titleEl.value = '';
+    descEl.value  = '';
+    frontEl.value = '';
+    backEl.value  = '';
+    if (eraSelect.options.length) eraSelect.selectedIndex = 0;
+    _removeGhost();
+    _updateCoords();
+    deleteBtn.hidden = true;
+    cancelBtn.hidden = true;
+    _setHint('Kattints a térképre új pecsét elhelyezéséhez, vagy egy meglévő pecsétre a szerkesztéshez.');
+  }
+
+  function _setHint(msg) { if (hintEl) hintEl.textContent = msg; }
+
+  function _nextCardId() {
+    let n = DataStore.cards.length + 1;
+    let id = 'mc_' + String(n).padStart(2, '0');
+    while (DataStore.getCard(id)) {
+      n += 1;
+      id = 'mc_' + String(n).padStart(2, '0');
+    }
+    return id;
+  }
+
+  function _onExport() {
+    _download('cards.json', DataStore.cards);
+    _download('hotspots.json', DataStore.hotspots);
+    _download('timeline.json', DataStore.timeline);
+  }
+
+  function _download(filename, data) {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -261,4 +246,8 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+
+  return { init, toggle, isActive, editHotspot };
 })();
+
+if (typeof window !== 'undefined') window.Admin = Admin;

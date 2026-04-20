@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=6" />
-  <link rel="stylesheet" href="css/cards.css?v=6" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
+  <link rel="stylesheet" href="css/cards.css?v=7" />
 </head>
 <body class="view-map">
   <header class="topbar">
@@ -21,6 +21,7 @@
       <button class="nav-btn active" data-view="map">Térkép</button>
       <button class="nav-btn" data-view="gallery">Kártyák</button>
       <button class="nav-btn" data-view="chronicle" disabled title="Hamarosan">Krónika</button>
+      <button class="nav-btn" id="adminToggle" title="Szerkesztő mód">Szerkesztő</button>
     </nav>
   </header>
 
@@ -90,6 +91,39 @@
     </div>
   </div>
 
+  <!-- ADMIN PANEL (in-page sidebar editor) -->
+  <aside class="admin-panel" id="adminPanel" hidden aria-label="Szerkesztő">
+    <h2 class="admin-title">Szerkesztő</h2>
+    <p class="admin-hint" id="adminHint">Kattints a térképre új pecsét elhelyezéséhez, vagy egy meglévő pecsétre a szerkesztéshez.</p>
+    <div class="admin-coords" id="adminCoords">Pozíció: —</div>
+    <div class="admin-field">
+      <label for="adminTitle">Cím</label>
+      <input type="text" id="adminTitle" placeholder="pl. A Nagy Összecsapás" />
+    </div>
+    <div class="admin-field">
+      <label for="adminEra">Korszak</label>
+      <select id="adminEra"></select>
+    </div>
+    <div class="admin-field">
+      <label for="adminDesc">Leírás</label>
+      <textarea id="adminDesc" placeholder="Rövid leírás a pillanatról..."></textarea>
+    </div>
+    <div class="admin-field">
+      <label for="adminFront">Előlap kép</label>
+      <input type="text" id="adminFront" placeholder="assets/cards/mc_Xa.webp" />
+    </div>
+    <div class="admin-field">
+      <label for="adminBack">Hátlap kép</label>
+      <input type="text" id="adminBack" placeholder="assets/cards/mc_Xb.webp" />
+    </div>
+    <hr class="admin-divider" />
+    <button class="admin-btn admin-btn-primary" id="adminSave">Mentés</button>
+    <button class="admin-btn admin-btn-secondary" id="adminCancel" hidden>Mégsem</button>
+    <button class="admin-btn admin-btn-danger" id="adminDelete" hidden>Pecsét törlése</button>
+    <hr class="admin-divider" />
+    <button class="admin-btn admin-btn-secondary" id="adminExport">JSON exportálás</button>
+  </aside>
+
   <!-- SIDE DRAWER -->
   <aside class="drawer" id="drawer" hidden aria-label="Menü">
     <button class="drawer-close" id="drawerClose" aria-label="Bezárás">✕</button>
@@ -102,10 +136,11 @@
     <p class="drawer-footer">Richard Fejes &amp; az Aranyelme műhely · 2026</p>
   </aside>
 
-  <script src="js/data-loader.js?v=6"></script>
-  <script src="js/map.js?v=6"></script>
-  <script src="js/cards.js?v=6"></script>
-  <script src="js/timeline.js?v=6"></script>
-  <script src="js/app.js?v=6"></script>
+  <script src="js/data-loader.js?v=7"></script>
+  <script src="js/map.js?v=7"></script>
+  <script src="js/cards.js?v=7"></script>
+  <script src="js/timeline.js?v=7"></script>
+  <script src="js/admin.js?v=7"></script>
+  <script src="js/app.js?v=7"></script>
 </body>
 </html>
