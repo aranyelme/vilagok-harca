@@ -25,6 +25,7 @@ const MapEngine = (() => {
   let dragging = false, dragStart = null;
   let downX = 0, downY = 0;
   let onHotspotClick = null;
+  let onHotspotDrag = null;
   let pinchDist = null;
   let onPanZoom = null;
 
@@ -329,11 +330,65 @@ const MapEngine = (() => {
       if (opts.admin) btn.classList.add('admin-hotspot');
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
+        // A drag that ended over this button still fires click; the flag
+        // tells us to swallow that synthetic click.
+        if (btn._justDragged) { btn._justDragged = false; return; }
         if (onHotspotClick) onHotspotClick(h);
+      });
+      btn.addEventListener('pointerdown', (e) => {
+        if (!onHotspotDrag) return;
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        btn._justDragged = false;
+        _startHotspotDrag(h, btn, e);
       });
       frag.appendChild(btn);
     });
     hotspotsLayer.appendChild(frag);
+  }
+
+  function _startHotspotDrag(hotspot, btn, startEvent) {
+    startEvent.stopPropagation();
+    const startClientX = startEvent.clientX;
+    const startClientY = startEvent.clientY;
+    let moved = false;
+    let curX = hotspot.x;
+    let curY = hotspot.y;
+
+    try { btn.setPointerCapture(startEvent.pointerId); } catch (_) { /* noop */ }
+    btn.classList.add('dragging');
+
+    function onMove(e) {
+      const dx = e.clientX - startClientX;
+      const dy = e.clientY - startClientY;
+      if (!moved && Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+      moved = true;
+      // Measure the layer every move so wheel-zoom mid-drag still works.
+      const rect = hotspotsLayer.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const pctX = ((e.clientX - rect.left) / rect.width) * 100;
+      const pctY = ((e.clientY - rect.top)  / rect.height) * 100;
+      curX = +Math.max(0, Math.min(100, pctX)).toFixed(2);
+      curY = +Math.max(0, Math.min(100, pctY)).toFixed(2);
+      btn.style.left = curX + '%';
+      btn.style.top  = curY + '%';
+      if (onHotspotDrag) onHotspotDrag({ hotspot, x: curX, y: curY, phase: 'move' });
+    }
+
+    function onUp(e) {
+      btn.removeEventListener('pointermove', onMove);
+      btn.removeEventListener('pointerup', onUp);
+      btn.removeEventListener('pointercancel', onUp);
+      btn.classList.remove('dragging');
+      try { btn.releasePointerCapture(startEvent.pointerId); } catch (_) { /* noop */ }
+      if (moved) {
+        btn._justDragged = true;
+        if (onHotspotDrag) onHotspotDrag({ hotspot, x: curX, y: curY, phase: 'end' });
+      }
+    }
+
+    btn.addEventListener('pointermove', onMove);
+    btn.addEventListener('pointerup', onUp);
+    btn.addEventListener('pointercancel', onUp);
   }
 
   function filterHotspotsByEra(eraName) {
@@ -366,6 +421,8 @@ const MapEngine = (() => {
     // opening and shrinking the map area).
     relayout() { _onResize(); },
     setAdminClickHandler(fn) { MapEngine._adminClickHandler = fn || null; },
+    // Enable draggable hotspots by registering a callback. Pass null to disable.
+    setHotspotDragHandler(fn) { onHotspotDrag = fn || null; },
     _adminClickHandler: null,
   };
 })();

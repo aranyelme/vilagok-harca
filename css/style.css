@@ -733,6 +733,8 @@ body.admin-active main { right: 380px; }
 
 body.admin-active .map-viewport { cursor: crosshair; }
 body.admin-active .map-viewport.dragging { cursor: grabbing; }
+body.admin-active .hotspot { cursor: grab; touch-action: none; }
+body.admin-active .hotspot.dragging { cursor: grabbing; }
 
 /* =========================================================
    RESPONSIVE

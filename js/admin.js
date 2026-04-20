@@ -56,11 +56,33 @@ const Admin = (() => {
       const mapBtn = document.querySelector('.nav-btn[data-view="map"]');
       if (mapBtn && !mapBtn.classList.contains('active')) mapBtn.click();
       _reset();
+      MapEngine.setHotspotDragHandler(_onHotspotDrag);
     } else {
       _reset();
+      MapEngine.setHotspotDragHandler(null);
     }
     // Viewport shrank/grew — let the map recompute its fit.
     requestAnimationFrame(() => MapEngine.relayout());
+  }
+
+  function _onHotspotDrag({ hotspot, x, y, phase }) {
+    if (!active) return;
+    hotspot.x = x;
+    hotspot.y = y;
+    const cardId = (hotspot.card_ids || [])[0];
+    const card = cardId ? DataStore.getCard(cardId) : null;
+    if (card) card.map_location = { x, y };
+
+    if (editingId === cardId) {
+      pinX = x;
+      pinY = y;
+      _updateCoords();
+      if (phase === 'end') _renderGhost();
+    }
+
+    if (phase === 'end') {
+      _setHint(`${cardId || hotspot.id} új pozíciója: ${x}%, ${y}%. Ne felejtsd el exportálni!`);
+    }
   }
 
   function editHotspot(hotspot) {
