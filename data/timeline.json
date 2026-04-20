@@ -1,0 +1,8 @@
+{
+  "eras": [
+    { "name": "Az Első Háború", "order": 1, "color": "#8b3a3a" },
+    { "name": "A Csendes Kor", "order": 2, "color": "#2d4a2d" },
+    { "name": "A Sárkányok Kora", "order": 3, "color": "#c9a84c" },
+    { "name": "Az Újjászületés", "order": 4, "color": "#6b5238" }
+  ]
+}

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "mc_01",
+    "title": "Itt kezdtek el harcolni a manók és a Boszik",
+    "era": "Az Első Háború",
+    "era_order": 1,
+    "front_image": "assets/cards/mc_1a.png",
+    "back_image": "assets/cards/mc_1b.png",
+    "map_location": { "x": 35, "y": 28 },
+    "description": ""
+  },
+  {
+    "id": "mc_02",
+    "title": "A Nagy Összecsapás",
+    "era": "Az Első Háború",
+    "era_order": 1,
+    "front_image": "assets/cards/mc_2a.png",
+    "back_image": "assets/cards/mc_2b.png",
+    "map_location": { "x": 42, "y": 34 },
+    "description": ""
+  },
+  {
+    "id": "mc_03",
+    "title": "A Manók Szövetsége",
+    "era": "Az Első Háború",
+    "era_order": 1,
+    "front_image": "assets/cards/mc_3a.png",
+    "back_image": "assets/cards/mc_3b.png",
+    "map_location": { "x": 28, "y": 45 },
+    "description": ""
+  },
+  {
+    "id": "mc_04",
+    "title": "A Boszik Tanácsa",
+    "era": "Az Első Háború",
+    "era_order": 1,
+    "front_image": "assets/cards/mc_4a.png",
+    "back_image": "assets/cards/mc_4b.png",
+    "map_location": { "x": 55, "y": 22 },
+    "description": ""
+  },
+  {
+    "id": "mc_05",
+    "title": "A Fegyverszünet",
+    "era": "A Csendes Kor",
+    "era_order": 2,
+    "front_image": "assets/cards/mc_5a.png",
+    "back_image": "assets/cards/mc_5b.png",
+    "map_location": { "x": 48, "y": 50 },
+    "description": ""
+  },
+  {
+    "id": "mc_06",
+    "title": "Az Erdők Királya",
+    "era": "A Csendes Kor",
+    "era_order": 2,
+    "front_image": "assets/cards/mc_6a.png",
+    "back_image": "assets/cards/mc_6b.png",
+    "map_location": { "x": 22, "y": 60 },
+    "description": ""
+  },
+  {
+    "id": "mc_07",
+    "title": "A Kristály Völgy",
+    "era": "A Csendes Kor",
+    "era_order": 2,
+    "front_image": "assets/cards/mc_7a.png",
+    "back_image": "assets/cards/mc_7b.png",
+    "map_location": { "x": 65, "y": 42 },
+    "description": ""
+  },
+  {
+    "id": "mc_08",
+    "title": "Az Első Találkozás",
+    "era": "A Csendes Kor",
+    "era_order": 2,
+    "front_image": "assets/cards/mc_8a.png",
+    "back_image": "assets/cards/mc_8b.png",
+    "map_location": { "x": 40, "y": 65 },
+    "description": ""
+  },
+  {
+    "id": "mc_09",
+    "title": "A Sárkány Ébredése",
+    "era": "A Sárkányok Kora",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_9a.png",
+    "back_image": "assets/cards/mc_9b.png",
+    "map_location": { "x": 72, "y": 30 },
+    "description": ""
+  },
+  {
+    "id": "mc_10",
+    "title": "A Tűz Hegye",
+    "era": "A Sárkányok Kora",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_10a.png",
+    "back_image": "assets/cards/mc_10b.png",
+    "map_location": { "x": 78, "y": 55 },
+    "description": ""
+  },
+  {
+    "id": "mc_11",
+    "title": "A Hősök Útja",
+    "era": "A Sárkányok Kora",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_11a.png",
+    "back_image": "assets/cards/mc_11b.png",
+    "map_location": { "x": 32, "y": 70 },
+    "description": ""
+  },
+  {
+    "id": "mc_12",
+    "title": "A Végső Csata",
+    "era": "A Sárkányok Kora",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_12a.png",
+    "back_image": "assets/cards/mc_12b.png",
+    "map_location": { "x": 58, "y": 72 },
+    "description": ""
+  },
+  {
+    "id": "mc_13",
+    "title": "Az Új Hajnal",
+    "era": "Az Újjászületés",
+    "era_order": 4,
+    "front_image": "assets/cards/mc_13a.png",
+    "back_image": "assets/cards/mc_13b.png",
+    "map_location": { "x": 50, "y": 15 },
+    "description": ""
+  },
+  {
+    "id": "mc_14",
+    "title": "A Béke Fája",
+    "era": "Az Újjászületés",
+    "era_order": 4,
+    "front_image": "assets/cards/mc_14a.png",
+    "back_image": "assets/cards/mc_14b.png",
+    "map_location": { "x": 15, "y": 35 },
+    "description": ""
+  },
+  {
+    "id": "mc_15",
+    "title": "A Krónikás",
+    "era": "Az Újjászületés",
+    "era_order": 4,
+    "front_image": "assets/cards/mc_15a.png",
+    "back_image": "assets/cards/mc_15b.png",
+    "map_location": { "x": 85, "y": 80 },
+    "description": ""
+  }
+]

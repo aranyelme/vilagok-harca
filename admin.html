@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Szerkesztő — Világok Harca</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <style>
+    body.admin { overflow: hidden; }
+    .admin-shell {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      height: 100vh;
+      background: var(--bg-deep);
+    }
+    .admin-map-pane {
+      position: relative;
+      overflow: hidden;
+      border-right: 2px solid var(--ink-soft);
+    }
+    .admin-map-pane .map-image {
+      cursor: crosshair;
+    }
+    .admin-panel {
+      background: var(--parchment);
+      padding: 1.2rem 1.4rem;
+      overflow-y: auto;
+      border-left: 4px solid var(--gold);
+      box-shadow: inset 6px 0 18px rgba(0,0,0,.12);
+    }
+    .admin-panel h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--ink);
+      margin: 0 0 0.2rem 0;
+      font-size: 1.35rem;
+      letter-spacing: 0.08em;
+    }
+    .admin-panel .sub {
+      color: var(--ink-soft);
+      font-style: italic;
+      font-size: 0.88rem;
+      margin: 0 0 1rem;
+    }
+    .admin-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.8rem;
+    }
+    .admin-field label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.3rem;
+    }
+    .admin-field input,
+    .admin-field select,
+    .admin-field textarea {
+      font-family: 'Source Serif Pro', serif;
+      background: #fbf1da;
+      border: 1px solid var(--ink-soft);
+      border-radius: 3px;
+      padding: 0.5rem 0.6rem;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+    .admin-field textarea { min-height: 80px; resize: vertical; }
+    .admin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+    .admin-btn {
+      font-family: 'Cinzel', serif;
+      background: var(--ink);
+      color: var(--parchment);
+      border: none;
+      padding: 0.55rem 0.9rem;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      font-size: 0.85rem;
+    }
+    .admin-btn.gold { background: var(--gold); color: var(--ink); }
+    .admin-btn.danger { background: var(--red); color: var(--parchment); }
+    .admin-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .pin-list {
+      margin-top: 1rem;
+      max-height: 180px;
+      overflow-y: auto;
+      border-top: 1px dashed var(--ink-soft);
+      padding-top: 0.6rem;
+    }
+    .pin-list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      padding: 0.3rem 0.2rem;
+      border-bottom: 1px dotted rgba(58,42,26,0.25);
+      cursor: pointer;
+    }
+    .pin-list-item:hover { background: rgba(201,168,76,0.15); }
+    .pin-list-item.active { background: rgba(201,168,76,0.3); font-weight: 600; }
+    .admin-export-box {
+      background: #fbf1da;
+      border: 1px dashed var(--ink-soft);
+      padding: 0.7rem;
+      margin-top: 1rem;
+      border-radius: 4px;
+    }
+    .admin-export-box p { margin: 0 0 0.5rem; font-size: 0.85rem; }
+    .admin-hotspot {
+      background: var(--gold);
+      border: 2px solid var(--ink);
+      box-shadow: 0 0 0 2px rgba(201,168,76,0.3);
+    }
+    .admin-hotspot.active {
+      background: var(--red);
+      border-color: var(--parchment);
+      transform: translate(-50%, -50%) scale(1.3);
+    }
+    .admin-status {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body class="admin">
+  <div class="admin-shell">
+    <div class="admin-map-pane">
+      <div class="map-viewport" id="mapViewport">
+        <div class="map-canvas" id="mapCanvas">
+          <img class="map-image" id="mapImage" src="assets/map/terkep_1.jpg" alt="Térkép" draggable="false" />
+          <div class="hotspots-layer" id="hotspotsLayer"></div>
+        </div>
+      </div>
+      <div class="map-controls">
+        <button class="map-btn" id="zoomIn">+</button>
+        <button class="map-btn" id="zoomOut">−</button>
+        <button class="map-btn" id="zoomReset">⌂</button>
+      </div>
+    </div>
+
+    <aside class="admin-panel">
+      <h2>Szerkesztő</h2>
+      <p class="sub">Kattints a térképre új pecsét elhelyezéséhez, vagy egy meglévőre a szerkesztéshez.</p>
+
+      <div class="admin-field">
+        <label for="fId">Azonosító</label>
+        <input type="text" id="fId" placeholder="mc_16" />
+      </div>
+      <div class="admin-field">
+        <label for="fTitle">Cím</label>
+        <input type="text" id="fTitle" placeholder="A kártya címe" />
+      </div>
+      <div class="admin-row">
+        <div class="admin-field">
+          <label for="fEra">Korszak</label>
+          <select id="fEra"></select>
+        </div>
+        <div class="admin-field">
+          <label for="fEraOrder">Sorrend</label>
+          <input type="number" id="fEraOrder" min="1" step="1" />
+        </div>
+      </div>
+      <div class="admin-field">
+        <label for="fNewEra">Új korszak (opcionális)</label>
+        <input type="text" id="fNewEra" placeholder="pl. Az Elveszett Idő" />
+      </div>
+      <div class="admin-row">
+        <div class="admin-field">
+          <label for="fFront">Első oldal (kép)</label>
+          <input type="text" id="fFront" placeholder="assets/cards/mc_16a.png" />
+        </div>
+        <div class="admin-field">
+          <label for="fBack">Hátoldal (kép)</label>
+          <input type="text" id="fBack" placeholder="assets/cards/mc_16b.png" />
+        </div>
+      </div>
+      <div class="admin-row">
+        <div class="admin-field">
+          <label for="fX">X (%)</label>
+          <input type="number" id="fX" step="0.1" min="0" max="100" />
+        </div>
+        <div class="admin-field">
+          <label for="fY">Y (%)</label>
+          <input type="number" id="fY" step="0.1" min="0" max="100" />
+        </div>
+      </div>
+      <div class="admin-field">
+        <label for="fDescription">Leírás</label>
+        <textarea id="fDescription" placeholder="A kártya leírása, kontextusa..."></textarea>
+      </div>
+
+      <div class="admin-actions">
+        <button class="admin-btn gold" id="saveBtn">Mentés</button>
+        <button class="admin-btn" id="newBtn">Új</button>
+        <button class="admin-btn danger" id="deleteBtn">Törlés</button>
+      </div>
+
+      <p class="admin-status" id="status">Kattints a térképre az első pecséthez.</p>
+
+      <div class="pin-list" id="pinList"></div>
+
+      <div class="admin-export-box">
+        <p><strong>Exportálás:</strong> a JSON fájlokat le kell tölteni és commitálni a repóba.</p>
+        <div class="admin-actions">
+          <button class="admin-btn gold" id="exportCards">cards.json</button>
+          <button class="admin-btn gold" id="exportHotspots">hotspots.json</button>
+          <button class="admin-btn gold" id="exportTimeline">timeline.json</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/data-loader.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
