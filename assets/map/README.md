@@ -1,7 +1,15 @@
 # Térképképek
 
-Ide kerül a szkennelt világtérkép:
+A főoldali térkép több felbontáson (LOD) érhető el. A kliens automatikusan
+választ közülük a nagyítási szinthez:
 
-- `terkep_1.jpg` — fő térkép, a főoldalon jelenik meg (ajánlott: 2000–4000 px szélesség, optimalizált JPG, ~300 KB – 2 MB).
+- `terkep_lo.jpg` — kis felbontás (≈900 px), alapállapotú nézet / mobilra is gyors
+- `terkep_md.jpg` — közepes felbontás (≈1500 px), normál nézet
+- `terkep_hi.jpg` — teljes felbontás (≈2400 px), közeli nagyításkor
 
-Ha a fájl még nincs itt, az oldal barátságosan jelzi a hiányt, és a pan/zoom mechanika továbbra is tesztelhető placeholderrel.
+Ajánlott: JPG, progresszív, a látvány-szűrő (sepia/contrast/saturate) legyen
+beleégetve a fájlokba, hogy ne kelljen CSS-ből a böngészőnek minden képkockán
+újra alkalmaznia.
+
+Frissíteni a `scripts/gen_map_lods.py` szerű segédszkripttel érdemes, ugyanarról
+a forrásfájlról generálva mindhárom változatot.

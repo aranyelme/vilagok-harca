@@ -131,19 +131,33 @@ const CardModal = (() => {
   function _attachTilt() {
     if (!cardEl || tiltHandler) return;
     cardEl.classList.add('tiltable');
-    tiltHandler = (e) => {
-      if (modal.hidden) return;
+    // Skip pointer tilt on touch/coarse devices — it's just extra work there.
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+      tiltHandler = () => {};
+      return;
+    }
+    let lastX = 0, lastY = 0, rafScheduled = false;
+    const apply = () => {
+      rafScheduled = false;
       const rect = cardEl.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / rect.width;
-      const dy = (e.clientY - cy) / rect.height;
+      const dx = (lastX - cx) / rect.width;
+      const dy = (lastY - cy) / rect.height;
       const rx = (-dy * 8).toFixed(2);
       const ry = (dx * 8).toFixed(2);
       const flipY = isFlipped ? 180 : 0;
       cardEl.style.transform = `rotateY(${flipY + +ry}deg) rotateX(${rx}deg)`;
     };
-    window.addEventListener('mousemove', tiltHandler);
+    tiltHandler = (e) => {
+      if (modal.hidden) return;
+      lastX = e.clientX; lastY = e.clientY;
+      if (!rafScheduled) {
+        rafScheduled = true;
+        requestAnimationFrame(apply);
+      }
+    };
+    window.addEventListener('mousemove', tiltHandler, { passive: true });
   }
 
   function _detachTilt() {
@@ -202,6 +216,7 @@ const Gallery = (() => {
       grid.appendChild(empty);
       return;
     }
+    const frag = document.createDocumentFragment();
     DataStore.getSortedCards()
       .filter(c => eraName === 'all' || c.era === eraName)
       .forEach(card => {
@@ -209,8 +224,12 @@ const Gallery = (() => {
         tile.className = 'gallery-card';
         tile.type = 'button';
         const img = document.createElement('img');
-        img.src = card.front_image || '';
+        img.src = _thumbPath(card.front_image) || '';
         img.alt = card.title || '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.width = 260;
+        img.height = 433;
         img.onerror = () => {
           tile.classList.add('placeholder');
           tile.innerHTML = `<em>${card.title || card.id}</em>`;
@@ -221,8 +240,16 @@ const Gallery = (() => {
         tile.appendChild(img);
         tile.appendChild(label);
         tile.addEventListener('click', () => CardModal.openById(card.id));
-        grid.appendChild(tile);
+        frag.appendChild(tile);
       });
+    grid.appendChild(frag);
+  }
+
+  // Derive a thumbnail path: "x.webp" -> "x.thumb.webp".
+  // Falls back to the original if the pattern doesn't match.
+  function _thumbPath(src) {
+    if (!src) return src;
+    return src.replace(/\.webp$/i, '.thumb.webp');
   }
 
   return { init, render };

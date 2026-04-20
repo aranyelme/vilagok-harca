@@ -1,18 +1,20 @@
 # Kártyaképek
 
-Minden momentumkártyához **két PNG** tartozik:
+Minden momentumkártyához **két WebP** tartozik, előlap és hátlap, plusz mindkettőhöz
+egy kisméretű galéria-bélyegkép:
 
-- `mc_Na.png` — előlap (illusztráció)
-- `mc_Nb.png` — hátlap (cím és leírás, kézírással)
+- `mc_Na.webp` / `mc_Nb.webp` — modálban megjelenő, közepes felbontású változat (~450 px széles)
+- `mc_Na.thumb.webp` / `mc_Nb.thumb.webp` — galéria-bélyegkép (~260 px széles)
 
 ahol `N` a kártya sorszáma (1, 2, 3, ...).
 
-## Ajánlott beállítások
+## Miért WebP + thumbnail?
 
-- **Méret:** 900×1200 px (3:4 arány)
-- **Formátum:** PNG, optimalizálva (pl. `pngquant` vagy `tinypng.com`)
-- **Háttér:** a szkennelt lap maradhat pergamenszínű — a felület ezt kiemeli
+- A galéria csak a kis bélyegképeket tölti be, ezzel a betöltési méret
+  (~5 MB PNG → ~0.4 MB WebP) töredékére csökken.
+- A modál a nagyobb, de még mindig tömör WebP-et mutatja.
 
 ## Hiányzó képek
 
-Ha egy kép hiányzik, a galériában és a modálban egy barátságos "A kép hiányzik" placeholder jelenik meg — a többi kártya zavartalanul működik.
+Ha egy kép hiányzik, a galériában és a modálban egy barátságos
+„A kép hiányzik" placeholder jelenik meg — a többi kártya zavartalanul működik.
