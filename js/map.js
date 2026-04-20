@@ -482,11 +482,24 @@ const MapEngine = (() => {
     });
   }
 
+  function highlightHotspotByCardId(cardId, on) {
+    if (!hotspotsLayer) return;
+    const hotspot = cardId && window.DataStore
+      ? DataStore.getHotspotByCardId(cardId)
+      : null;
+    const targetId = hotspot ? hotspot.id : null;
+    hotspotsLayer.querySelectorAll('.hotspot').forEach(el => {
+      const match = !!on && targetId && el.dataset.id === targetId;
+      el.classList.toggle('legend-highlight', match);
+    });
+  }
+
   return {
     init,
     renderHotspots,
     filterHotspotsByEra,
     setActiveHotspot,
+    highlightHotspotByCardId,
     reset,
     // Recompute viewport size when outer layout changes (e.g. admin panel
     // opening and shrinking the map area).
