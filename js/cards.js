@@ -129,35 +129,9 @@ const CardModal = (() => {
   }
 
   function _attachTilt() {
-    if (!cardEl || tiltHandler) return;
-    cardEl.classList.add('tiltable');
-    // Skip pointer tilt on touch/coarse devices — it's just extra work there.
-    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
-      tiltHandler = () => {};
-      return;
-    }
-    let lastX = 0, lastY = 0, rafScheduled = false;
-    const apply = () => {
-      rafScheduled = false;
-      const rect = cardEl.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (lastX - cx) / rect.width;
-      const dy = (lastY - cy) / rect.height;
-      const rx = (-dy * 8).toFixed(2);
-      const ry = (dx * 8).toFixed(2);
-      const flipY = isFlipped ? 180 : 0;
-      cardEl.style.transform = `rotateY(${flipY + +ry}deg) rotateX(${rx}deg)`;
-    };
-    tiltHandler = (e) => {
-      if (modal.hidden) return;
-      lastX = e.clientX; lastY = e.clientY;
-      if (!rafScheduled) {
-        rafScheduled = true;
-        requestAnimationFrame(apply);
-      }
-    };
-    window.addEventListener('mousemove', tiltHandler, { passive: true });
+    // Tilt disabled: the inline transform it set per-mousemove fought the
+    // CSS flip transition and caused visible jank during spin. Left as a
+    // no-op so the existing attach/detach wiring still works.
   }
 
   function _detachTilt() {
