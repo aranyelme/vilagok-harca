@@ -342,7 +342,7 @@ main {
 
 .gallery-card {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 3 / 5;
   background: var(--parchment-light);
   border: 1px solid var(--ink-soft);
   box-shadow: var(--shadow-soft);
@@ -357,7 +357,8 @@ main {
 .gallery-card img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--parchment-dark);
   display: block;
 }
 .gallery-card .gc-label {
