@@ -123,6 +123,8 @@ body {
   opacity: 0.4;
   cursor: not-allowed;
 }
+#adminToggle { display: none; }
+body.admin-unlocked #adminToggle { display: inline-block; }
 
 /* =========================================================
    MAIN / VIEWS
@@ -956,6 +958,34 @@ body.admin-active .map-viewport { cursor: crosshair; }
 body.admin-active .map-viewport.dragging { cursor: grabbing; }
 body.admin-active .hotspot { cursor: grab; touch-action: none; }
 body.admin-active .hotspot.dragging { cursor: grabbing; }
+
+/* Settings block inside the admin panel (GitHub sync config). */
+.admin-section {
+  margin-top: 0.6rem;
+}
+.admin-section-title {
+  font-family: var(--font-title);
+  text-transform: uppercase;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  font-size: 0.72rem;
+  margin: 0 0 0.5rem;
+}
+.admin-status {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding: 0.5rem 0.6rem;
+  border-radius: 3px;
+  background: rgba(244, 228, 193, 0.06);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  color: var(--parchment-dark);
+  margin-bottom: 0.6rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.admin-status.is-ok    { border-color: rgba(120, 180, 100, 0.5); color: #bfe0a8; }
+.admin-status.is-error { border-color: rgba(224, 85, 85, 0.6);   color: #e9a9a9; }
+.admin-status.is-busy  { border-color: var(--gold-dim); color: var(--gold); }
 
 /* =========================================================
    RESPONSIVE
