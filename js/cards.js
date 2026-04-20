@@ -39,6 +39,7 @@ const CardModal = (() => {
     currentIndex = Math.max(0, Math.min(startIndex, cards.length - 1));
     _render();
     modal.hidden = false;
+    modal.classList.add('is-open');
     _attachTilt();
   }
 
@@ -115,6 +116,7 @@ const CardModal = (() => {
   function close() {
     if (!modal) return;
     modal.hidden = true;
+    modal.classList.remove('is-open');
     _detachTilt();
   }
 

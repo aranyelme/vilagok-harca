@@ -8,13 +8,13 @@
   background: rgba(15, 10, 6, 0.82);
   backdrop-filter: blur(4px);
   z-index: 300;
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
   animation: fadeIn 0.25s ease;
+  display: none;
 }
-.modal-backdrop[hidden] { display: none; }
+.modal-backdrop.is-open { display: flex; }
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
