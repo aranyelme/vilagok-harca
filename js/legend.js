@@ -48,6 +48,16 @@ const Legend = (() => {
       li.addEventListener('click', () => {
         if (window.CardModal) CardModal.openById(card.id);
       });
+      const highlightOn = () => {
+        if (window.MapEngine) MapEngine.highlightHotspotByCardId(card.id, true);
+      };
+      const highlightOff = () => {
+        if (window.MapEngine) MapEngine.highlightHotspotByCardId(card.id, false);
+      };
+      li.addEventListener('mouseenter', highlightOn);
+      li.addEventListener('mouseleave', highlightOff);
+      li.addEventListener('focus', highlightOn);
+      li.addEventListener('blur', highlightOff);
       frag.appendChild(li);
     });
     list.appendChild(frag);
