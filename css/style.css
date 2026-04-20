@@ -580,6 +580,161 @@ main {
 }
 
 /* =========================================================
+   ADMIN PANEL (in-page sidebar editor)
+   ========================================================= */
+.admin-panel {
+  position: fixed;
+  top: var(--topbar-h);
+  right: 0;
+  width: 380px;
+  bottom: var(--timeline-h);
+  background: linear-gradient(180deg, rgba(31, 24, 18, 0.97), rgba(31, 24, 18, 0.92));
+  border-left: 2px solid var(--gold-dim);
+  padding: 1.2rem 1.3rem;
+  overflow-y: auto;
+  color: var(--parchment);
+  z-index: 90;
+  box-shadow: -6px 0 20px rgba(0, 0, 0, 0.35);
+}
+
+body.admin-active main { right: 380px; }
+
+.admin-title {
+  font-family: var(--font-title);
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--gold-dim);
+}
+
+.admin-hint {
+  font-style: italic;
+  color: var(--parchment-dark);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0 0 1rem;
+}
+
+.admin-coords {
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.8rem;
+}
+.admin-field label {
+  font-family: var(--font-title);
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.3rem;
+}
+.admin-field input,
+.admin-field select,
+.admin-field textarea {
+  font-family: var(--font-body);
+  background: rgba(244, 228, 193, 0.08);
+  border: 1px solid var(--gold-dim);
+  color: var(--parchment);
+  font-size: 0.9rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 3px;
+}
+.admin-field input:focus,
+.admin-field select:focus,
+.admin-field textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.3);
+}
+.admin-field textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+.admin-field select option {
+  background: var(--bg-deep);
+  color: var(--parchment);
+}
+
+.admin-divider {
+  border: none;
+  border-top: 1px solid rgba(201, 168, 76, 0.25);
+  margin: 1rem 0 0.8rem;
+}
+
+.admin-btn {
+  font-family: var(--font-title);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  border-radius: 3px;
+  width: 100%;
+  margin-bottom: 0.4rem;
+  transition: background 0.2s, color 0.2s;
+}
+.admin-btn-primary {
+  background: var(--gold-dim);
+  color: var(--ink);
+  border: 1px solid var(--gold);
+}
+.admin-btn-primary:hover { background: var(--gold); }
+.admin-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: var(--parchment-dark);
+}
+.admin-btn-secondary:hover {
+  background: rgba(201, 168, 76, 0.12);
+  color: var(--gold);
+}
+.admin-btn-danger {
+  background: transparent;
+  border: 1px solid var(--red);
+  color: #d97878;
+}
+.admin-btn-danger:hover {
+  background: var(--red);
+  color: var(--parchment);
+}
+
+/* Red ghost pin shown while a card is being placed or moved. */
+.admin-new-pin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e05555, #8b3a3a);
+  border: 2px solid var(--parchment);
+  box-shadow: 0 0 10px rgba(224, 85, 85, 0.75);
+  pointer-events: none;
+  animation: adminPinPulse 1.4s ease-in-out infinite;
+  z-index: 6;
+}
+@keyframes adminPinPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(224, 85, 85, 0.6); }
+  50%      { box-shadow: 0 0 18px rgba(224, 85, 85, 0.95); }
+}
+
+body.admin-active .map-viewport { cursor: crosshair; }
+body.admin-active .map-viewport.dragging { cursor: grabbing; }
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 @media (max-width: 600px) {
@@ -589,4 +744,9 @@ main {
   :root { --timeline-h: 72px; }
   .timeline-era-label { font-size: 0.6rem; letter-spacing: 0.08em; }
   .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+}
+
+@media (max-width: 720px) {
+  .admin-panel { width: min(320px, 80vw); }
+  body.admin-active main { right: min(320px, 80vw); }
 }

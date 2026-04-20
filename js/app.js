@@ -10,6 +10,10 @@
 
   MapEngine.init({
     onHotspotClick: (hotspot) => {
+      if (window.Admin && Admin.isActive()) {
+        Admin.editHotspot(hotspot);
+        return;
+      }
       const cardIds = hotspot.card_ids || [];
       const cards = cardIds.map(id => DataStore.getCard(id)).filter(Boolean);
       if (cards.length) {
@@ -25,6 +29,8 @@
       MapEngine.filterHotspotsByEra(eraName);
     },
   });
+
+  Admin.init();
 
   _bindViewNav();
   _bindDrawer();

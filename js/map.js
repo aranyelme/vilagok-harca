@@ -23,6 +23,7 @@ const MapEngine = (() => {
   let posX = 0, posY = 0;
   let viewportW = 0, viewportH = 0;
   let dragging = false, dragStart = null;
+  let downX = 0, downY = 0;
   let onHotspotClick = null;
   let pinchDist = null;
   let onPanZoom = null;
@@ -194,9 +195,9 @@ const MapEngine = (() => {
     if (zoomOut) zoomOut.addEventListener('click', () => _zoomBy(0.8));
     if (zoomReset) zoomReset.addEventListener('click', reset);
 
-    if (opts.adminMode) {
-      image.addEventListener('click', _onMapClick);
-    }
+    // Always bind; the click only fires the admin callback when one is
+    // registered via setAdminClickHandler(). Lets admin mode toggle at runtime.
+    image.addEventListener('click', _onMapClick);
   }
 
   function _onDown(e) {
@@ -204,6 +205,8 @@ const MapEngine = (() => {
     if (e.target.closest('.hotspot')) return;
     dragging = true;
     dragStart = { x: e.clientX - posX, y: e.clientY - posY };
+    downX = e.clientX;
+    downY = e.clientY;
     viewport.classList.add('dragging');
     _setInteracting(true);
   }
@@ -293,13 +296,15 @@ const MapEngine = (() => {
   }
 
   function _onMapClick(e) {
+    if (!MapEngine._adminClickHandler) return;
+    // Ignore the synthetic click that follows a pan: if the pointer moved more
+    // than a few pixels between mousedown and mouseup, treat it as a drag.
+    if (Math.abs(e.clientX - downX) > 3 || Math.abs(e.clientY - downY) > 3) return;
     const rect = image.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     if (x < 0 || x > 100 || y < 0 || y > 100) return;
-    if (MapEngine._adminClickHandler) {
-      MapEngine._adminClickHandler({ x: +x.toFixed(2), y: +y.toFixed(2) });
-    }
+    MapEngine._adminClickHandler({ x: +x.toFixed(2), y: +y.toFixed(2) });
   }
 
   function reset() {
@@ -357,7 +362,10 @@ const MapEngine = (() => {
     filterHotspotsByEra,
     setActiveHotspot,
     reset,
-    setAdminClickHandler(fn) { MapEngine._adminClickHandler = fn; },
+    // Recompute viewport size when outer layout changes (e.g. admin panel
+    // opening and shrinking the map area).
+    relayout() { _onResize(); },
+    setAdminClickHandler(fn) { MapEngine._adminClickHandler = fn || null; },
     _adminClickHandler: null,
   };
 })();

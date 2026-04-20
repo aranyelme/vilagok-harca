@@ -20,8 +20,7 @@ GitHub Pages: *beállítandó a repo Settings → Pages menüjében (Branch: `ma
 
 ```
 vilagok-harca/
-├── index.html              # Főoldal (nyilvános)
-├── admin.html              # Vizuális szerkesztő (nem linkelt)
+├── index.html              # Főoldal (a „Szerkesztő” gomb megnyitja az oldalsávot)
 ├── css/
 │   ├── style.css           # Alap stílusok (pergamen, tinta, arany)
 │   └── cards.css           # Kártyafordítás és modál
@@ -55,8 +54,8 @@ vilagok-harca/
 - Tedd őket az `assets/cards/` mappába.
 
 ### 2. Nyisd meg a szerkesztőt
-- A böngészőben: `https://<user>.github.io/vilagok-harca/admin.html`
-- Vagy helyben: nyisd meg az `admin.html` fájlt egy lokális szerverrel (pl. `python -m http.server`).
+- Nyisd meg a főoldalt, majd a felső menü **Szerkesztő** gombjával kapcsold be az oldalsávot.
+- Helyben: `python3 -m http.server 8000`, majd <http://localhost:8000>.
 
 ### 3. Pecsét elhelyezése
 - Kattints a térképen oda, ahol a kártya helye van → a koordináták automatikusan kitöltődnek.
