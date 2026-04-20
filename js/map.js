@@ -74,12 +74,12 @@ const MapEngine = (() => {
     viewportH = rect.height;
     if (!naturalW || !naturalH) return;
     const fit = Math.min(viewportW / naturalW, viewportH / naturalH);
-    minScale = fit * 0.85;
-    maxScale = fit * 6;
+    minScale = fit * 0.6;
+    maxScale = fit * 4;
     if (scale < minScale || scale > maxScale) scale = fit;
     if (!posX && !posY) {
-      posX = -naturalW / 2;
-      posY = -naturalH / 2;
+      posX = -naturalW * scale / 2;
+      posY = -naturalH * scale / 2;
     }
     _apply();
   }
@@ -210,8 +210,8 @@ const MapEngine = (() => {
   function reset() {
     const fit = Math.min(viewportW / naturalW, viewportH / naturalH);
     scale = fit;
-    posX = -naturalW / 2;
-    posY = -naturalH / 2;
+    posX = -naturalW * scale / 2;
+    posY = -naturalH * scale / 2;
     _apply();
   }
 
