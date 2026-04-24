@@ -6,6 +6,7 @@
   await DataStore.loadAll();
 
   CardModal.init();
+  if (window.VideoModal) VideoModal.init();
   Gallery.init();
 
   MapEngine.init({

@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "v_01",
+    "title": "Az Első Háború krónikája",
+    "youtube_id": "feK5WcOOdOQ",
+    "url": "https://youtu.be/feK5WcOOdOQ",
+    "card_ids": ["mc_02", "mc_03", "mc_04", "mc_08"],
+    "description": "A manók és a Boszik háborújának pillanatai: a Nagy Összecsapás, a Manók Szövetsége, a Boszik Tanácsa és az Első Találkozás."
+  }
+]

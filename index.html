@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=11" />
-  <link rel="stylesheet" href="css/cards.css?v=11" />
+  <link rel="stylesheet" href="css/style.css?v=12" />
+  <link rel="stylesheet" href="css/cards.css?v=12" />
 </head>
 <body class="view-map">
   <header class="topbar">
@@ -110,11 +110,37 @@
           <h3 class="card-description-title">Leírás</h3>
           <p class="card-description" id="modalDescription"></p>
         </section>
+        <section class="card-video-section" id="modalVideoSection" hidden>
+          <button class="card-video-btn" id="modalVideoBtn" type="button">
+            <span class="card-video-icon" aria-hidden="true">▶</span>
+            <span class="card-video-label">Nézd meg a videót</span>
+            <span class="card-video-title" id="modalVideoTitle"></span>
+          </button>
+        </section>
       </div>
       <div class="modal-nav">
         <button class="modal-nav-btn" id="prevCard">◄ Előző</button>
         <button class="modal-nav-btn" id="nextCard">Következő ►</button>
       </div>
+    </div>
+  </div>
+
+  <!-- VIDEO MODAL -->
+  <div class="video-backdrop" id="videoModal" hidden>
+    <div class="video-frame" role="dialog" aria-modal="true" aria-labelledby="videoModalTitle">
+      <button class="video-close" id="videoClose" aria-label="Bezárás">✕</button>
+      <h2 class="video-title" id="videoModalTitle"></h2>
+      <p class="video-desc" id="videoModalDesc" hidden></p>
+      <div class="video-embed">
+        <iframe id="videoIframe"
+          src=""
+          title="YouTube videó"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <p class="video-cards-hint" id="videoCardsHint"></p>
     </div>
   </div>
 
@@ -187,13 +213,14 @@
     <p class="drawer-footer">Richard Fejes &amp; az Aranyelme műhely · 2026</p>
   </aside>
 
-  <script src="js/data-loader.js?v=11"></script>
-  <script src="js/map.js?v=11"></script>
-  <script src="js/cards.js?v=11"></script>
-  <script src="js/legend.js?v=11"></script>
-  <script src="js/timeline.js?v=11"></script>
-  <script src="js/github-sync.js?v=11"></script>
-  <script src="js/admin.js?v=11"></script>
-  <script src="js/app.js?v=11"></script>
+  <script src="js/data-loader.js?v=12"></script>
+  <script src="js/map.js?v=12"></script>
+  <script src="js/cards.js?v=12"></script>
+  <script src="js/legend.js?v=12"></script>
+  <script src="js/videos.js?v=12"></script>
+  <script src="js/timeline.js?v=12"></script>
+  <script src="js/github-sync.js?v=12"></script>
+  <script src="js/admin.js?v=12"></script>
+  <script src="js/app.js?v=12"></script>
 </body>
 </html>
