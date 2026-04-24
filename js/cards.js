@@ -4,10 +4,12 @@
 
 const CardModal = (() => {
   let modal, cardEl, frontImg, backImg, titleEl, eraEl, descEl, descSection, numEl, prevBtn, nextBtn, closeBtn;
+  let videoSection, videoBtn, videoTitleEl;
   let currentQueue = [];
   let currentIndex = 0;
   let isFlipped = false;
   let tiltHandler = null;
+  let currentVideo = null;
 
   function init() {
     modal = document.getElementById('cardModal');
@@ -22,6 +24,9 @@ const CardModal = (() => {
     prevBtn = document.getElementById('prevCard');
     nextBtn = document.getElementById('nextCard');
     closeBtn = document.getElementById('modalClose');
+    videoSection = document.getElementById('modalVideoSection');
+    videoBtn = document.getElementById('modalVideoBtn');
+    videoTitleEl = document.getElementById('modalVideoTitle');
 
     if (!modal) return;
 
@@ -32,6 +37,12 @@ const CardModal = (() => {
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
     cardEl.addEventListener('click', flip);
+    if (videoBtn) {
+      videoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentVideo && window.VideoModal) VideoModal.open(currentVideo);
+      });
+    }
     document.addEventListener('keydown', _onKey);
   }
 
@@ -79,6 +90,8 @@ const CardModal = (() => {
     descEl.textContent = desc;
     if (descSection) descSection.hidden = !desc;
 
+    _renderVideoButton(card);
+
     prevBtn.disabled = currentIndex === 0;
     nextBtn.disabled = currentIndex === currentQueue.length - 1;
   }
@@ -108,6 +121,18 @@ const CardModal = (() => {
       lbl.textContent = 'A kép hiányzik';
       face.appendChild(lbl);
     }
+  }
+
+  function _renderVideoButton(card) {
+    if (!videoSection) return;
+    const videos = (window.DataStore && DataStore.getVideosByCardId(card.id)) || [];
+    currentVideo = videos[0] || null;
+    if (!currentVideo) {
+      videoSection.hidden = true;
+      return;
+    }
+    if (videoTitleEl) videoTitleEl.textContent = currentVideo.title || '';
+    videoSection.hidden = false;
   }
 
   function flip() {
@@ -229,6 +254,15 @@ const Gallery = (() => {
         label.textContent = card.title || card.id;
         tile.appendChild(img);
         tile.appendChild(label);
+        if (window.DataStore && DataStore.hasVideoForCard(card.id)) {
+          tile.classList.add('has-video');
+          const badge = document.createElement('span');
+          badge.className = 'gallery-video-badge';
+          badge.setAttribute('aria-label', 'Videó elérhető');
+          badge.title = 'Videó elérhető';
+          badge.textContent = '▶';
+          tile.appendChild(badge);
+        }
         tile.addEventListener('click', () => CardModal.openById(card.id));
         frag.appendChild(tile);
       });

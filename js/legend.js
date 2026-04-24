@@ -45,6 +45,16 @@ const Legend = (() => {
 
       li.appendChild(num);
       li.appendChild(text);
+
+      if (window.DataStore && DataStore.hasVideoForCard(card.id)) {
+        li.classList.add('has-video');
+        const badge = document.createElement('span');
+        badge.className = 'legend-video-badge';
+        badge.title = 'Videó elérhető';
+        badge.setAttribute('aria-label', 'Videó elérhető');
+        badge.textContent = '▶';
+        li.appendChild(badge);
+      }
       li.addEventListener('click', () => {
         if (window.CardModal) CardModal.openById(card.id);
       });

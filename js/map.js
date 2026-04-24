@@ -339,6 +339,15 @@ const MapEngine = (() => {
       numEl.textContent = num != null ? String(num) : '·';
       btn.appendChild(numEl);
 
+      if (cardId && window.DataStore && DataStore.hasVideoForCard(cardId)) {
+        btn.classList.add('has-video');
+        const badge = document.createElement('span');
+        badge.className = 'hotspot-video-badge';
+        badge.setAttribute('aria-hidden', 'true');
+        badge.textContent = '▶';
+        btn.appendChild(badge);
+      }
+
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (btn._justDragged) { btn._justDragged = false; return; }

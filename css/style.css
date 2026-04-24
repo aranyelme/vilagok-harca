@@ -307,6 +307,32 @@ main {
 
 .hotspot.dimmed { opacity: 0.18; pointer-events: none; }
 
+/* Small play-triangle badge on pins whose card has an associated video. */
+.hotspot-video-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--parchment-light);
+  border: 1.5px solid var(--parchment);
+  font-size: 0.55rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 2;
+}
+.hotspot.has-video:hover .hotspot-video-badge {
+  transform: scale(1.1);
+  transition: transform 0.15s ease;
+}
+
 /* =========================================================
    HOTSPOT HOVER PREVIEW
    ========================================================= */
@@ -502,6 +528,28 @@ main {
   margin-top: 2px;
 }
 
+.legend-video-badge {
+  flex: 0 0 auto;
+  align-self: center;
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--parchment-light);
+  font-size: 0.62rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1.5px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.legend-item.has-video .legend-title {
+  font-weight: 600;
+}
+
 body.admin-active .map-legend { display: none; }
 
 @media (max-width: 720px) {
@@ -637,6 +685,26 @@ body.admin-active .map-legend { display: none; }
   font-size: 0.85rem;
   text-align: center;
   padding: 1rem;
+}
+
+.gallery-video-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--parchment-light);
+  font-size: 0.78rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2px;
+  border: 1.5px solid var(--parchment);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
 }
 
 /* =========================================================

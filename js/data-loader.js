@@ -66,6 +66,15 @@ const DataStore = {
   getEras() {
     return (this.timeline && this.timeline.eras) || [];
   },
+
+  getVideosByCardId(cardId) {
+    if (!cardId) return [];
+    return (this.videos || []).filter(v => (v.card_ids || []).includes(cardId));
+  },
+
+  hasVideoForCard(cardId) {
+    return this.getVideosByCardId(cardId).length > 0;
+  },
 };
 
 if (typeof window !== 'undefined') {
