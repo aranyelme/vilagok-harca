@@ -42,7 +42,7 @@
     "card_ids": [
       "mc_05"
     ],
-    "label": "A Fegyverszünet"
+    "label": "Boszorkányakadémia"
   },
   {
     "id": "hs_mc_06",
@@ -78,7 +78,7 @@
     "card_ids": [
       "mc_09"
     ],
-    "label": "A Sárkány Ébredése"
+    "label": "Háromszemű ogre"
   },
   {
     "id": "hs_mc_10",
@@ -87,7 +87,7 @@
     "card_ids": [
       "mc_10"
     ],
-    "label": "A Tűz Hegye"
+    "label": "Tigris és Disznó párbaja"
   },
   {
     "id": "hs_mc_11",
@@ -96,7 +96,7 @@
     "card_ids": [
       "mc_11"
     ],
-    "label": "A Hősök Útja"
+    "label": "Merülés"
   },
   {
     "id": "hs_mc_12",
@@ -105,7 +105,7 @@
     "card_ids": [
       "mc_12"
     ],
-    "label": "A Végső Csata"
+    "label": "Exkaváció"
   },
   {
     "id": "hs_mc_13",

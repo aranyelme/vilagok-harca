@@ -53,7 +53,7 @@
   },
   {
     "id": "mc_05",
-    "title": "A Fegyverszünet",
+    "title": "Boszorkányakadémia",
     "era": "A Csendes Kor",
     "era_order": 2,
     "front_image": "assets/cards/mc_5a.webp",
@@ -62,7 +62,7 @@
       "x": 55.87,
       "y": 43.21
     },
-    "description": ""
+    "description": "A boszorkány nemzetség megalapította az első akadémiáját - itt tanulnak, kutatnak és fejlesztenek eszközöket."
   },
   {
     "id": "mc_06",
@@ -105,7 +105,7 @@
   },
   {
     "id": "mc_09",
-    "title": "A Sárkány Ébredése",
+    "title": "Háromszemű ogre",
     "era": "A Sárkányok Kora",
     "era_order": 3,
     "front_image": "assets/cards/mc_9a.webp",
@@ -114,11 +114,11 @@
       "x": 62.02,
       "y": 69.55
     },
-    "description": ""
+    "description": "A nagy tölgyfa odvában lakik a háromszemű ogre, aki az átutazókkal való konfliktus során a boszorkányok oldalára állt."
   },
   {
     "id": "mc_10",
-    "title": "A Tűz Hegye",
+    "title": "Tigris és Disznó párbaja",
     "era": "A Sárkányok Kora",
     "era_order": 3,
     "front_image": "assets/cards/mc_10a.webp",
@@ -127,24 +127,24 @@
       "x": 23.66,
       "y": 65.35
     },
-    "description": ""
+    "description": "A tigrislánnyá átváltozó alakváltó, illetve a disznóvá változó erdei lény a próbatételeik keretében párbajoznak egymással."
   },
   {
     "id": "mc_11",
-    "title": "A Hősök Útja",
-    "era": "A Sárkányok Kora",
-    "era_order": 3,
+    "title": "Merülés",
+    "era": "Az Első Háború",
+    "era_order": 1,
     "front_image": "assets/cards/mc_11a.webp",
     "back_image": "assets/cards/mc_11b.webp",
     "map_location": {
       "x": 34.91,
       "y": 24.28
     },
-    "description": ""
+    "description": "Egy erdei alakváltó lemerült a tóban, és figyelmes lett egy üvegszemre."
   },
   {
     "id": "mc_12",
-    "title": "A Végső Csata",
+    "title": "Exkaváció",
     "era": "A Sárkányok Kora",
     "era_order": 3,
     "front_image": "assets/cards/mc_12a.webp",
@@ -153,7 +153,7 @@
       "x": 21.91,
       "y": 66.17
     },
-    "description": ""
+    "description": "Az erdei alakváltók egy kisebb csoportja úgy döntött, hogy exkavációs expedícióra megy, hogy kiássák és restaurálják a sárkányszobrokat."
   },
   {
     "id": "mc_13",
