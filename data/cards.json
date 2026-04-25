@@ -40,7 +40,7 @@
   },
   {
     "id": "mc_04",
-    "title": "A Boszik Tanácsa",
+    "title": "Zipline",
     "era": "Az Első Háború",
     "era_order": 1,
     "front_image": "assets/cards/mc_4a.webp",
@@ -49,7 +49,7 @@
       "x": 25.91,
       "y": 64.77
     },
-    "description": ""
+    "description": "A sárkányszobrok felújítását követően az erdei nemzetséget zipline-okat feszített ki a két kőszobor feje között. Ezt nagyon élvezték az alakváltók."
   },
   {
     "id": "mc_05",
@@ -157,7 +157,7 @@
   },
   {
     "id": "mc_13",
-    "title": "Az Új Hajnal",
+    "title": "A sárkányrongálás balhéja",
     "era": "Az Újjászületés",
     "era_order": 4,
     "front_image": "assets/cards/mc_13a.webp",
@@ -166,7 +166,7 @@
       "x": 27.94,
       "y": 67.9
     },
-    "description": ""
+    "description": "A boszorkányok néhány tagja kárt tett a romos sárkányszobrokban. Ez feszültséget szült az átutazókban, és az erdei alakváltókban."
   },
   {
     "id": "mc_14",
@@ -183,7 +183,7 @@
   },
   {
     "id": "mc_15",
-    "title": "A Krónikás",
+    "title": "Az átalakulók ugrása",
     "era": "Az Újjászületés",
     "era_order": 4,
     "front_image": "assets/cards/mc_15a.webp",
@@ -192,6 +192,6 @@
       "x": 24.16,
       "y": 68.64
     },
-    "description": ""
+    "description": "Miután az erdei alakváltók megtanulták használni a bennük rejlő erőt, és kiállták a próbákat, a sárkányszobrok fejei között kellett állatformában átugraniuk."
   }
 ]

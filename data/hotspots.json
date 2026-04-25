@@ -33,7 +33,7 @@
     "card_ids": [
       "mc_04"
     ],
-    "label": "A Boszik Tanácsa"
+    "label": "Zipline"
   },
   {
     "id": "hs_mc_05",
@@ -114,7 +114,7 @@
     "card_ids": [
       "mc_13"
     ],
-    "label": "Az Új Hajnal"
+    "label": "A sárkányrongálás balhéja"
   },
   {
     "id": "hs_mc_14",
@@ -132,6 +132,6 @@
     "card_ids": [
       "mc_15"
     ],
-    "label": "A Krónikás"
+    "label": "Az átalakulók ugrása"
   }
 ]
