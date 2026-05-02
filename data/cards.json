@@ -1,7 +1,7 @@
 [
   {
     "id": "mc_01",
-    "title": "Itt kezdtek el harcolni a manók és a Boszik",
+    "title": "A seb - összecsapások kezdete",
     "era": "Az Első Háború",
     "era_order": 1,
     "front_image": "assets/cards/mc_1a.webp",
@@ -10,7 +10,7 @@
       "x": 22.07,
       "y": 69.3
     },
-    "description": ""
+    "description": "Miután a boszorkányok egy varázslattal rosszul funkcionáló szobron gyakorolták saját képességeiket, az egyik akadémiai képzés során akaratlanul rászabadítottak egy tűzgolyóesőt az erdei alakváltók által tisztel kápolnaromra a keleti hegyekben. Ezt közvetlen határátlépésnek és hadüzenetnek vette az elszenvedő fél, és megkezdődtek az összecsapások."
   },
   {
     "id": "mc_02",
@@ -66,7 +66,7 @@
   },
   {
     "id": "mc_06",
-    "title": "Az Erdők Királya",
+    "title": "Felfedezőút",
     "era": "A Csendes Kor",
     "era_order": 2,
     "front_image": "assets/cards/mc_6a.webp",
@@ -75,7 +75,7 @@
       "x": 34.2,
       "y": 53.17
     },
-    "description": ""
+    "description": "Az erdei alakváltók nemzetsége, akik még csak alig pár éve éltek együtt a boszorkányokkal a deltában, 5 kalandvágyó felfedezőt küldött vándorútra a térségben. A feljegyzett leírásokból kiderül, hogy a nagy fűzfa már akkor is állt, és ezalatt pihentek meg a kalandorok."
   },
   {
     "id": "mc_07",
