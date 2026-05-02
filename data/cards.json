@@ -27,7 +27,7 @@
   },
   {
     "id": "mc_03",
-    "title": "A Manók Szövetsége",
+    "title": "Tigrislány és a kígyófiú",
     "era": "Az Első Háború",
     "era_order": 1,
     "front_image": "assets/cards/mc_3a.webp",
@@ -36,7 +36,7 @@
       "x": 31.67,
       "y": 52.02
     },
-    "description": ""
+    "description": "Miután a disznóval szemben alulmaradt a tigrislány, de úgy döntött, hogy folytatja a próbatételei sorozatát, a kígyófiú segített rajta, ő egyengette a vigasztalásra szoruló tigrislány útját."
   },
   {
     "id": "mc_04",
@@ -79,7 +79,7 @@
   },
   {
     "id": "mc_07",
-    "title": "A Kristály Völgy",
+    "title": "Véget nem érő barátság",
     "era": "A Csendes Kor",
     "era_order": 2,
     "front_image": "assets/cards/mc_7a.webp",
@@ -88,7 +88,7 @@
       "x": 32.61,
       "y": 48.31
     },
-    "description": ""
+    "description": "Vinilda és Faul körülbelül tízévesek voltak, akörül, amikor a boszorkányok nemzettsége jelentős részét befeketítette az égnek. Ők még továbbra is a fűzfa körül játszottak rendszeresen, ám titokban, mert egyik társadalom sem nézte jó szemmel, hogy az ellentétes nemzettséggel van jóban az adott gyerek."
   },
   {
     "id": "mc_08",
@@ -101,7 +101,7 @@
       "x": 34.58,
       "y": 47.9
     },
-    "description": ""
+    "description": "Vinilda és Faul megismerték egymást - a boszorkány- és az alakváltógyermek rendszeresen játszott, kergetőzött, bújócskázott a nagy fűzfa környékén."
   },
   {
     "id": "mc_09",
@@ -114,7 +114,7 @@
       "x": 62.02,
       "y": 69.55
     },
-    "description": "A nagy tölgyfa odvában lakik a háromszemű ogre, aki az átutazókkal való konfliktus során a boszorkányok oldalára állt."
+    "description": "A nagy tölgyfa odvában lakik a háromszemű ogre, aki az átutazókkal való konfliktus során a boszorkányok oldalára állt.\n\nAz ogre megölte az alakváltók egyik vezérét ebben a konfliktusban."
   },
   {
     "id": "mc_10",
@@ -127,7 +127,7 @@
       "x": 23.66,
       "y": 65.35
     },
-    "description": "A tigrislánnyá átváltozó alakváltó, illetve a disznóvá változó erdei lény a próbatételeik keretében párbajoznak egymással."
+    "description": "A boszorkányakadémia megalapítását követően az erdei alakváltók társadalma úgy döntött, hogy saját képzéssel, próbatételekkel erősítik meg a tagjaikat. Ebben a próbatételben vett részt a tigrislány is.\n\nA tigrislánnyá átváltozó alakváltó, illetve a disznóvá változó erdei lény a próbatételeik keretében párbajoznak egymással. A tigrislány alulmarad."
   },
   {
     "id": "mc_11",
@@ -166,7 +166,7 @@
       "x": 27.94,
       "y": 67.9
     },
-    "description": "A boszorkányok néhány tagja kárt tett a romos sárkányszobrokban. Ez feszültséget szült az átutazókban, és az erdei alakváltókban."
+    "description": "Átutazók érkeztek a boszorkányok által is uralt területre, és mivel látták, hogy mennyire különleges társadalmat alkottak, elrabolták az egyik boszorkánygyereket. Mikor mindez kiderült, a boszorkányok arra a helyre mentek, ahol legelőször találkoztak az átutazókkal: a sárkányszobrokhoz a nyugati folyó északi részéhez. Itt rá is találtak egy héttel az elrablást követően a boszorkánygyerekre, és bosszúból megrongálták az itt álló sárkányszobrokat.\n\nAz átutazók - mint kiderült - szoros szövetségben (és talán barátságban) voltak az alakváltó erdei manókkal. Így került komolyabb konfliktusba először a két uralkodó nemzetség a folyódeltában."
   },
   {
     "id": "mc_14",
@@ -179,7 +179,7 @@
       "x": 34.25,
       "y": 50.45
     },
-    "description": ""
+    "description": "Vinilda (60) és Faul (62) hatvanéves korukban megtartották eltitkolt baráti kapcsolatukat, és ez a kötelék közöttük végig erős maradt.\n\nVégre, idős koruk egy napján, ismét találkoztak a nagy fűzfa alatt, és úgy döntöttek, hogy tervet szőnek azt illetően, hogy miként lehet kiharcolni a békét az erdei alakváltók és a boszorkányok között."
   },
   {
     "id": "mc_15",
