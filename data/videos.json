@@ -6,5 +6,13 @@
     "url": "https://youtu.be/feK5WcOOdOQ",
     "card_ids": ["mc_02", "mc_03", "mc_04", "mc_08"],
     "description": "A manók és a Boszik háborújának pillanatai: a Nagy Összecsapás, a Manók Szövetsége, a Boszik Tanácsa és az Első Találkozás."
+  },
+  {
+    "id": "v_02",
+    "title": "A Béke Fája és a sárkányszobrok",
+    "youtube_id": "pjFLjbYxAVw",
+    "url": "https://youtu.be/pjFLjbYxAVw",
+    "card_ids": ["mc_14", "mc_13", "mc_15", "mc_10"],
+    "description": "Pillanatok a sárkányszobrok körüli eseményekből: A Béke Fája, A sárkányrongálás balhéja, Az átalakulók ugrása és Tigris és Disznó párbaja."
   }
 ]
