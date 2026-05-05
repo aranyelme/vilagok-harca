@@ -67,6 +67,21 @@ const DataStore = {
     return (this.timeline && this.timeline.eras) || [];
   },
 
+  getSortedEras() {
+    return [...this.getEras()].sort((a, b) => (a.order || 0) - (b.order || 0));
+  },
+
+  getCardsInEraOrdered(eraName) {
+    return this.cards
+      .filter(c => c.era === eraName)
+      .sort((a, b) => {
+        const ac = (a.chronology != null) ? a.chronology : Infinity;
+        const bc = (b.chronology != null) ? b.chronology : Infinity;
+        if (ac !== bc) return ac - bc;
+        return (a.id || '').localeCompare(b.id || '');
+      });
+  },
+
   getVideosByCardId(cardId) {
     if (!cardId) return [];
     return (this.videos || []).filter(v => (v.card_ids || []).includes(cardId));

@@ -8,6 +8,7 @@
   CardModal.init();
   if (window.VideoModal) VideoModal.init();
   Gallery.init();
+  if (window.Chronicle) Chronicle.init();
 
   MapEngine.init({
     onHotspotClick: (hotspot) => {
@@ -53,17 +54,25 @@ function _bindViewNav() {
 function _showView(view) {
   const map = document.getElementById('mapView');
   const gallery = document.getElementById('galleryView');
+  const chronicle = document.getElementById('chronicleView');
+  document.body.classList.remove('view-map', 'view-gallery', 'view-chronicle');
   if (view === 'map') {
     map.hidden = false;
     gallery.hidden = true;
-    document.body.classList.remove('view-gallery');
+    if (chronicle) chronicle.hidden = true;
     document.body.classList.add('view-map');
   } else if (view === 'gallery') {
     map.hidden = true;
     gallery.hidden = false;
-    document.body.classList.remove('view-map');
+    if (chronicle) chronicle.hidden = true;
     document.body.classList.add('view-gallery');
     Gallery.render();
+  } else if (view === 'chronicle') {
+    map.hidden = true;
+    gallery.hidden = true;
+    if (chronicle) chronicle.hidden = false;
+    document.body.classList.add('view-chronicle');
+    if (window.Chronicle) Chronicle.render();
   }
 }
 

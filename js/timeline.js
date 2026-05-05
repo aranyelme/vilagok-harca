@@ -46,23 +46,22 @@ const Timeline = (() => {
       erasLayer.appendChild(segment);
     });
 
-    // Card nodes distributed inside each era segment
-    DataStore.cards.forEach(card => {
-      const eraIdx = sorted.findIndex(e => e.name === card.era);
-      if (eraIdx === -1) return;
-      const cardsInEra = DataStore.cards.filter(c => c.era === card.era);
-      const indexInEra = cardsInEra.findIndex(c => c.id === card.id);
+    // Card nodes distributed inside each era segment, ordered by chronology
+    sorted.forEach((era, eraIdx) => {
+      const cardsInEra = DataStore.getCardsInEraOrdered(era.name);
       const eraLeft = eraIdx * slice;
-      const offset = ((indexInEra + 0.5) / cardsInEra.length) * slice;
-      const node = document.createElement('span');
-      node.className = 'timeline-node';
-      node.style.left = `${eraLeft + offset}%`;
-      node.title = card.title || card.id;
-      node.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (window.CardModal) CardModal.openById(card.id);
+      cardsInEra.forEach((card, indexInEra) => {
+        const offset = ((indexInEra + 0.5) / cardsInEra.length) * slice;
+        const node = document.createElement('span');
+        node.className = 'timeline-node';
+        node.style.left = `${eraLeft + offset}%`;
+        node.title = card.title || card.id;
+        node.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (window.CardModal) CardModal.openById(card.id);
+        });
+        nodesLayer.appendChild(node);
       });
-      nodesLayer.appendChild(node);
     });
 
     _renderResetButton();

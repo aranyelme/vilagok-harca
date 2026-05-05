@@ -9,7 +9,7 @@ const Admin = (() => {
   const UNLOCK_KEY = 'vh.adminUnlocked';
   let active = false;
   let panel, toggleBtn;
-  let titleEl, eraSelect, descEl, frontEl, backEl;
+  let titleEl, eraSelect, chronologyEl, descEl, frontEl, backEl;
   let coordsEl, hintEl;
   let saveBtn, cancelBtn, deleteBtn, exportBtn;
   let lockBtn, publishBtn, forgetTokenBtn, publishStatusEl;
@@ -23,9 +23,10 @@ const Admin = (() => {
     toggleBtn = document.getElementById('adminToggle');
     if (!panel || !toggleBtn) return;
 
-    titleEl   = document.getElementById('adminTitle');
-    eraSelect = document.getElementById('adminEra');
-    descEl    = document.getElementById('adminDesc');
+    titleEl       = document.getElementById('adminTitle');
+    eraSelect     = document.getElementById('adminEra');
+    chronologyEl  = document.getElementById('adminChronology');
+    descEl        = document.getElementById('adminDesc');
     frontEl   = document.getElementById('adminFront');
     backEl    = document.getElementById('adminBack');
     coordsEl  = document.getElementById('adminCoords');
@@ -153,6 +154,7 @@ const Admin = (() => {
     if (card.era && [...eraSelect.options].some(o => o.value === card.era)) {
       eraSelect.value = card.era;
     }
+    chronologyEl.value = (card.chronology != null) ? card.chronology : '';
     descEl.value  = card.description || '';
     frontEl.value = card.front_image || '';
     backEl.value  = card.back_image || '';
@@ -230,9 +232,13 @@ const Admin = (() => {
       card = { id: cardId };
       DataStore.cards.push(card);
     }
+    const chronoRaw = (chronologyEl.value || '').trim();
+    const chronoVal = chronoRaw === '' ? null : Number(chronoRaw);
+
     card.title       = title;
     card.era         = era;
     card.era_order   = eraOrder;
+    card.chronology  = (chronoVal != null && Number.isFinite(chronoVal)) ? chronoVal : null;
     card.front_image = frontEl.value.trim();
     card.back_image  = backEl.value.trim();
     card.description = descEl.value.trim();
@@ -251,6 +257,7 @@ const Admin = (() => {
     _removeGhost();
     MapEngine.renderHotspots(DataStore.hotspots);
     if (window.Timeline && Timeline.render) Timeline.render();
+    if (window.Chronicle && Chronicle.render) Chronicle.render();
     if (window.Legend && Legend.render) Legend.render();
 
     editingId = cardId;
@@ -273,6 +280,7 @@ const Admin = (() => {
 
     MapEngine.renderHotspots(DataStore.hotspots);
     if (window.Timeline && Timeline.render) Timeline.render();
+    if (window.Chronicle && Chronicle.render) Chronicle.render();
     if (window.Legend && Legend.render) Legend.render();
     _reset();
     _setHint(`Törölve: ${id}.`);
@@ -287,6 +295,7 @@ const Admin = (() => {
     pinX = null;
     pinY = null;
     titleEl.value = '';
+    if (chronologyEl) chronologyEl.value = '';
     descEl.value  = '';
     frontEl.value = '';
     backEl.value  = '';

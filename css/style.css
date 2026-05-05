@@ -1071,6 +1071,154 @@ body.admin-active .hotspot.dragging { cursor: grabbing; }
 .admin-status.is-busy  { border-color: var(--gold-dim); color: var(--gold); }
 
 /* =========================================================
+   CHRONICLE VIEW
+   ========================================================= */
+.chronicle-view {
+  overflow-y: auto;
+  background:
+    radial-gradient(ellipse at top, rgba(255, 244, 210, 0.16) 0%, transparent 60%),
+    var(--bg-deep);
+  color: var(--parchment);
+}
+
+.chronicle-scroll {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2rem 1.4rem 4rem;
+}
+
+.chronicle-eras {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.chronicle-era {
+  --era-color: var(--gold);
+  position: relative;
+  padding-left: 1.6rem;
+  border-left: 3px solid var(--era-color);
+}
+
+.chronicle-era-header {
+  margin-bottom: 1rem;
+}
+
+.chronicle-era-title {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--era-color);
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.chronicle-era-empty {
+  font-style: italic;
+  color: var(--parchment-dark);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.chronicle-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.chronicle-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: rgba(244, 228, 193, 0.06);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.chronicle-item:hover,
+.chronicle-item:focus {
+  background: rgba(201, 168, 76, 0.12);
+  border-color: var(--gold);
+  outline: none;
+  transform: translateX(2px);
+}
+
+.chronicle-marker {
+  flex: 0 0 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #f0d070, var(--gold) 60%, var(--gold-dim));
+  color: var(--ink);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--ink);
+  align-self: center;
+}
+
+.chronicle-body {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.chronicle-thumb {
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid var(--gold-dim);
+}
+
+.chronicle-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.chronicle-item-title {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--parchment);
+  margin: 0;
+}
+
+.chronicle-item-desc {
+  font-size: 0.85rem;
+  color: var(--parchment-dark);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chronicle-empty {
+  font-style: italic;
+  color: var(--parchment-dark);
+  text-align: center;
+  margin: 3rem 0;
+}
+
+/* Hide bottom timeline when on chronicle view (still visible elsewhere). */
+body.view-chronicle .timeline { display: none; }
+body.view-chronicle main { bottom: 0; }
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 @media (max-width: 600px) {
@@ -1080,6 +1228,10 @@ body.admin-active .hotspot.dragging { cursor: grabbing; }
   :root { --timeline-h: 72px; }
   .timeline-era-label { font-size: 0.6rem; letter-spacing: 0.08em; }
   .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+  .chronicle-scroll { padding: 1.2rem 0.8rem 3rem; }
+  .chronicle-era-title { font-size: 1.05rem; letter-spacing: 0.16em; }
+  .chronicle-thumb { flex-basis: 56px; width: 56px; height: 56px; }
+  .chronicle-marker { flex-basis: 32px; height: 32px; font-size: 0.85rem; }
 }
 
 @media (max-width: 720px) {

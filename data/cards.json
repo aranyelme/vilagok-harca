@@ -2,7 +2,7 @@
   {
     "id": "mc_01",
     "title": "A seb - összecsapások kezdete",
-    "era": "Az Első Háború",
+    "era": "Békeidő",
     "era_order": 1,
     "front_image": "assets/cards/mc_1a.webp",
     "back_image": "assets/cards/mc_1b.webp",
@@ -10,12 +10,13 @@
       "x": 22.07,
       "y": 69.3
     },
-    "description": "Miután a boszorkányok egy varázslattal rosszul funkcionáló szobron gyakorolták saját képességeiket, az egyik akadémiai képzés során akaratlanul rászabadítottak egy tűzgolyóesőt az erdei alakváltók által tisztel kápolnaromra a keleti hegyekben. Ezt közvetlen határátlépésnek és hadüzenetnek vette az elszenvedő fél, és megkezdődtek az összecsapások."
+    "description": "Miután a boszorkányok egy varázslattal rosszul funkcionáló szobron gyakorolták saját képességeiket, az egyik akadémiai képzés során akaratlanul rászabadítottak egy tűzgolyóesőt az erdei alakváltók által tisztel kápolnaromra a keleti hegyekben. Ezt közvetlen határátlépésnek és hadüzenetnek vette az elszenvedő fél, és megkezdődtek az összecsapások.",
+    "chronology": 1
   },
   {
     "id": "mc_02",
     "title": "A Nagy Összecsapás",
-    "era": "Az Első Háború",
+    "era": "Békeidő",
     "era_order": 1,
     "front_image": "assets/cards/mc_2a.webp",
     "back_image": "assets/cards/mc_2b.webp",
@@ -23,12 +24,13 @@
       "x": 25.97,
       "y": 67.9
     },
-    "description": ""
+    "description": "",
+    "chronology": 2
   },
   {
     "id": "mc_03",
     "title": "Tigrislány és a kígyófiú",
-    "era": "Az Első Háború",
+    "era": "Békeidő",
     "era_order": 1,
     "front_image": "assets/cards/mc_3a.webp",
     "back_image": "assets/cards/mc_3b.webp",
@@ -36,12 +38,13 @@
       "x": 31.67,
       "y": 52.02
     },
-    "description": "Miután a disznóval szemben alulmaradt a tigrislány, de úgy döntött, hogy folytatja a próbatételei sorozatát, a kígyófiú segített rajta, ő egyengette a vigasztalásra szoruló tigrislány útját."
+    "description": "Miután a disznóval szemben alulmaradt a tigrislány, de úgy döntött, hogy folytatja a próbatételei sorozatát, a kígyófiú segített rajta, ő egyengette a vigasztalásra szoruló tigrislány útját.",
+    "chronology": 3
   },
   {
     "id": "mc_04",
     "title": "Zipline",
-    "era": "Az Első Háború",
+    "era": "Békeidő",
     "era_order": 1,
     "front_image": "assets/cards/mc_4a.webp",
     "back_image": "assets/cards/mc_4b.webp",
@@ -49,90 +52,97 @@
       "x": 25.91,
       "y": 64.77
     },
-    "description": "A sárkányszobrok felújítását követően az erdei nemzetséget zipline-okat feszített ki a két kőszobor feje között. Ezt nagyon élvezték az alakváltók."
+    "description": "A sárkányszobrok felújítását követően az erdei nemzetséget zipline-okat feszített ki a két kőszobor feje között. Ezt nagyon élvezték az alakváltók.",
+    "chronology": 4
   },
   {
     "id": "mc_05",
     "title": "Boszorkányakadémia",
-    "era": "A Csendes Kor",
-    "era_order": 2,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_5a.webp",
     "back_image": "assets/cards/mc_5b.webp",
     "map_location": {
       "x": 55.87,
       "y": 43.21
     },
-    "description": "A boszorkány nemzetség megalapította az első akadémiáját - itt tanulnak, kutatnak és fejlesztenek eszközöket."
+    "description": "A boszorkány nemzetség megalapította az első akadémiáját - itt tanulnak, kutatnak és fejlesztenek eszközöket.",
+    "chronology": 5
   },
   {
     "id": "mc_06",
     "title": "Felfedezőút",
-    "era": "A Csendes Kor",
-    "era_order": 2,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_6a.webp",
     "back_image": "assets/cards/mc_6b.webp",
     "map_location": {
       "x": 34.2,
       "y": 53.17
     },
-    "description": "Az erdei alakváltók nemzetsége, akik még csak alig pár éve éltek együtt a boszorkányokkal a deltában, 5 kalandvágyó felfedezőt küldött vándorútra a térségben. A feljegyzett leírásokból kiderül, hogy a nagy fűzfa már akkor is állt, és ezalatt pihentek meg a kalandorok."
+    "description": "Az erdei alakváltók nemzetsége, akik még csak alig pár éve éltek együtt a boszorkányokkal a deltában, 5 kalandvágyó felfedezőt küldött vándorútra a térségben. A feljegyzett leírásokból kiderül, hogy a nagy fűzfa már akkor is állt, és ezalatt pihentek meg a kalandorok.",
+    "chronology": 6
   },
   {
     "id": "mc_07",
     "title": "Véget nem érő barátság",
-    "era": "A Csendes Kor",
-    "era_order": 2,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_7a.webp",
     "back_image": "assets/cards/mc_7b.webp",
     "map_location": {
       "x": 32.61,
       "y": 48.31
     },
-    "description": "Vinilda és Faul körülbelül tízévesek voltak, akörül, amikor a boszorkányok nemzettsége jelentős részét befeketítette az égnek. Ők még továbbra is a fűzfa körül játszottak rendszeresen, ám titokban, mert egyik társadalom sem nézte jó szemmel, hogy az ellentétes nemzettséggel van jóban az adott gyerek."
+    "description": "Vinilda és Faul körülbelül tízévesek voltak, akörül, amikor a boszorkányok nemzettsége jelentős részét befeketítette az égnek. Ők még továbbra is a fűzfa körül játszottak rendszeresen, ám titokban, mert egyik társadalom sem nézte jó szemmel, hogy az ellentétes nemzettséggel van jóban az adott gyerek.",
+    "chronology": 7
   },
   {
     "id": "mc_08",
     "title": "Az Első Találkozás",
-    "era": "A Csendes Kor",
-    "era_order": 2,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_8a.webp",
     "back_image": "assets/cards/mc_8b.webp",
     "map_location": {
       "x": 34.58,
       "y": 47.9
     },
-    "description": "Vinilda és Faul megismerték egymást - a boszorkány- (az előbbi) és az alakváltógyermek (az utóbbi) rendszeresen játszott, kergetőzött, bújócskázott a nagy fűzfa környékén."
+    "description": "Vinilda és Faul megismerték egymást - a boszorkány- (az előbbi) és az alakváltógyermek (az utóbbi) rendszeresen játszott, kergetőzött, bújócskázott a nagy fűzfa környékén.",
+    "chronology": 8
   },
   {
     "id": "mc_09",
     "title": "Háromszemű ogre",
-    "era": "A Sárkányok Kora",
-    "era_order": 3,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_9a.webp",
     "back_image": "assets/cards/mc_9b.webp",
     "map_location": {
       "x": 62.02,
       "y": 69.55
     },
-    "description": "A nagy tölgyfa odvában lakik a háromszemű ogre, aki az átutazókkal való emberrablásos konfliktus/félreértés során a boszorkányok oldalára állt.\n\nAz ogre megölte az alakváltók egyik vezérét ebben a konfliktusban."
+    "description": "A nagy tölgyfa odvában lakik a háromszemű ogre, aki az átutazókkal való emberrablásos konfliktus/félreértés során a boszorkányok oldalára állt.\n\nAz ogre megölte az alakváltók egyik vezérét ebben a konfliktusban.",
+    "chronology": 9
   },
   {
     "id": "mc_10",
     "title": "Tigris és Disznó párbaja",
-    "era": "A Sárkányok Kora",
-    "era_order": 3,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_10a.webp",
     "back_image": "assets/cards/mc_10b.webp",
     "map_location": {
       "x": 23.66,
       "y": 65.35
     },
-    "description": "A boszorkányakadémia megalapítását követően az erdei alakváltók társadalma úgy döntött, hogy saját képzéssel, próbatételekkel erősítik meg a tagjaikat. Ebben a próbatételben vett részt a tigrislány is.\n\nA tigrislánnyá átváltozó alakváltó, illetve a disznóvá változó erdei lény a próbatételeik keretében párbajoznak egymással. A tigrislány alulmarad."
+    "description": "A boszorkányakadémia megalapítását követően az erdei alakváltók társadalma úgy döntött, hogy saját képzéssel, próbatételekkel erősítik meg a tagjaikat. Ebben a próbatételben vett részt a tigrislány is.\n\nA tigrislánnyá átváltozó alakváltó, illetve a disznóvá változó erdei lény a próbatételeik keretében párbajoznak egymással. A tigrislány alulmarad.",
+    "chronology": 10
   },
   {
     "id": "mc_11",
     "title": "Merülés",
-    "era": "Az Első Háború",
+    "era": "Békeidő",
     "era_order": 1,
     "front_image": "assets/cards/mc_11a.webp",
     "back_image": "assets/cards/mc_11b.webp",
@@ -140,58 +150,63 @@
       "x": 34.91,
       "y": 24.28
     },
-    "description": "Egy erdei alakváltó lemerült a tóban, és figyelmes lett egy üvegszemre."
+    "description": "Egy erdei alakváltó lemerült a tóban, és figyelmes lett egy üvegszemre.",
+    "chronology": 11
   },
   {
     "id": "mc_12",
     "title": "Exkaváció",
-    "era": "A Sárkányok Kora",
-    "era_order": 3,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_12a.webp",
     "back_image": "assets/cards/mc_12b.webp",
     "map_location": {
       "x": 21.91,
       "y": 66.17
     },
-    "description": "Az erdei alakváltók egy kisebb csoportja úgy döntött, hogy exkavációs expedícióra megy, hogy kiássák és restaurálják a sárkányszobrokat. Az erőfeszítéseket Malineo vezette.\n\nEzt követően válik fontos részévé a rituáléiknak ezek a szobrok."
+    "description": "Az erdei alakváltók egy kisebb csoportja úgy döntött, hogy exkavációs expedícióra megy, hogy kiássák és restaurálják a sárkányszobrokat. Az erőfeszítéseket Malineo vezette.\n\nEzt követően válik fontos részévé a rituáléiknak ezek a szobrok.",
+    "chronology": 12
   },
   {
     "id": "mc_13",
     "title": "A sárkányrongálás balhéja",
-    "era": "Az Újjászületés",
-    "era_order": 4,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_13a.webp",
     "back_image": "assets/cards/mc_13b.webp",
     "map_location": {
       "x": 27.94,
       "y": 67.9
     },
-    "description": "Átutazók érkeztek a boszorkányok által is uralt területre, és mivel látták, hogy mennyire különleges társadalmat alkottak, elrabolták az egyik boszorkánygyereket. Mikor mindez kiderült, a boszorkányok arra a következtetésre jutottak, hogy ebben az erdei alakváltók keze lehet csak. Úgy döntöttek tehát, hogy egy fontos kulturális tárgyat fognak megrongálni: a nyugati folyó északi részén található rituális sárkányszobrokat."
+    "description": "Átutazók érkeztek a boszorkányok által is uralt területre, és mivel látták, hogy mennyire különleges társadalmat alkottak, elrabolták az egyik boszorkánygyereket. Mikor mindez kiderült, a boszorkányok arra a következtetésre jutottak, hogy ebben az erdei alakváltók keze lehet csak. Úgy döntöttek tehát, hogy egy fontos kulturális tárgyat fognak megrongálni: a nyugati folyó északi részén található rituális sárkányszobrokat.",
+    "chronology": 13
   },
   {
     "id": "mc_14",
     "title": "A Béke Fája",
-    "era": "Az Újjászületés",
-    "era_order": 4,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_14a.webp",
     "back_image": "assets/cards/mc_14b.webp",
     "map_location": {
       "x": 34.25,
       "y": 50.45
     },
-    "description": "Vinilda (60) és Faul (62) hatvanéves korukban megtartották eltitkolt baráti kapcsolatukat, és ez a kötelék közöttük végig erős maradt.\n\nVégre, idős koruk egy napján, ismét találkoztak a nagy fűzfa alatt, és úgy döntöttek, hogy tervet szőnek azt illetően, hogy miként lehet kiharcolni a békét az erdei alakváltók és a boszorkányok között.\n\nA kettejük paktuma rendkívüli ellenérzéseket váltott ki mindkét nemzetségből. Fault be is zárták egy vízalatti börtönbe."
+    "description": "Vinilda (60) és Faul (62) hatvanéves korukban megtartották eltitkolt baráti kapcsolatukat, és ez a kötelék közöttük végig erős maradt.\n\nVégre, idős koruk egy napján, ismét találkoztak a nagy fűzfa alatt, és úgy döntöttek, hogy tervet szőnek azt illetően, hogy miként lehet kiharcolni a békét az erdei alakváltók és a boszorkányok között.\n\nA kettejük paktuma rendkívüli ellenérzéseket váltott ki mindkét nemzetségből. Fault be is zárták egy vízalatti börtönbe.",
+    "chronology": 14
   },
   {
     "id": "mc_15",
     "title": "Az átalakulók ugrása",
-    "era": "Az Újjászületés",
-    "era_order": 4,
+    "era": "Békeidő",
+    "era_order": 1,
     "front_image": "assets/cards/mc_15a.webp",
     "back_image": "assets/cards/mc_15b.webp",
     "map_location": {
       "x": 24.16,
       "y": 68.64
     },
-    "description": "Miután az erdei alakváltók megtanulták használni a bennük rejlő erőt, és kiállták a próbákat, a sárkányszobrok fejei között kellett állatformában átugraniuk."
+    "description": "Miután az erdei alakváltók megtanulták használni a bennük rejlő erőt, és kiállták a próbákat, a sárkányszobrok fejei között kellett állatformában átugraniuk.",
+    "chronology": 15
   }
 ]
