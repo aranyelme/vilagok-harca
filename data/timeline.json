@@ -1,23 +1,18 @@
 {
   "eras": [
     {
-      "name": "Az Első Háború",
+      "name": "Békeidő",
       "order": 1,
-      "color": "#8b3a3a"
-    },
-    {
-      "name": "A Csendes Kor",
-      "order": 2,
       "color": "#2d4a2d"
     },
     {
-      "name": "A Sárkányok Kora",
-      "order": 3,
-      "color": "#c9a84c"
+      "name": "A konfliktus",
+      "order": 2,
+      "color": "#8b3a3a"
     },
     {
-      "name": "Az Újjászületés",
-      "order": 4,
+      "name": "50 évvel később",
+      "order": 3,
       "color": "#6b5238"
     }
   ]
