@@ -82,6 +82,15 @@ const DataStore = {
       });
   },
 
+  // 1-based position of a card within its era's ordered list.
+  getCardEraPosition(cardId) {
+    const card = this.getCard(cardId);
+    if (!card || !card.era) return null;
+    const ordered = this.getCardsInEraOrdered(card.era);
+    const idx = ordered.findIndex(c => c.id === cardId);
+    return idx === -1 ? null : idx + 1;
+  },
+
   getVideosByCardId(cardId) {
     if (!cardId) return [];
     return (this.videos || []).filter(v => (v.card_ids || []).includes(cardId));
