@@ -73,7 +73,9 @@ const CardModal = (() => {
     _setFace(backImg, card.back_image);
 
     titleEl.textContent = card.title || 'Névtelen kártya';
-    eraEl.textContent = card.era || '—';
+    const eraName = card.era || '—';
+    const eraPos = DataStore.getCardEraPosition(card.id);
+    eraEl.textContent = eraPos != null ? `${eraName} (#${eraPos})` : eraName;
 
     const num = DataStore.getCardNumber(card.id);
     if (numEl) {
