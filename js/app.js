@@ -2,6 +2,8 @@
    APP — Orchestrates views, data, interactions
    ========================================================= */
 
+let _currentMapVariant = 'present';
+
 (async function bootstrap() {
   await DataStore.loadAll();
 
@@ -24,21 +26,44 @@
       }
     },
   });
-  MapEngine.renderHotspots(DataStore.hotspots);
+  MapEngine.renderHotspots(DataStore.getHotspotsForVariant(_currentMapVariant));
 
   Timeline.init({
     onEraSelect: (eraName) => {
+      // Switch map variant when selecting an era exclusive to one map.
+      if (eraName === DataStore.FUTURE_ERA) _setMapVariant('future');
+      else if (eraName) _setMapVariant('present');
       MapEngine.filterHotspotsByEra(eraName);
     },
   });
 
-  if (window.Legend) Legend.init();
+  if (window.Legend) Legend.init(_currentMapVariant);
 
   Admin.init();
 
   _bindViewNav();
   _bindDrawer();
+  _bindMapVariant();
 })();
+
+function _setMapVariant(variant) {
+  if (variant === _currentMapVariant) return;
+  _currentMapVariant = variant;
+  document.querySelectorAll('.map-variant-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.variant === variant);
+  });
+  if (window.MapEngine) {
+    MapEngine.setVariant(variant);
+    MapEngine.renderHotspots(DataStore.getHotspotsForVariant(variant));
+  }
+  if (window.Legend) Legend.render(variant);
+}
+
+function _bindMapVariant() {
+  document.querySelectorAll('.map-variant-btn').forEach(btn => {
+    btn.addEventListener('click', () => _setMapVariant(btn.dataset.variant));
+  });
+}
 
 function _bindViewNav() {
   const navBtns = document.querySelectorAll('.nav-btn[data-view]');

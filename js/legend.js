@@ -5,24 +5,29 @@
 
 const Legend = (() => {
   let panel, toggleBtn, body, list;
+  let currentVariant = 'present';
 
-  function init() {
+  function init(variant) {
     panel = document.getElementById('mapLegend');
     toggleBtn = document.getElementById('legendToggle');
     body = document.getElementById('legendBody');
     list = document.getElementById('legendList');
     if (!panel || !toggleBtn || !list) return;
 
+    if (variant) currentVariant = variant;
     toggleBtn.addEventListener('click', _toggle);
-    render();
+    render(currentVariant);
   }
 
-  function render() {
+  function render(variant) {
     if (!list) return;
+    if (variant) currentVariant = variant;
+    const wantFuture = currentVariant === 'future';
     const sorted = DataStore.getSortedCards();
     list.innerHTML = '';
     const frag = document.createDocumentFragment();
     sorted.forEach((card, i) => {
+      if (DataStore.isCardInFutureEra(card) !== wantFuture) return;
       const n = i + 1;
       const li = document.createElement('li');
       li.className = 'legend-item';

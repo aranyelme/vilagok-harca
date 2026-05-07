@@ -606,6 +606,43 @@ body.admin-active .map-legend { display: none; }
   100% { opacity: 0; }
 }
 
+.map-variant-switch {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+  z-index: 10;
+  background: rgba(31, 24, 18, 0.85);
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  padding: 3px;
+  box-shadow: var(--shadow-soft);
+}
+.map-variant-btn {
+  font-family: var(--font-title);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--parchment);
+  border: none;
+  padding: 6px 14px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s, color 0.15s;
+}
+.map-variant-btn:hover { background: rgba(201, 168, 76, 0.25); }
+.map-variant-btn.active {
+  background: var(--gold);
+  color: var(--ink);
+}
+@media (max-width: 640px) {
+  .map-variant-switch { top: 8px; }
+  .map-variant-btn { padding: 5px 10px; font-size: 0.66rem; }
+}
+
 /* =========================================================
    GALLERY VIEW
    ========================================================= */
