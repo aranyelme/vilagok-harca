@@ -12,11 +12,21 @@ const MapEngine = (() => {
   const REF_W = 2400;
   const REF_H = 1600;
 
-  const LODS = {
-    lo: { src: 'assets/map/terkep_lo.jpg', pxW: 900 },
-    md: { src: 'assets/map/terkep_md.jpg', pxW: 1500 },
-    hi: { src: 'assets/map/terkep_hi.jpg', pxW: 2400 },
+  const MAP_VARIANTS = {
+    present: {
+      lo: { src: 'assets/map/terkep_lo.jpg', pxW: 900 },
+      md: { src: 'assets/map/terkep_md.jpg', pxW: 1500 },
+      hi: { src: 'assets/map/terkep_hi.jpg', pxW: 2400 },
+    },
+    future: {
+      lo: { src: 'assets/map/terkep_future_lo.jpg', pxW: 900 },
+      md: { src: 'assets/map/terkep_future_md.jpg', pxW: 1500 },
+      hi: { src: 'assets/map/terkep_future_hi.jpg', pxW: 2400 },
+    },
   };
+
+  let LODS = MAP_VARIANTS.present;
+  let currentVariant = 'present';
 
   let viewport, canvas, image, hotspotsLayer;
   let scale = 1, minScale = 0.3, maxScale = 4;
@@ -77,10 +87,16 @@ const MapEngine = (() => {
   }
 
   function _schedulePreload() {
+    const variantAtSchedule = currentVariant;
     const preload = (key) => {
+      if (variantAtSchedule !== currentVariant) return;
       if (lodLoaded[key]) return;
       const img = new Image();
-      img.onload = () => { lodLoaded[key] = true; _maybeUpgradeLod(); };
+      img.onload = () => {
+        if (variantAtSchedule !== currentVariant) return;
+        lodLoaded[key] = true;
+        _maybeUpgradeLod();
+      };
       img.src = LODS[key].src;
     };
     const run = () => { preload('md'); preload('hi'); };
@@ -89,6 +105,23 @@ const MapEngine = (() => {
     } else {
       setTimeout(run, 400);
     }
+  }
+
+  function setVariant(v) {
+    if (!MAP_VARIANTS[v] || v === currentVariant) return;
+    currentVariant = v;
+    LODS = MAP_VARIANTS[v];
+    currentLod = 'lo';
+    targetLod = 'lo';
+    lodLoaded = { lo: false, md: false, hi: false };
+    _setImageSrc(LODS.lo.src);
+    lodLoaded.lo = true;
+    _schedulePreload();
+    _updateLodTarget();
+  }
+
+  function getVariant() {
+    return currentVariant;
   }
 
   function _showMissingImageNotice() {
@@ -509,6 +542,8 @@ const MapEngine = (() => {
     filterHotspotsByEra,
     setActiveHotspot,
     highlightHotspotByCardId,
+    setVariant,
+    getVariant,
     reset,
     // Recompute viewport size when outer layout changes (e.g. admin panel
     // opening and shrinking the map area).

@@ -3,7 +3,10 @@
    Loads JSON data with graceful fallbacks.
    ========================================================= */
 
+const FUTURE_ERA = '50 évvel később';
+
 const DataStore = {
+  FUTURE_ERA,
   cards: [],
   hotspots: [],
   timeline: { eras: [] },
@@ -98,6 +101,21 @@ const DataStore = {
 
   hasVideoForCard(cardId) {
     return this.getVideosByCardId(cardId).length > 0;
+  },
+
+  isCardInFutureEra(card) {
+    return !!(card && card.era === FUTURE_ERA);
+  },
+
+  isHotspotInFutureEra(hotspot) {
+    const cardId = (hotspot.card_ids || [])[0];
+    const card = cardId ? this.getCard(cardId) : null;
+    return this.isCardInFutureEra(card);
+  },
+
+  getHotspotsForVariant(variant) {
+    const wantFuture = variant === 'future';
+    return this.hotspots.filter(h => this.isHotspotInFutureEra(h) === wantFuture);
   },
 };
 

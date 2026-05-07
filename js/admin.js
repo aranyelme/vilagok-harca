@@ -255,7 +255,7 @@ const Admin = (() => {
     }
 
     _removeGhost();
-    MapEngine.renderHotspots(DataStore.hotspots);
+    MapEngine.renderHotspots(DataStore.getHotspotsForVariant(MapEngine.getVariant ? MapEngine.getVariant() : 'present'));
     if (window.Timeline && Timeline.render) Timeline.render();
     if (window.Chronicle && Chronicle.render) Chronicle.render();
     if (window.Legend && Legend.render) Legend.render();
@@ -278,7 +278,7 @@ const Admin = (() => {
       .map(h => ({ ...h, card_ids: (h.card_ids || []).filter(cid => cid !== id) }))
       .filter(h => h.card_ids.length > 0);
 
-    MapEngine.renderHotspots(DataStore.hotspots);
+    MapEngine.renderHotspots(DataStore.getHotspotsForVariant(MapEngine.getVariant ? MapEngine.getVariant() : 'present'));
     if (window.Timeline && Timeline.render) Timeline.render();
     if (window.Chronicle && Chronicle.render) Chronicle.render();
     if (window.Legend && Legend.render) Legend.render();
