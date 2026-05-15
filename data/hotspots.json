@@ -133,5 +133,50 @@
       "mc_15"
     ],
     "label": "Az átalakulók ugrása"
+  },
+  {
+    "id": "hs_mc_16",
+    "x": 50,
+    "y": 60,
+    "card_ids": [
+      "mc_16"
+    ],
+    "label": "A Háromszem-rend lecsap Tollon városára"
+  },
+  {
+    "id": "hs_mc_17",
+    "x": 40,
+    "y": 35,
+    "card_ids": [
+      "mc_17"
+    ],
+    "label": "A száműzött alakváltó"
+  },
+  {
+    "id": "hs_mc_18",
+    "x": 34.25,
+    "y": 50.45,
+    "card_ids": [
+      "mc_18"
+    ],
+    "label": "Ogre a fűzfánál"
+  },
+  {
+    "id": "hs_mc_19",
+    "x": 45,
+    "y": 55,
+    "card_ids": [
+      "mc_19"
+    ],
+    "label": "Az első harc"
+  },
+  {
+    "id": "hs_mc_20",
+    "x": 25,
+    "y": 35,
+    "card_ids": [
+      "mc_20"
+    ],
+    "label": "Holdfényben"
   }
 ]

@@ -208,5 +208,75 @@
     },
     "description": "Miután az erdei alakváltók megtanulták használni a bennük rejlő erőt, és kiállták a próbákat, a sárkányszobrok fejei között kellett állatformában átugraniuk.",
     "chronology": 6
+  },
+  {
+    "id": "mc_16",
+    "title": "A Háromszem-rend lecsap Tollon városára",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_16a.webp",
+    "back_image": "assets/cards/mc_16b.webp",
+    "map_location": {
+      "x": 50,
+      "y": 60
+    },
+    "description": "A Háromszem-rend lecsap Tollon városára.",
+    "chronology": 1
+  },
+  {
+    "id": "mc_17",
+    "title": "A száműzött alakváltó",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_17a.webp",
+    "back_image": "assets/cards/mc_17b.webp",
+    "map_location": {
+      "x": 40,
+      "y": 35
+    },
+    "description": "Egy alakváltó ogre alakot kapott, ezért száműzték. (Lány volt.)",
+    "chronology": 2
+  },
+  {
+    "id": "mc_18",
+    "title": "Ogre a fűzfánál",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_18a.webp",
+    "back_image": "assets/cards/mc_18b.webp",
+    "map_location": {
+      "x": 34.25,
+      "y": 50.45
+    },
+    "description": "Az egyik ogre a fűzfához megy, és ezen az alakváltó lények kiakadnak.",
+    "chronology": 3
+  },
+  {
+    "id": "mc_19",
+    "title": "Az első harc",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_19a.webp",
+    "back_image": "assets/cards/mc_19b.webp",
+    "map_location": {
+      "x": 45,
+      "y": 55
+    },
+    "description": "A friss vér szaga az első harc közben. Ha nem harcol, akkor elveszik.",
+    "chronology": 4
+  },
+  {
+    "id": "mc_20",
+    "title": "Holdfényben",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "front_image": "assets/cards/mc_20a.webp",
+    "back_image": "assets/cards/mc_20b.webp",
+    "map_location": {
+      "x": 25,
+      "y": 35
+    },
+    "description": "",
+    "chronology": 5
   }
 ]
