@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=14" />
-  <link rel="stylesheet" href="css/cards.css?v=14" />
+  <link rel="stylesheet" href="css/style.css?v=15" />
+  <link rel="stylesheet" href="css/cards.css?v=15" />
 </head>
 <body class="view-map">
   <header class="topbar">
@@ -20,6 +20,7 @@
     <nav class="view-nav" aria-label="Nézetváltó">
       <button class="nav-btn active" data-view="map">Térkép</button>
       <button class="nav-btn" data-view="gallery">Kártyák</button>
+      <button class="nav-btn" data-view="characters">Karakterek</button>
       <button class="nav-btn" data-view="chronicle">Krónika</button>
       <button class="nav-btn" id="adminToggle" title="Szerkesztő mód">Szerkesztő</button>
     </nav>
@@ -79,6 +80,17 @@
       <div class="gallery-grid" id="galleryGrid"></div>
     </section>
 
+    <!-- CHARACTERS VIEW -->
+    <section class="view characters-view" id="charactersView" hidden>
+      <div class="gallery-filter">
+        <label for="characterEraFilter">Szűrő:</label>
+        <select id="characterEraFilter">
+          <option value="all">Minden korszak</option>
+        </select>
+      </div>
+      <div class="gallery-grid characters-grid" id="charactersGrid"></div>
+    </section>
+
     <!-- CHRONICLE VIEW -->
     <section class="view chronicle-view" id="chronicleView" hidden>
       <div class="chronicle-scroll">
@@ -115,7 +127,7 @@
         <h2 id="modalTitle"></h2>
         <p class="card-era">
           <span class="card-number" id="modalNumber"></span>
-          <span class="label">Korszak:</span> <span id="modalEra"></span>
+          <span class="label" id="modalEraLabel">Korszak:</span> <span id="modalEra"></span>
         </p>
         <section class="card-description-section" id="modalDescriptionSection" hidden>
           <h3 class="card-description-title">Leírás</h3>
@@ -224,20 +236,22 @@
     <nav class="drawer-nav">
       <button class="drawer-link" data-view="map">Térkép</button>
       <button class="drawer-link" data-view="gallery">Kártyagyűjtemény</button>
+      <button class="drawer-link" data-view="characters">Karakterek</button>
       <button class="drawer-link" data-view="chronicle">Krónika</button>
     </nav>
     <p class="drawer-footer">Richard Fejes &amp; az Aranyelme műhely · 2026</p>
   </aside>
 
-  <script src="js/data-loader.js?v=14"></script>
-  <script src="js/map.js?v=14"></script>
-  <script src="js/cards.js?v=14"></script>
-  <script src="js/legend.js?v=14"></script>
-  <script src="js/videos.js?v=14"></script>
-  <script src="js/timeline.js?v=14"></script>
-  <script src="js/chronicle.js?v=14"></script>
-  <script src="js/github-sync.js?v=14"></script>
-  <script src="js/admin.js?v=14"></script>
-  <script src="js/app.js?v=14"></script>
+  <script src="js/data-loader.js?v=15"></script>
+  <script src="js/map.js?v=15"></script>
+  <script src="js/cards.js?v=15"></script>
+  <script src="js/characters.js?v=15"></script>
+  <script src="js/legend.js?v=15"></script>
+  <script src="js/videos.js?v=15"></script>
+  <script src="js/timeline.js?v=15"></script>
+  <script src="js/chronicle.js?v=15"></script>
+  <script src="js/github-sync.js?v=15"></script>
+  <script src="js/admin.js?v=15"></script>
+  <script src="js/app.js?v=15"></script>
 </body>
 </html>

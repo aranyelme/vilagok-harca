@@ -2,11 +2,12 @@
 
 **Interaktív műhely-archívum** — az *Aranyelme* műhely gyermekeinek közös világépítő munkája, fantasy krónika-esztétikában feldolgozva.
 
-A webhely három egymásba fonódó réteget mutat be:
+A webhely négy egymásba fonódó réteget mutat be:
 
-1. **Térkép** — a kézzel rajzolt világtérkép, kattintható pecsétekkel.
-2. **Momentumkártyák** — a történelmi pillanatok, előlapjukon illusztráció, hátukon cím és leírás.
-3. **Idővonal** — a világ történelmének korszakai, kronológiai szűréssel.
+1. **Térkép** — a kézzel rajzolt világtérkép, kattintható pecsétekkel. Két korszak között lehet váltani (jelen és „50 év múlva").
+2. **Momentumkártyák** — a történelmi pillanatok, előlapjukon illusztráció, hátukon cím és leírás. Helyszínhez (pecséthez) kötődnek.
+3. **Karakterek** — szereplők, akik megjelennek a történetekben. *Külön* adattípus a momentumoktól: nincs térképi pecsétjük, viszont több momentumhoz is kapcsolódhatnak (`related_card_ids`).
+4. **Idővonal és Krónika** — a világ történelmének korszakai, kronológiai szűréssel.
 
 ---
 
@@ -32,13 +33,17 @@ vilagok-harca/
 │   ├── admin.js            # Szerkesztő logika
 │   └── app.js              # Orchestrator
 ├── data/
-│   ├── cards.json          # Kártyák metaadatai
-│   ├── hotspots.json       # Térképi pozíciók
+│   ├── cards.json          # Momentumkártyák metaadatai
+│   ├── characters.json     # Karakterek metaadatai (szereplők)
+│   ├── hotspots.json       # Térképi pozíciók (csak momentumokhoz)
 │   ├── timeline.json       # Korszakok
-│   └── videos.json         # Videók (2. fázis)
+│   └── videos.json         # Videók
 ├── assets/
-│   ├── map/terkep_1.jpg    # Szkennelt térkép (HELYEZD EL!)
-│   ├── cards/              # Kártyaképek: mc_Na.png, mc_Nb.png
+│   ├── map/terkep_*.jpg    # Szkennelt térkép (jelen + jövő, lo/md/hi)
+│   ├── cards/              # Kártyaképek:
+│   │                       #   mc_Na.webp / mc_Nb.webp    — momentum (előlap/hátlap)
+│   │                       #   ch_Na.webp / ch_Nb.webp    — karakter
+│   │                       #   *.thumb.webp               — galéria-bélyegkép
 │   ├── icons/pin.svg       # Pecsét ikon
 │   └── textures/           # Pergamen textúrák
 └── README.md
@@ -117,6 +122,56 @@ Cseréld ki a placeholdert egy valódi szkennelt képpel (~2000–4000 px széle
 - **2. fázis** · Idővonal szűrés finomítása, videók
 - **3. fázis** · Krónika oldal (videógaléria)
 - **4. fázis** · GitHub OAuth direct-commit az admin felületről
+
+---
+
+---
+
+## Momentum vs. Karakter — fogalmi különbség
+
+A repó két **különálló** kártya-fajtát tárol; a megkülönböztetés szándékos:
+
+| | **Momentumkártya** (`mc_*`) | **Karakterkártya** (`ch_*`) |
+|---|---|---|
+| Mit ír le? | Egy *eseményt* / pillanatot | Egy *személyt* / szereplőt |
+| Adatfájl | `data/cards.json` | `data/characters.json` |
+| Térképi pecsét? | **Igen** — minden momentum egy hotspothoz tartozik | **Nem** — a karakterek nem helyhez, hanem több eseményhez köthetők |
+| Korszakhoz tartozik? | Igen, és kronológiai pozíciója is van a korszakban | Igen (mely korszakban él), de kronológia nélkül |
+| Galéria | „Kártyák" fül | „Karakterek" fül |
+| Modal | Közös `cardModal` (csak más színű keret + más metaadatok) | Ugyanaz a modál, bronz színű kerettel és életkor-felirattal |
+| Összekötés | A modal automatikusan listázza azokat a karaktereket, akik szerepelnek benne | A modal automatikusan listázza, mely momentumokban tűnik fel |
+
+A kapcsolatot a **karakter** oldalon tároljuk: minden karakterhez tartozik egy `related_card_ids` lista. A momentum oldal nem ismétli meg ezt — a karakter→momentum irány az igazság forrása, momentum→karakter pedig egyszerű visszafelé keresés.
+
+### Karakterkártya séma (`data/characters.json`)
+
+```json
+{
+  "id": "ch_07",
+  "name": "Rin és Santi",
+  "age": null,
+  "age_label": "nagy harcos és segítőtársa",
+  "era": "50 évvel később",
+  "era_order": 3,
+  "faction": "harcos",
+  "front_image": "assets/cards/ch_7a.webp",
+  "back_image": "assets/cards/ch_7b.webp",
+  "bio": "Rin — nagy harcos…",
+  "related_card_ids": ["mc_19"]
+}
+```
+
+- `age` numerikus érték, vagy `null` ha nem ismert.
+- `age_label` opcionális, ezzel írható felül a megjelenítés (pl. „14–15 éves", „varázsló", „a háború hőse").
+- `faction` szabad szöveges címke (boszorkány, harcos, varázsló, alakváltó, …).
+
+### Új karakter felvétele
+
+1. Két képet készíts elő (előlap+hátlap), majd futtasd ugyanazt a két-méretű WebP optimalizálást, mint a momentumoknál:
+   - `ch_Na.webp` / `ch_Nb.webp` — 380×633, q≈82
+   - `ch_Na.thumb.webp` / `ch_Nb.thumb.webp` — 240×400, q≈80
+2. Vegyél fel egy új objektumot a `data/characters.json`-ba a fenti séma szerint.
+3. (Opcionális) Töltsd ki a `related_card_ids` mezőt — minden megjelenés tükröződni fog a momentum modalban is.
 
 ---
 
