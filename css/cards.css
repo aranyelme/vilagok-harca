@@ -403,3 +403,65 @@
   .video-frame { padding: 1rem 0.9rem 0.8rem; }
   .video-title { font-size: 1.05rem; }
 }
+
+/* =========================================================
+   CHARACTERS — Visual differentiation + related chips
+   Characters reuse the card modal but get a bronze/red border
+   to distinguish them from momentum cards at a glance.
+   ========================================================= */
+.modal-frame.is-character {
+  border-color: #8b5a2b;
+  background-image:
+    radial-gradient(ellipse at 20% 15%, rgba(139, 90, 43, 0.18) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 85%, rgba(139, 58, 58, 0.12) 0%, transparent 45%);
+}
+
+.gallery-card.character-card {
+  border-color: #8b5a2b;
+  box-shadow: 0 4px 18px rgba(80, 40, 10, 0.28);
+}
+.gallery-card.character-card:hover {
+  box-shadow: 0 12px 28px rgba(80, 40, 10, 0.4);
+}
+.gallery-card.character-card .gc-label {
+  background: linear-gradient(to top, rgba(60, 30, 10, 0.92), transparent);
+}
+
+.card-related-section {
+  max-width: 620px;
+  margin: 0.8rem auto 0;
+  padding: 0.6rem 1rem 0.7rem;
+  text-align: center;
+}
+
+.card-related-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.card-related-chip {
+  font-family: var(--font-title);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  background: rgba(244, 228, 193, 0.7);
+  color: var(--ink);
+  border: 1px solid var(--gold-dim);
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.card-related-chip:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+.modal-frame.is-character .card-related-chip {
+  border-color: #8b5a2b;
+  background: rgba(229, 199, 165, 0.65);
+}
+.modal-frame.is-character .card-related-chip:hover {
+  background: #c08654;
+  color: var(--parchment-light);
+}

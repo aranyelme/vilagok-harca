@@ -11,18 +11,21 @@ const DataStore = {
   hotspots: [],
   timeline: { eras: [] },
   videos: [],
+  characters: [],
 
   async loadAll() {
-    const [cards, hotspots, timeline, videos] = await Promise.all([
+    const [cards, hotspots, timeline, videos, characters] = await Promise.all([
       this._fetch('data/cards.json', []),
       this._fetch('data/hotspots.json', []),
       this._fetch('data/timeline.json', { eras: [] }),
       this._fetch('data/videos.json', []),
+      this._fetch('data/characters.json', []),
     ]);
     this.cards = cards;
     this.hotspots = hotspots;
     this.timeline = timeline;
     this.videos = videos;
+    this.characters = characters;
     return this;
   },
 
@@ -116,6 +119,30 @@ const DataStore = {
   getHotspotsForVariant(variant) {
     const wantFuture = variant === 'future';
     return this.hotspots.filter(h => this.isHotspotInFutureEra(h) === wantFuture);
+  },
+
+  getCharacter(id) {
+    return this.characters.find(c => c.id === id);
+  },
+
+  getSortedCharacters() {
+    return [...this.characters].sort((a, b) => {
+      const ae = (a.era_order || 0);
+      const be = (b.era_order || 0);
+      if (ae !== be) return ae - be;
+      return (a.id || '').localeCompare(b.id || '');
+    });
+  },
+
+  getCharactersByEra(eraName) {
+    if (!eraName || eraName === 'all') return this.characters;
+    return this.characters.filter(c => c.era === eraName);
+  },
+
+  // Characters that reference a given moment card id in related_card_ids.
+  getCharactersForCard(cardId) {
+    if (!cardId) return [];
+    return this.characters.filter(c => (c.related_card_ids || []).includes(cardId));
   },
 };
 

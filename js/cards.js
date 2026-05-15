@@ -3,8 +3,9 @@
    ========================================================= */
 
 const CardModal = (() => {
-  let modal, cardEl, frontImg, backImg, titleEl, eraEl, descEl, descSection, numEl, prevBtn, nextBtn, closeBtn;
+  let modal, cardEl, frontImg, backImg, titleEl, eraEl, eraLabelEl, descEl, descSection, numEl, prevBtn, nextBtn, closeBtn;
   let videoSection, videoBtn, videoTitleEl;
+  let modalFrame, relatedSection;
   let currentQueue = [];
   let currentIndex = 0;
   let isFlipped = false;
@@ -18,7 +19,9 @@ const CardModal = (() => {
     backImg = document.getElementById('cardBackImg');
     titleEl = document.getElementById('modalTitle');
     eraEl = document.getElementById('modalEra');
+    eraLabelEl = document.getElementById('modalEraLabel');
     descEl = document.getElementById('modalDescription');
+    modalFrame = modal && modal.querySelector('.modal-frame');
     descSection = document.getElementById('modalDescriptionSection');
     numEl = document.getElementById('modalNumber');
     prevBtn = document.getElementById('prevCard');
@@ -62,6 +65,26 @@ const CardModal = (() => {
     openQueue([card], 0);
   }
 
+  // Open a character. Wraps the character object so the modal can render it
+  // through the same code path as a momentum card without leaking ch_ ids
+  // into card-only lookups (era position, video badge, etc.).
+  function openCharacter(characterId) {
+    const ch = DataStore.getCharacter(characterId);
+    if (!ch) return;
+    const ageLabel = ch.age_label || (ch.age != null ? `${ch.age} éves` : '');
+    const adapted = {
+      id: ch.id,
+      isCharacter: true,
+      title: ch.name || 'Névtelen karakter',
+      era: ageLabel ? `${ageLabel} · ${ch.era || ''}`.replace(/ · $/, '') : (ch.era || ''),
+      front_image: ch.front_image,
+      back_image: ch.back_image,
+      description: ch.bio || '',
+      _related_card_ids: ch.related_card_ids || [],
+    };
+    openQueue([adapted], 0);
+  }
+
   function _render() {
     const card = currentQueue[currentIndex];
     if (!card) return;
@@ -69,16 +92,25 @@ const CardModal = (() => {
     cardEl.classList.remove('flipped');
     cardEl.style.transform = '';
 
+    const isCharacter = !!card.isCharacter;
+    if (modalFrame) modalFrame.classList.toggle('is-character', isCharacter);
+
     _setFace(frontImg, card.front_image);
     _setFace(backImg, card.back_image);
 
-    titleEl.textContent = card.title || 'Névtelen kártya';
-    const eraName = card.era || '—';
-    const eraPos = DataStore.getCardEraPosition(card.id);
-    eraEl.textContent = eraPos != null ? `${eraName} (#${eraPos})` : eraName;
+    titleEl.textContent = card.title || (isCharacter ? 'Névtelen karakter' : 'Névtelen kártya');
 
-    const num = DataStore.getCardNumber(card.id);
+    if (eraLabelEl) eraLabelEl.textContent = isCharacter ? 'Karakter:' : 'Korszak:';
+    if (isCharacter) {
+      eraEl.textContent = card.era || '—';
+    } else {
+      const eraName = card.era || '—';
+      const eraPos = DataStore.getCardEraPosition(card.id);
+      eraEl.textContent = eraPos != null ? `${eraName} (#${eraPos})` : eraName;
+    }
+
     if (numEl) {
+      const num = isCharacter ? null : DataStore.getCardNumber(card.id);
       if (num != null) {
         numEl.textContent = '№ ' + num;
         numEl.hidden = false;
@@ -93,9 +125,63 @@ const CardModal = (() => {
     if (descSection) descSection.hidden = !desc;
 
     _renderVideoButton(card);
+    _renderRelated(card);
 
     prevBtn.disabled = currentIndex === 0;
     nextBtn.disabled = currentIndex === currentQueue.length - 1;
+  }
+
+  // Render related items: for a momentum card, list the characters who appear
+  // in it; for a character, list the moments where they show up.
+  function _renderRelated(card) {
+    if (!modalFrame) return;
+    if (relatedSection) {
+      relatedSection.remove();
+      relatedSection = null;
+    }
+    let items = [];
+    let titleText = '';
+    if (card.isCharacter) {
+      const ids = card._related_card_ids || [];
+      items = ids
+        .map(id => DataStore.getCard(id))
+        .filter(Boolean)
+        .map(c => ({
+          label: c.title || c.id,
+          onClick: () => openById(c.id),
+        }));
+      titleText = 'Hozzá tartozó pillanatok';
+    } else {
+      const related = DataStore.getCharactersForCard(card.id) || [];
+      items = related.map(ch => ({
+        label: ch.name + (ch.age_label ? ` · ${ch.age_label}` : ''),
+        onClick: () => openCharacter(ch.id),
+      }));
+      titleText = 'Szereplők';
+    }
+    if (!items.length) return;
+
+    const section = document.createElement('section');
+    section.className = 'card-related-section';
+    const h3 = document.createElement('h3');
+    h3.className = 'card-description-title';
+    h3.textContent = titleText;
+    section.appendChild(h3);
+    const list = document.createElement('div');
+    list.className = 'card-related-chips';
+    items.forEach(it => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'card-related-chip';
+      btn.textContent = it.label;
+      btn.addEventListener('click', it.onClick);
+      list.appendChild(btn);
+    });
+    section.appendChild(list);
+    // Insert just after the description (or at end of the meta block).
+    const meta = modalFrame.querySelector('.card-meta');
+    if (meta) meta.appendChild(section);
+    relatedSection = section;
   }
 
   function _setFace(imgEl, src) {
@@ -188,7 +274,7 @@ const CardModal = (() => {
     }
   }
 
-  return { init, openQueue, openById, close };
+  return { init, openQueue, openById, openCharacter, close };
 })();
 
 if (typeof window !== 'undefined') window.CardModal = CardModal;

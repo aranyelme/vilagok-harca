@@ -10,6 +10,7 @@ let _currentMapVariant = 'present';
   CardModal.init();
   if (window.VideoModal) VideoModal.init();
   Gallery.init();
+  if (window.CharactersGallery) CharactersGallery.init();
   if (window.Chronicle) Chronicle.init();
 
   MapEngine.init({
@@ -79,22 +80,23 @@ function _bindViewNav() {
 function _showView(view) {
   const map = document.getElementById('mapView');
   const gallery = document.getElementById('galleryView');
+  const characters = document.getElementById('charactersView');
   const chronicle = document.getElementById('chronicleView');
-  document.body.classList.remove('view-map', 'view-gallery', 'view-chronicle');
+  document.body.classList.remove('view-map', 'view-gallery', 'view-characters', 'view-chronicle');
+  const hide = (el) => { if (el) el.hidden = true; };
+  hide(map); hide(gallery); hide(characters); hide(chronicle);
   if (view === 'map') {
     map.hidden = false;
-    gallery.hidden = true;
-    if (chronicle) chronicle.hidden = true;
     document.body.classList.add('view-map');
   } else if (view === 'gallery') {
-    map.hidden = true;
     gallery.hidden = false;
-    if (chronicle) chronicle.hidden = true;
     document.body.classList.add('view-gallery');
     Gallery.render();
+  } else if (view === 'characters') {
+    if (characters) characters.hidden = false;
+    document.body.classList.add('view-characters');
+    if (window.CharactersGallery) CharactersGallery.render();
   } else if (view === 'chronicle') {
-    map.hidden = true;
-    gallery.hidden = true;
     if (chronicle) chronicle.hidden = false;
     document.body.classList.add('view-chronicle');
     if (window.Chronicle) Chronicle.render();
