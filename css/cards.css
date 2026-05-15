@@ -246,7 +246,10 @@
 .card-video-section {
   max-width: 620px;
   margin: 0.8rem auto 0;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 .card-video-section[hidden] { display: none; }
 

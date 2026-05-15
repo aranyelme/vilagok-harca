@@ -14,5 +14,29 @@
     "url": "https://youtu.be/pjFLjbYxAVw",
     "card_ids": ["mc_14", "mc_13", "mc_15", "mc_10"],
     "description": "Pillanatok a sárkányszobrok körüli eseményekből: A Béke Fája, A sárkányrongálás balhéja, Az átalakulók ugrása és Tigris és Disznó párbaja."
+  },
+  {
+    "id": "v_03",
+    "title": "Kuleshov-kísérlet I.",
+    "youtube_id": "WeyWDC4r1KE",
+    "url": "https://youtu.be/WeyWDC4r1KE",
+    "card_ids": ["mc_20"],
+    "description": "Kuleshov-stílusú kísérlet a Holdfényben (mc_20) jelenethez — első variáns."
+  },
+  {
+    "id": "v_04",
+    "title": "Kuleshov-kísérlet II.",
+    "youtube_id": "doS1MpkAMhU",
+    "url": "https://youtu.be/doS1MpkAMhU",
+    "card_ids": ["mc_20"],
+    "description": "Kuleshov-stílusú kísérlet a Holdfényben (mc_20) jelenethez — második variáns."
+  },
+  {
+    "id": "v_05",
+    "title": "Kuleshov-kísérlet III.",
+    "youtube_id": "WxSl-uLpkIk",
+    "url": "https://youtu.be/WxSl-uLpkIk",
+    "card_ids": ["mc_20"],
+    "description": "Kuleshov-stílusú kísérlet a Holdfényben (mc_20) jelenethez — harmadik variáns."
   }
 ]

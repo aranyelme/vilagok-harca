@@ -4,12 +4,11 @@
 
 const CardModal = (() => {
   let modal, cardEl, frontImg, backImg, titleEl, eraEl, descEl, descSection, numEl, prevBtn, nextBtn, closeBtn;
-  let videoSection, videoBtn, videoTitleEl;
+  let videoSection;
   let currentQueue = [];
   let currentIndex = 0;
   let isFlipped = false;
   let tiltHandler = null;
-  let currentVideo = null;
 
   function init() {
     modal = document.getElementById('cardModal');
@@ -25,8 +24,6 @@ const CardModal = (() => {
     nextBtn = document.getElementById('nextCard');
     closeBtn = document.getElementById('modalClose');
     videoSection = document.getElementById('modalVideoSection');
-    videoBtn = document.getElementById('modalVideoBtn');
-    videoTitleEl = document.getElementById('modalVideoTitle');
 
     if (!modal) return;
 
@@ -37,12 +34,8 @@ const CardModal = (() => {
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
     cardEl.addEventListener('click', flip);
-    if (videoBtn) {
-      videoBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentVideo && window.VideoModal) VideoModal.open(currentVideo);
-      });
-    }
+    // Per-video click handlers are wired inside _renderVideoButton, since the
+    // section is now rebuilt each render to support multiple linked videos.
     document.addEventListener('keydown', _onKey);
   }
 
@@ -128,13 +121,36 @@ const CardModal = (() => {
   function _renderVideoButton(card) {
     if (!videoSection) return;
     const videos = (window.DataStore && DataStore.getVideosByCardId(card.id)) || [];
-    currentVideo = videos[0] || null;
-    if (!currentVideo) {
+    if (!videos.length) {
       videoSection.hidden = true;
+      videoSection.innerHTML = '';
       return;
     }
-    if (videoTitleEl) videoTitleEl.textContent = currentVideo.title || '';
     videoSection.hidden = false;
+    videoSection.innerHTML = '';
+    videos.forEach(v => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'card-video-btn';
+      const icon = document.createElement('span');
+      icon.className = 'card-video-icon';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = '▶';
+      const label = document.createElement('span');
+      label.className = 'card-video-label';
+      label.textContent = videos.length > 1 ? 'Videó' : 'Nézd meg a videót';
+      const title = document.createElement('span');
+      title.className = 'card-video-title';
+      title.textContent = v.title || '';
+      btn.appendChild(icon);
+      btn.appendChild(label);
+      btn.appendChild(title);
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (window.VideoModal) VideoModal.open(v);
+      });
+      videoSection.appendChild(btn);
+    });
   }
 
   function flip() {
