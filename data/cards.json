@@ -268,15 +268,15 @@
   {
     "id": "mc_20",
     "title": "Holdfényben",
-    "era": "50 évvel később",
-    "era_order": 3,
+    "era": "A konfliktus",
+    "era_order": 2,
     "front_image": "assets/cards/mc_20a.webp",
     "back_image": "assets/cards/mc_20b.webp",
     "map_location": {
       "x": 25,
       "y": 35
     },
-    "description": "",
-    "chronology": 5
+    "description": "Egy fiatal felnőtt boszorkány nő egy elhagyott kisbabát talált, akit megpróbált megmenteni. Ekkor talált rá egy alakváltó harcos. A nő megpróbált a babával elmenekülni, de az alakváltó férfi utolérte őket. A felnőtt boszorkányt megölte.",
+    "chronology": 8
   }
 ]
