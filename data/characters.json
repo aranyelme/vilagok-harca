@@ -128,5 +128,70 @@
     "back_image": "assets/cards/ch_10b.webp",
     "bio": "Morci — alakváltó macska.\nSokan meghaltak, diplomáták.",
     "related_card_ids": []
+  },
+  {
+    "id": "ch_11",
+    "name": "Moéri",
+    "age": 13,
+    "age_label": "13–14 éves",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "faction": "alakváltó-boszorkány",
+    "front_image": "assets/cards/ch_11a.webp",
+    "back_image": "assets/cards/ch_11b.webp",
+    "bio": "Alakváltó és boszi keverék.\nKobrává tud változni, és a boszi varázs is megmaradt.",
+    "related_card_ids": []
+  },
+  {
+    "id": "ch_12",
+    "name": "Mondó",
+    "age": 17,
+    "age_label": "17 éves",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "faction": "alakváltó",
+    "front_image": "assets/cards/ch_12a.webp",
+    "back_image": "assets/cards/ch_12b.webp",
+    "bio": "Lökandó bátyja. Firindai szoros alakváltó.\nKatona akar lenni, mint az öccse.",
+    "related_card_ids": ["ch_02"]
+  },
+  {
+    "id": "ch_13",
+    "name": "Zoy",
+    "age": 20,
+    "age_label": "20 éves",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "faction": null,
+    "front_image": "assets/cards/ch_13a.webp",
+    "back_image": "assets/cards/ch_13b.webp",
+    "bio": "Azt mondták neki, hogy soha ne barátkozzon boszorkánnyal.",
+    "related_card_ids": []
+  },
+  {
+    "id": "ch_16",
+    "name": "Lucy",
+    "age": 13,
+    "age_label": "13 éves",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "faction": "elf-alakváltó",
+    "front_image": "assets/cards/ch_16a.webp",
+    "back_image": null,
+    "bio": "Elf és macska keverék. Cute girl.",
+    "related_card_ids": []
+  },
+  {
+    "id": "ch_17",
+    "name": "Emily",
+    "age": 13,
+    "age_label": "13 éves",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "faction": "boszorkány-alakváltó",
+    "front_image": "assets/cards/ch_17a.webp",
+    "back_image": null,
+    "bio": "Boszi és farkas keverék.",
+    "related_card_ids": []
   }
 ]
