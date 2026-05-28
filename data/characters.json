@@ -91,6 +91,19 @@
     "related_card_ids": []
   },
   {
+    "id": "ch_08",
+    "name": "Hino",
+    "age": null,
+    "age_label": "sivatagi szállító",
+    "era": "50 évvel később",
+    "era_order": 3,
+    "faction": "szállító",
+    "front_image": "assets/cards/ch_8a.webp",
+    "back_image": "assets/cards/ch_8b.webp",
+    "bio": "Sivatagi szállító.\nElvették az alakváltók a tavat, a zöldet, az erdőket. Lerombolták Merion faluját.",
+    "related_card_ids": []
+  },
+  {
     "id": "ch_09",
     "name": "Koblán",
     "age": 14,
@@ -98,8 +111,8 @@
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "turista",
-    "front_image": "assets/cards/ch_9a.png",
-    "back_image": "assets/cards/ch_9b.png",
+    "front_image": "assets/cards/ch_9a.webp",
+    "back_image": "assets/cards/ch_9b.webp",
     "bio": "Azt mondták neki: „Az egrek veszélyesek.\"\nA nagyszülei elmenekültek, és turistaként tért vissza.",
     "related_card_ids": []
   },
@@ -111,22 +124,9 @@
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "alakváltó",
-    "front_image": "assets/cards/ch_10a.png",
-    "back_image": "assets/cards/ch_10b.png",
+    "front_image": "assets/cards/ch_10a.webp",
+    "back_image": "assets/cards/ch_10b.webp",
     "bio": "Morci — alakváltó macska.\nSokan meghaltak, diplomáták.",
-    "related_card_ids": []
-  },
-  {
-    "id": "ch_22",
-    "name": "Hino",
-    "age": null,
-    "age_label": "sivatagi szállító",
-    "era": "50 évvel később",
-    "era_order": 3,
-    "faction": "szállító",
-    "front_image": "assets/cards/ch_22a.png",
-    "back_image": "assets/cards/ch_22b.png",
-    "bio": "Sivatagi szállító.\nElvették az alakváltók a tavat, a zöldet, az erdőket. Lerombolták Merion faluját.",
     "related_card_ids": []
   }
 ]
