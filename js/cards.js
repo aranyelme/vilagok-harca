@@ -179,7 +179,7 @@ const CardModal = (() => {
 
   function _setFace(imgEl, src) {
     const face = imgEl.parentElement;
-    face.classList.remove('missing');
+    face.classList.remove('missing', 'blank');
     face.querySelectorAll('.missing-label').forEach(n => n.remove());
     if (src) {
       imgEl.src = src;
@@ -196,11 +196,7 @@ const CardModal = (() => {
     } else {
       imgEl.removeAttribute('src');
       imgEl.style.display = 'none';
-      face.classList.add('missing');
-      const lbl = document.createElement('span');
-      lbl.className = 'missing-label';
-      lbl.textContent = 'A kép hiányzik';
-      face.appendChild(lbl);
+      face.classList.add('blank');
     }
   }
 
