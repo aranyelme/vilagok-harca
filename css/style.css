@@ -646,7 +646,8 @@ body.admin-active .map-legend { display: none; }
 /* =========================================================
    GALLERY VIEW
    ========================================================= */
-.gallery-view {
+.gallery-view,
+.characters-view {
   overflow-y: auto;
   padding: 2rem 1.5rem 3rem;
 }
