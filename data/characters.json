@@ -156,15 +156,15 @@
     "related_card_ids": ["ch_02"]
   },
   {
-    "id": "ch_13",
+    "id": "ch_15",
     "name": "Zoy",
     "age": 20,
     "age_label": "20 éves",
     "era": "50 évvel később",
     "era_order": 3,
     "faction": null,
-    "front_image": "assets/cards/ch_13a.webp",
-    "back_image": "assets/cards/ch_13b.webp",
+    "front_image": "assets/cards/ch_15a.webp",
+    "back_image": "assets/cards/ch_15b.webp",
     "bio": "Azt mondták neki, hogy soha ne barátkozzon boszorkánnyal.",
     "related_card_ids": []
   },
