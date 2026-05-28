@@ -98,8 +98,8 @@
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "turista",
-    "front_image": "assets/cards/ch_9a.webp",
-    "back_image": "assets/cards/ch_9b.webp",
+    "front_image": "assets/cards/ch_9a.png",
+    "back_image": "assets/cards/ch_9b.png",
     "bio": "Azt mondták neki: „Az egrek veszélyesek.\"\nA nagyszülei elmenekültek, és turistaként tért vissza.",
     "related_card_ids": []
   },
@@ -111,8 +111,8 @@
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "alakváltó",
-    "front_image": "assets/cards/ch_10a.webp",
-    "back_image": "assets/cards/ch_10b.webp",
+    "front_image": "assets/cards/ch_10a.png",
+    "back_image": "assets/cards/ch_10b.png",
     "bio": "Morci — alakváltó macska.\nSokan meghaltak, diplomáták.",
     "related_card_ids": []
   },
@@ -124,8 +124,8 @@
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "szállító",
-    "front_image": "assets/cards/ch_22a.webp",
-    "back_image": "assets/cards/ch_22b.webp",
+    "front_image": "assets/cards/ch_22a.png",
+    "back_image": "assets/cards/ch_22b.png",
     "bio": "Sivatagi szállító.\nElvették az alakváltók a tavat, a zöldet, az erdőket. Lerombolták Merion faluját.",
     "related_card_ids": []
   }
