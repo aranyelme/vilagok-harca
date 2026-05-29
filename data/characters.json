@@ -226,17 +226,17 @@
     "id": "ch_16",
     "name": "Lucy",
     "age": 13,
-    "age_label": "13 éves",
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "elf-alakváltó",
     "front_image": "assets/cards/ch_16a.webp",
-    "back_image": null,
-    "bio": "Elf és macska keverék. Cute girl.",
+    "back_image": "",
+    "bio": "Az erdei alakváltók népségéhez tartozik - macska alakját tudja felvenni. A szülei is alakváltók voltak.\n\nA család átadta számára, hogy a háború során folyamatosan félelemben tartották őket az ogrék, akik a városukat is elpusztították a két folyó találkozásánál, illetve a konkrét földkérget is felszaggatták.\n\nEz a város, ahol laktak - amit az ogrék leromboltak - egy különleges hely volt. Egyedül itt éltek együtt nagy népességszámban boszorkányok és alakváltók a város két oldalán, de mégis egy helyen. Ezen a különleges helyen vállt vállnak vetve küzdött a két nép a megvadult ogrék ellen.",
     "related_card_ids": [],
     "map_location": {
-      "x": 23.03,
-      "y": 56.28
+      "x": 45.95,
+      "y": 31.79
     }
   },
   {
@@ -252,8 +252,8 @@
     "bio": "Boszi és farkas keverék.",
     "related_card_ids": [],
     "map_location": {
-      "x": 42.68,
-      "y": 59.39
+      "x": 64.04,
+      "y": 41.59
     }
   }
 ]
