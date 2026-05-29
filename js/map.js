@@ -540,11 +540,14 @@ const MapEngine = (() => {
       btn.style.top  = `${ch.map_location.y}%`;
       btn.dataset.id = `chpin_${ch.id}`;
       btn.dataset.characterId = ch.id;
-      btn.setAttribute('aria-label', ch.name || 'Karakter');
+      btn.setAttribute('aria-label', `${ch.name || 'Karakter'} (karakter)`);
       if (opts.admin) btn.classList.add('admin-hotspot');
 
+      // A person silhouette (drawn in CSS) makes characters read clearly as
+      // people on the map, distinct from the gold numbered moment seals. The
+      // number sits in a small corner badge so it never hides the figure.
       const numEl = document.createElement('span');
-      numEl.className = 'hotspot-num';
+      numEl.className = 'hotspot-num character-pin-num';
       numEl.textContent = num != null ? String(num) : '·';
       btn.appendChild(numEl);
 
