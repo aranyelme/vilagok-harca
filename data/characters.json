@@ -208,14 +208,14 @@
   {
     "id": "ch_15",
     "name": "Zoy",
-    "age": 20,
-    "age_label": "20 éves",
+    "age": 11,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": null,
     "front_image": "assets/cards/ch_15a.webp",
     "back_image": "assets/cards/ch_15b.webp",
-    "bio": "Azt mondták neki, hogy soha ne barátkozzon boszorkánnyal.",
+    "bio": "A nagyszüleik generációjában történt az egyik családtagjával, hogy egyedül rátalált egy boszorkány még kisgyermek korában, és magával vitte, hogy segítsen rajta. Természetesen kívülről ez emberrablásnak tűnt. A nagyszülei figyelmeztették és emlékeztették Zoy-t erre a történetre újra és újra: nem szabad boszorkányokkal barátkozni.",
     "related_card_ids": [],
     "map_location": {
       "x": 68.87,
