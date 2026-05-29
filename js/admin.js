@@ -76,6 +76,7 @@ const Admin = (() => {
 
     modeBtns.forEach(btn => btn.addEventListener('click', () => _setMode(btn.dataset.mode)));
     if (charPickerEl) charPickerEl.addEventListener('change', _onCharPickerChange);
+    if (charEraSelect) charEraSelect.addEventListener('change', _onCharEraChange);
 
     MapEngine.setAdminClickHandler(_onMapClick);
   }
@@ -239,6 +240,10 @@ const Admin = (() => {
     if (!active || !ch) return;
     if (mode !== 'character') _setMode('character');
 
+    // Character pins live on the map variant matching their era, so make sure
+    // that variant is showing — otherwise the pin we want to edit is hidden.
+    _switchToEraVariant(ch.era);
+
     editingId = ch.id;
     if (charPickerEl) charPickerEl.value = ch.id;
     charNameEl.value     = ch.name || '';
@@ -270,6 +275,21 @@ const Admin = (() => {
     if (!id) { _reset(); return; }
     const ch = DataStore.getCharacter(id);
     if (ch) editCharacter(ch);
+  }
+
+  function _onCharEraChange() {
+    // Keep the visible map in sync with the era being edited, so the pin
+    // (which renders on that era's variant) stays on screen.
+    _switchToEraVariant(charEraSelect.value);
+  }
+
+  // Show the map variant ('present' | 'future') that a given era belongs to.
+  // Clicks the variant button so app.js re-renders hotspots + character pins.
+  function _switchToEraVariant(eraName) {
+    const variant = (eraName === DataStore.FUTURE_ERA) ? 'future' : 'present';
+    if (MapEngine.getVariant && MapEngine.getVariant() === variant) return;
+    const btn = document.querySelector(`.map-variant-btn[data-variant="${variant}"]`);
+    if (btn) btn.click();
   }
 
   function _onMapClick({ x, y }) {
@@ -508,7 +528,7 @@ const Admin = (() => {
     deleteBtn.hidden = true;
     cancelBtn.hidden = true;
     if (mode === 'character') {
-      _setHint('Válassz egy meglévő karaktert a legördülőből, vagy töltsd ki az űrlapot egy újhoz. Kattints a térképre a pecsét elhelyezéséhez.');
+      _setHint('Minden karakternek van bronz pecsétje a korszakához tartozó térképen (alapból a térkép tetején, sorban). Válassz egy karaktert a legördülőből vagy kattints a pecsétjére — a térkép a megfelelő korszakra vált —, majd húzd a helyére. Új karakterhez töltsd ki az űrlapot és kattints a térképre.');
     } else {
       _setHint('Kattints a térképre új pecsét elhelyezéséhez, vagy egy meglévő pecsétre a szerkesztéshez.');
     }
