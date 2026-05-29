@@ -307,28 +307,68 @@ main {
 
 .hotspot.dimmed { opacity: 0.18; pointer-events: none; }
 
-/* Character pins — same shape as momentum hotspots but bronze, so people and
-   events read as distinct families on the map. */
+/* Character pins — the marker SHAPE itself is a head-and-shoulders figure, so
+   a person reads as a person on the map regardless of colour, clearly apart
+   from the round moment seals. Drawn as a CSS mask so the silhouette is the
+   pin's actual outline; a small number badge sits in the corner. */
 .hotspot.character-pin {
-  background: radial-gradient(circle at 30% 25%, #e8b27a 0%, #b9763e 55%, #7d4a22 100%);
-  border-color: #3a2310;
-  box-shadow:
-    0 0 10px rgba(185, 118, 62, 0.7),
-    0 2px 5px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 224, 190, 0.55),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+  width: 30px;
+  height: 38px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
-.hotspot.character-pin::after { border-color: #c98a4c; }
-.hotspot.character-pin .hotspot-num {
-  color: #2a1606;
-  text-shadow: 0 1px 0 rgba(255, 224, 190, 0.5);
+.hotspot.character-pin::after { content: none; }
+
+/* The figure: a solid silhouette masked into a head + shoulders shape. The
+   pale glow + dark fill is only for legibility on the map — the shape carries
+   the meaning. */
+.hotspot.character-pin::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #241a10;
+  -webkit-mask: center / contain no-repeat var(--char-figure);
+  mask: center / contain no-repeat var(--char-figure);
+  filter:
+    drop-shadow(0 0 1.5px rgba(244, 228, 193, 0.95))
+    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.6));
 }
+.hotspot.character-pin {
+  --char-figure: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Ccircle cx='12' cy='7.4' r='5.3'/%3E%3Cpath d='M2.4 30C2.4 20.8 6.6 16.4 12 16.4S21.6 20.8 21.6 30Z'/%3E%3C/svg%3E");
+}
+
+/* Number badge tucked at the lower-right so it never covers the figure. */
+.hotspot.character-pin .character-pin-num {
+  position: absolute;
+  right: -6px;
+  bottom: -3px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6b4220;
+  color: #fff4d8;
+  border: 1.5px solid var(--parchment);
+  border-radius: 8px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.6rem;
+  line-height: 1;
+  text-shadow: none;
+  z-index: 2;
+}
+
 .hotspot.character-pin:hover {
-  box-shadow:
-    0 0 16px rgba(224, 160, 100, 0.95),
-    0 4px 8px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 224, 190, 0.7),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%) scale(1.18);
+}
+.hotspot.character-pin:hover::before {
+  filter:
+    drop-shadow(0 0 2px rgba(244, 228, 193, 1))
+    drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
 }
 
 /* Small play-triangle badge on pins whose card has an associated video. */
