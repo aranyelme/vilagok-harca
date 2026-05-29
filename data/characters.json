@@ -121,14 +121,14 @@
   {
     "id": "ch_08",
     "name": "Hino",
-    "age": null,
-    "age_label": "sivatagi szállító",
+    "age": 22,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "szállító",
     "front_image": "assets/cards/ch_8a.webp",
     "back_image": "assets/cards/ch_8b.webp",
-    "bio": "Sivatagi szállító.\nElvették az alakváltók a tavat, a zöldet, az erdőket. Lerombolták Merion faluját.",
+    "bio": "Jelenlegi foglalkozása: sivatagi szállító. Kisebb falvak és tanyák között szállítja az információt, a kaját, vizet, erőforrásokat - leginkább kereskedő, postás funkciót lát el.\n\nA szülei szintén itt éltek a nagyszüleikkel. Ezen a helyen erdős terület volt, ami elég árnyékot adott a boszorkányoknak, hogy fenntartsák az életvitelüket. A konfliktus során viszont az alakváltó seregek kipusztították a természeti adottságait ennek a területnek. A saját értékeikkel szembehelyezkedve elpusztították a falut (Merion) és az erdőt, ahol ezek a boszorkány telepesek éltek.",
     "related_card_ids": [],
     "map_location": {
       "x": 35.21,
