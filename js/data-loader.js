@@ -26,7 +26,28 @@ const DataStore = {
     this.timeline = timeline;
     this.videos = videos;
     this.characters = characters;
+    this._ensureCharacterPins();
     return this;
+  },
+
+  // Every character should have a map pin. Those without a saved map_location
+  // get a spread-out default near the top of the map (in memory only) so they
+  // appear immediately and can be dragged into place via the editor. Once a
+  // real position is dragged + published, it is written to characters.json and
+  // this default no longer applies.
+  _ensureCharacterPins() {
+    const COLS = 8;
+    let placed = 0;
+    this.getSortedCharacters().forEach(ch => {
+      if (ch.map_location && typeof ch.map_location.x === 'number') return;
+      const col = placed % COLS;
+      const row = Math.floor(placed / COLS);
+      ch.map_location = {
+        x: +(6 + col * 12).toFixed(2),
+        y: +(8 + row * 8).toFixed(2),
+      };
+      placed += 1;
+    });
   },
 
   async _fetch(path, fallback) {
