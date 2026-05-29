@@ -139,6 +139,26 @@ const DataStore = {
     return this.characters.filter(c => c.era === eraName);
   },
 
+  // 1-based display index used by the map's character pins.
+  getCharacterNumber(id) {
+    const sorted = this.getSortedCharacters();
+    const idx = sorted.findIndex(c => c.id === id);
+    return idx === -1 ? null : idx + 1;
+  },
+
+  isCharacterInFutureEra(ch) {
+    return !!(ch && ch.era === FUTURE_ERA);
+  },
+
+  // Characters that carry a map pin (map_location), split by map variant
+  // the same way hotspots are: future-era pins on the future map, the rest
+  // on the present map.
+  getCharacterPinsForVariant(variant) {
+    const wantFuture = variant === 'future';
+    return this.characters.filter(c =>
+      c.map_location && this.isCharacterInFutureEra(c) === wantFuture);
+  },
+
   // Characters that reference a given moment card id in related_card_ids.
   getCharactersForCard(cardId) {
     if (!cardId) return [];
