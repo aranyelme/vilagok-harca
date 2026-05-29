@@ -307,6 +307,30 @@ main {
 
 .hotspot.dimmed { opacity: 0.18; pointer-events: none; }
 
+/* Character pins — same shape as momentum hotspots but bronze, so people and
+   events read as distinct families on the map. */
+.hotspot.character-pin {
+  background: radial-gradient(circle at 30% 25%, #e8b27a 0%, #b9763e 55%, #7d4a22 100%);
+  border-color: #3a2310;
+  box-shadow:
+    0 0 10px rgba(185, 118, 62, 0.7),
+    0 2px 5px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 224, 190, 0.55),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+}
+.hotspot.character-pin::after { border-color: #c98a4c; }
+.hotspot.character-pin .hotspot-num {
+  color: #2a1606;
+  text-shadow: 0 1px 0 rgba(255, 224, 190, 0.5);
+}
+.hotspot.character-pin:hover {
+  box-shadow:
+    0 0 16px rgba(224, 160, 100, 0.95),
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 224, 190, 0.7),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+}
+
 /* Small play-triangle badge on pins whose card has an associated video. */
 .hotspot-video-badge {
   position: absolute;
@@ -952,6 +976,35 @@ body.admin-active main { right: 380px; }
   margin: 0 0 0.5rem;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--gold-dim);
+}
+
+/* Momentum / Karakter editor toggle. */
+.admin-mode-switch {
+  display: flex;
+  gap: 0;
+  margin: 0 0 0.8rem;
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.admin-mode-btn {
+  flex: 1;
+  font-family: var(--font-title);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.74rem;
+  padding: 0.5rem 0.4rem;
+  background: rgba(244, 228, 193, 0.05);
+  color: var(--parchment-dark);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.admin-mode-btn + .admin-mode-btn { border-left: 1px solid var(--gold-dim); }
+.admin-mode-btn:hover { background: rgba(201, 168, 76, 0.18); }
+.admin-mode-btn.active {
+  background: var(--gold);
+  color: var(--ink);
 }
 
 .admin-hint {

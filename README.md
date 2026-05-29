@@ -6,7 +6,7 @@ A webhely négy egymásba fonódó réteget mutat be:
 
 1. **Térkép** — a kézzel rajzolt világtérkép, kattintható pecsétekkel. Két korszak között lehet váltani (jelen és „50 év múlva").
 2. **Momentumkártyák** — a történelmi pillanatok, előlapjukon illusztráció, hátukon cím és leírás. Helyszínhez (pecséthez) kötődnek.
-3. **Karakterek** — szereplők, akik megjelennek a történetekben. *Külön* adattípus a momentumoktól: nincs térképi pecsétjük, viszont több momentumhoz is kapcsolódhatnak (`related_card_ids`).
+3. **Karakterek** — szereplők, akik megjelennek a történetekben. *Külön* adattípus a momentumoktól, és több momentumhoz is kapcsolódhatnak (`related_card_ids`). Opcionálisan saját, **bronz színű, számozott pecsétet** kaphatnak a térképen (`map_location`), amelyet a szerkesztőben lehet elhelyezni és mozgatni.
 4. **Idővonal és Krónika** — a világ történelmének korszakai, kronológiai szűréssel.
 
 ---
@@ -135,7 +135,7 @@ A repó két **különálló** kártya-fajtát tárol; a megkülönböztetés sz
 |---|---|---|
 | Mit ír le? | Egy *eseményt* / pillanatot | Egy *személyt* / szereplőt |
 | Adatfájl | `data/cards.json` | `data/characters.json` |
-| Térképi pecsét? | **Igen** — minden momentum egy hotspothoz tartozik | **Nem** — a karakterek nem helyhez, hanem több eseményhez köthetők |
+| Térképi pecsét? | **Igen** — minden momentum egy hotspothoz tartozik | **Opcionális** — bronz, számozott „személy-pecsét" (`map_location`), a szerkesztőben elhelyezhető/mozgatható |
 | Korszakhoz tartozik? | Igen, és kronológiai pozíciója is van a korszakban | Igen (mely korszakban él), de kronológia nélkül |
 | Galéria | „Kártyák" fül | „Karakterek" fül |
 | Modal | Közös `cardModal` (csak más színű keret + más metaadatok) | Ugyanaz a modál, bronz színű kerettel és életkor-felirattal |
@@ -157,13 +157,24 @@ A kapcsolatot a **karakter** oldalon tároljuk: minden karakterhez tartozik egy 
   "front_image": "assets/cards/ch_7a.webp",
   "back_image": "assets/cards/ch_7b.webp",
   "bio": "Rin — nagy harcos…",
-  "related_card_ids": ["mc_19"]
+  "related_card_ids": ["mc_19"],
+  "map_location": { "x": 41.2, "y": 58.7 }
 }
 ```
 
 - `age` numerikus érték, vagy `null` ha nem ismert.
 - `age_label` opcionális, ezzel írható felül a megjelenítés (pl. „14–15 éves", „varázsló", „a háború hőse").
 - `faction` szabad szöveges címke (boszorkány, harcos, varázsló, alakváltó, …).
+- `map_location` **opcionális** — ha meg van adva, a karakter bronz színű, számozott pecsétet kap a térképen. A pecsét ugyanúgy a korszak szerint kerül a „jelen" vagy a „jövő" térképre, mint a momentumoké. Hiánya esetén a karakter csak a galériában jelenik meg.
+
+### Karakter-szerkesztő mód
+
+A felső menü **Szerkesztő** gombjával megnyíló oldalsávban a tetején egy **Momentum / Karakter** kapcsoló található:
+
+- **Karakter** módban kitölthető a *név, életkor, életkor-felirat, korszak, leírás (életrajz)* és a két képútvonal.
+- A **Meglévő karakter** legördülővel a már felvett szereplők betölthetők szerkesztésre.
+- A térképre kattintva a karakter **személy-pecsétje** elhelyezhető; a meglévő bronz pecsétek **húzással** áthelyezhetők (akárcsak a momentumoké).
+- A **Mentés** a memóriába ír; a **Mentés és publikálás** a `data/characters.json` fájlt (a többivel együtt) commitolja a GitHub-ra. A *JSON exportálás* gomb is letölti a `characters.json`-t.
 
 ### Új karakter felvétele
 

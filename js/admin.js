@@ -8,12 +8,15 @@
 const Admin = (() => {
   const UNLOCK_KEY = 'vh.adminUnlocked';
   let active = false;
+  let mode = 'moment'; // 'moment' | 'character'
   let panel, toggleBtn;
   let titleEl, eraSelect, chronologyEl, descEl, frontEl, backEl;
   let coordsEl, hintEl;
   let saveBtn, cancelBtn, deleteBtn, exportBtn;
   let lockBtn, publishBtn, forgetTokenBtn, publishStatusEl;
   let ownerEl, repoEl, branchEl, tokenEl;
+  let modeBtns, momentFields, characterFields;
+  let charPickerEl, charNameEl, charAgeEl, charAgeLabelEl, charEraSelect, charDescEl, charFrontEl, charBackEl;
   let editingId = null;
   let pinX = null, pinY = null;
   let ghostPin = null;
@@ -44,7 +47,21 @@ const Admin = (() => {
     branchEl = document.getElementById('adminRepoBranch');
     tokenEl  = document.getElementById('adminToken');
 
+    modeBtns        = panel.querySelectorAll('.admin-mode-btn');
+    momentFields    = document.getElementById('adminMomentFields');
+    characterFields = document.getElementById('adminCharacterFields');
+    charPickerEl    = document.getElementById('adminCharPicker');
+    charNameEl      = document.getElementById('adminCharName');
+    charAgeEl       = document.getElementById('adminCharAge');
+    charAgeLabelEl  = document.getElementById('adminCharAgeLabel');
+    charEraSelect   = document.getElementById('adminCharEra');
+    charDescEl      = document.getElementById('adminCharDesc');
+    charFrontEl     = document.getElementById('adminCharFront');
+    charBackEl      = document.getElementById('adminCharBack');
+
     _populateEras();
+    _populateCharEras();
+    _populateCharPicker();
     _setupUnlock();
     _loadGithubConfig();
 
@@ -57,7 +74,22 @@ const Admin = (() => {
     if (publishBtn)       publishBtn.addEventListener('click', _onPublish);
     if (forgetTokenBtn)   forgetTokenBtn.addEventListener('click', _onForgetToken);
 
+    modeBtns.forEach(btn => btn.addEventListener('click', () => _setMode(btn.dataset.mode)));
+    if (charPickerEl) charPickerEl.addEventListener('change', _onCharPickerChange);
+
     MapEngine.setAdminClickHandler(_onMapClick);
+  }
+
+  /* ---------- Mode switch (Momentum / Karakter) ---------- */
+
+  function _setMode(newMode) {
+    if (newMode !== 'moment' && newMode !== 'character') return;
+    mode = newMode;
+    modeBtns.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    if (momentFields)    momentFields.hidden    = (mode !== 'moment');
+    if (characterFields) characterFields.hidden  = (mode !== 'character');
+    if (deleteBtn) deleteBtn.textContent = (mode === 'character') ? 'Karakter törlése' : 'Pecsét törlése';
+    _reset();
   }
 
   /* ---------- Hidden unlock ---------- */
@@ -115,12 +147,43 @@ const Admin = (() => {
       if (mapBtn && !mapBtn.classList.contains('active')) mapBtn.click();
       _reset();
       MapEngine.setHotspotDragHandler(_onHotspotDrag);
+      MapEngine.setCharacterPinDragHandler(_onCharacterPinDrag);
+      _renderCharacterPins();
     } else {
       _reset();
       MapEngine.setHotspotDragHandler(null);
+      MapEngine.setCharacterPinDragHandler(null);
+      _renderCharacterPins();
     }
     // Viewport shrank/grew — let the map recompute its fit.
     requestAnimationFrame(() => MapEngine.relayout());
+  }
+
+  function _mapVariant() {
+    return MapEngine.getVariant ? MapEngine.getVariant() : 'present';
+  }
+
+  function _renderCharacterPins() {
+    MapEngine.renderCharacterPins(
+      DataStore.getCharacterPinsForVariant(_mapVariant()),
+      { admin: active }
+    );
+  }
+
+  function _onCharacterPinDrag({ character, x, y, phase }) {
+    if (!active) return;
+    character.map_location = { x, y };
+
+    if (mode === 'character' && editingId === character.id) {
+      pinX = x;
+      pinY = y;
+      _updateCoords();
+      if (phase === 'end') _renderGhost();
+    }
+
+    if (phase === 'end') {
+      _setHint(`${character.name || character.id} új pozíciója: ${x}%, ${y}%. Kattints a „Mentés és publikálás” gombra a véglegesítéshez.`);
+    }
   }
 
   function _onHotspotDrag({ hotspot, x, y, phase }) {
@@ -149,6 +212,8 @@ const Admin = (() => {
     const card = cardId ? DataStore.getCard(cardId) : null;
     if (!card) return;
 
+    if (mode !== 'moment') _setMode('moment');
+
     editingId = card.id;
     titleEl.value = card.title || '';
     if (card.era && [...eraSelect.options].some(o => o.value === card.era)) {
@@ -168,6 +233,45 @@ const Admin = (() => {
     _setHint(`Szerkesztés: „${card.title || card.id}”`);
   }
 
+  // Load an existing character into the character form (from a pin click or
+  // the picker). Switches to character mode if needed.
+  function editCharacter(ch) {
+    if (!active || !ch) return;
+    if (mode !== 'character') _setMode('character');
+
+    editingId = ch.id;
+    if (charPickerEl) charPickerEl.value = ch.id;
+    charNameEl.value     = ch.name || '';
+    charAgeEl.value      = (ch.age != null) ? ch.age : '';
+    charAgeLabelEl.value = ch.age_label || '';
+    if (ch.era && [...charEraSelect.options].some(o => o.value === ch.era)) {
+      charEraSelect.value = ch.era;
+    }
+    charDescEl.value  = ch.bio || '';
+    charFrontEl.value = ch.front_image || '';
+    charBackEl.value  = ch.back_image || '';
+
+    if (ch.map_location) {
+      pinX = ch.map_location.x;
+      pinY = ch.map_location.y;
+    } else {
+      pinX = null;
+      pinY = null;
+    }
+    _renderGhost();
+    _updateCoords();
+    deleteBtn.hidden = false;
+    cancelBtn.hidden = false;
+    _setHint(`Szerkesztés: „${ch.name || ch.id}”. Kattints a térképre a karakter pecsétjének elhelyezéséhez vagy áthelyezéséhez.`);
+  }
+
+  function _onCharPickerChange() {
+    const id = charPickerEl.value;
+    if (!id) { _reset(); return; }
+    const ch = DataStore.getCharacter(id);
+    if (ch) editCharacter(ch);
+  }
+
   function _onMapClick({ x, y }) {
     if (!active) return;
     pinX = x;
@@ -175,7 +279,11 @@ const Admin = (() => {
     _renderGhost();
     _updateCoords();
     cancelBtn.hidden = false;
-    if (editingId) {
+    if (mode === 'character') {
+      _setHint(editingId
+        ? `${charNameEl.value || editingId} új pozíciója: ${x}%, ${y}%. Kattints Mentésre.`
+        : `Új karakter pecsétje: ${x}%, ${y}%. Töltsd ki az űrlapot, majd Mentés.`);
+    } else if (editingId) {
       _setHint(`${editingId} új pozíciója: ${x}%, ${y}%. Kattints Mentésre.`);
     } else {
       _setHint(`Új pecsét helye: ${x}%, ${y}%. Töltsd ki az űrlapot, majd Mentés.`);
@@ -191,6 +299,31 @@ const Admin = (() => {
       opt.textContent = era.name;
       eraSelect.appendChild(opt);
     });
+  }
+
+  function _populateCharEras() {
+    if (!charEraSelect) return;
+    charEraSelect.innerHTML = '';
+    DataStore.getEras().forEach(era => {
+      const opt = document.createElement('option');
+      opt.value = era.name;
+      opt.textContent = era.name;
+      charEraSelect.appendChild(opt);
+    });
+  }
+
+  function _populateCharPicker() {
+    if (!charPickerEl) return;
+    const current = charPickerEl.value;
+    charPickerEl.innerHTML = '<option value="">— Új karakter —</option>';
+    DataStore.getSortedCharacters().forEach(ch => {
+      const opt = document.createElement('option');
+      opt.value = ch.id;
+      const num = DataStore.getCharacterNumber(ch.id);
+      opt.textContent = `${num != null ? num + '. ' : ''}${ch.name || ch.id}`;
+      charPickerEl.appendChild(opt);
+    });
+    if (current && DataStore.getCharacter(current)) charPickerEl.value = current;
   }
 
   function _updateCoords() {
@@ -215,6 +348,7 @@ const Admin = (() => {
   }
 
   function _onSave() {
+    if (mode === 'character') { _onSaveCharacter(); return; }
     if (pinX === null || pinY === null) {
       alert('Előbb kattints a térképre a pecsét elhelyezéséhez.');
       return;
@@ -266,8 +400,54 @@ const Admin = (() => {
     _setHint(`✓ Mentve (memóriában): ${cardId}. A „Mentés és publikálás” gombbal véglegesítsd a GitHub-ra.`);
   }
 
+  function _onSaveCharacter() {
+    const name = (charNameEl.value || '').trim();
+    if (!name) { alert('A név megadása kötelező.'); return; }
+
+    const era = charEraSelect.value;
+    const eraObj = DataStore.getEras().find(e => e.name === era);
+    const eraOrder = eraObj ? eraObj.order : 0;
+
+    const charId = editingId || _nextCharacterId();
+    let ch = DataStore.getCharacter(charId);
+    const isNew = !ch;
+    if (isNew) {
+      ch = { id: charId, related_card_ids: [] };
+      DataStore.characters.push(ch);
+    }
+
+    const ageRaw = (charAgeEl.value || '').trim();
+    const ageVal = ageRaw === '' ? null : Number(ageRaw);
+    const ageLabel = (charAgeLabelEl.value || '').trim();
+
+    ch.name        = name;
+    ch.age         = (ageVal != null && Number.isFinite(ageVal)) ? ageVal : null;
+    ch.age_label   = ageLabel || null;
+    ch.era         = era;
+    ch.era_order   = eraOrder;
+    ch.bio         = (charDescEl.value || '').trim();
+    ch.front_image = (charFrontEl.value || '').trim();
+    ch.back_image  = (charBackEl.value || '').trim();
+    // Pin is optional: only set/move it when a position has been placed.
+    if (pinX !== null && pinY !== null) {
+      ch.map_location = { x: pinX, y: pinY };
+    }
+
+    _removeGhost();
+    _renderCharacterPins();
+    _populateCharPicker();
+    if (charPickerEl) charPickerEl.value = charId;
+    if (window.CharactersGallery && CharactersGallery.render) CharactersGallery.render();
+
+    editingId = charId;
+    deleteBtn.hidden = false;
+    cancelBtn.hidden = false;
+    _setHint(`✓ Mentve (memóriában): ${charId}. A „Mentés és publikálás” gombbal véglegesítsd a GitHub-ra.`);
+  }
+
   function _onDelete() {
     if (!editingId) return;
+    if (mode === 'character') { _onDeleteCharacter(); return; }
     const card = DataStore.getCard(editingId);
     const label = card ? (card.title || card.id) : editingId;
     if (!confirm(`Biztosan törlöd: „${label}”?`)) return;
@@ -286,6 +466,21 @@ const Admin = (() => {
     _setHint(`Törölve: ${id}.`);
   }
 
+  function _onDeleteCharacter() {
+    const ch = DataStore.getCharacter(editingId);
+    const label = ch ? (ch.name || ch.id) : editingId;
+    if (!confirm(`Biztosan törlöd a karaktert: „${label}”?`)) return;
+
+    const id = editingId;
+    DataStore.characters = DataStore.characters.filter(c => c.id !== id);
+
+    _renderCharacterPins();
+    _populateCharPicker();
+    if (window.CharactersGallery && CharactersGallery.render) CharactersGallery.render();
+    _reset();
+    _setHint(`Törölve: ${id}.`);
+  }
+
   function _onCancel() {
     _reset();
   }
@@ -300,11 +495,23 @@ const Admin = (() => {
     frontEl.value = '';
     backEl.value  = '';
     if (eraSelect.options.length) eraSelect.selectedIndex = 0;
+    if (charPickerEl)   charPickerEl.value = '';
+    if (charNameEl)     charNameEl.value = '';
+    if (charAgeEl)      charAgeEl.value = '';
+    if (charAgeLabelEl) charAgeLabelEl.value = '';
+    if (charDescEl)     charDescEl.value = '';
+    if (charFrontEl)    charFrontEl.value = '';
+    if (charBackEl)     charBackEl.value = '';
+    if (charEraSelect && charEraSelect.options.length) charEraSelect.selectedIndex = 0;
     _removeGhost();
     _updateCoords();
     deleteBtn.hidden = true;
     cancelBtn.hidden = true;
-    _setHint('Kattints a térképre új pecsét elhelyezéséhez, vagy egy meglévő pecsétre a szerkesztéshez.');
+    if (mode === 'character') {
+      _setHint('Válassz egy meglévő karaktert a legördülőből, vagy töltsd ki az űrlapot egy újhoz. Kattints a térképre a pecsét elhelyezéséhez.');
+    } else {
+      _setHint('Kattints a térképre új pecsét elhelyezéséhez, vagy egy meglévő pecsétre a szerkesztéshez.');
+    }
   }
 
   function _setHint(msg) { if (hintEl) hintEl.textContent = msg; }
@@ -319,9 +526,20 @@ const Admin = (() => {
     return id;
   }
 
+  function _nextCharacterId() {
+    let n = DataStore.characters.length + 1;
+    let id = 'ch_' + String(n).padStart(2, '0');
+    while (DataStore.getCharacter(id)) {
+      n += 1;
+      id = 'ch_' + String(n).padStart(2, '0');
+    }
+    return id;
+  }
+
   function _onExport() {
     _download('cards.json', DataStore.cards);
     _download('hotspots.json', DataStore.hotspots);
+    _download('characters.json', DataStore.characters);
     _download('timeline.json', DataStore.timeline);
   }
 
@@ -379,11 +597,12 @@ const Admin = (() => {
     GitHubSync.saveConfig(cfg);
 
     const files = [
-      { path: 'data/cards.json',    content: JSON.stringify(DataStore.cards, null, 2) + '\n' },
-      { path: 'data/hotspots.json', content: JSON.stringify(DataStore.hotspots, null, 2) + '\n' },
-      { path: 'data/timeline.json', content: JSON.stringify(DataStore.timeline, null, 2) + '\n' },
+      { path: 'data/cards.json',      content: JSON.stringify(DataStore.cards, null, 2) + '\n' },
+      { path: 'data/hotspots.json',   content: JSON.stringify(DataStore.hotspots, null, 2) + '\n' },
+      { path: 'data/characters.json', content: JSON.stringify(DataStore.characters, null, 2) + '\n' },
+      { path: 'data/timeline.json',   content: JSON.stringify(DataStore.timeline, null, 2) + '\n' },
     ];
-    const message = `Admin: pecsétek és kártyák frissítése (${new Date().toISOString()})`;
+    const message = `Admin: pecsétek, kártyák és karakterek frissítése (${new Date().toISOString()})`;
 
     publishBtn.disabled = true;
     _setPublishStatus('Publikálás folyamatban…', 'busy');
@@ -408,7 +627,7 @@ const Admin = (() => {
     _setPublishStatus('Token törölve a böngészőből.', 'ok');
   }
 
-  return { init, toggle, isActive, editHotspot };
+  return { init, toggle, isActive, editHotspot, editCharacter };
 })();
 
 if (typeof window !== 'undefined') window.Admin = Admin;

@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=16" />
-  <link rel="stylesheet" href="css/cards.css?v=16" />
+  <link rel="stylesheet" href="css/style.css?v=17" />
+  <link rel="stylesheet" href="css/cards.css?v=17" />
 </head>
 <body class="view-map">
   <header class="topbar">
@@ -33,6 +33,7 @@
         <div class="map-canvas" id="mapCanvas">
           <img class="map-image" id="mapImage" src="assets/map/terkep_lo.jpg" alt="A világ térképe" draggable="false" decoding="async" fetchpriority="high" />
           <div class="hotspots-layer" id="hotspotsLayer" aria-label="Helyszínek"></div>
+          <div class="hotspots-layer character-pins-layer" id="characterPinsLayer" aria-label="Karakterek"></div>
         </div>
         <div class="map-vignette" aria-hidden="true"></div>
         <div class="hotspot-preview" id="hotspotPreview" hidden aria-hidden="true">
@@ -170,32 +171,79 @@
   <!-- ADMIN PANEL (in-page sidebar editor) -->
   <aside class="admin-panel" id="adminPanel" hidden aria-label="Szerkesztő">
     <h2 class="admin-title">Szerkesztő</h2>
+    <div class="admin-mode-switch" id="adminModeSwitch" role="group" aria-label="Szerkesztés típusa">
+      <button class="admin-mode-btn active" data-mode="moment" type="button">Momentum</button>
+      <button class="admin-mode-btn" data-mode="character" type="button">Karakter</button>
+    </div>
     <p class="admin-hint" id="adminHint">Kattints a térképre új pecsét elhelyezéséhez, vagy egy meglévő pecsétre a szerkesztéshez.</p>
     <div class="admin-coords" id="adminCoords">Pozíció: —</div>
-    <div class="admin-field">
-      <label for="adminTitle">Cím</label>
-      <input type="text" id="adminTitle" placeholder="pl. A Nagy Összecsapás" />
+
+    <!-- MOMENTUM CARD FIELDS -->
+    <div id="adminMomentFields">
+      <div class="admin-field">
+        <label for="adminTitle">Cím</label>
+        <input type="text" id="adminTitle" placeholder="pl. A Nagy Összecsapás" />
+      </div>
+      <div class="admin-field">
+        <label for="adminEra">Korszak</label>
+        <select id="adminEra"></select>
+      </div>
+      <div class="admin-field">
+        <label for="adminChronology">Kronológia (sorrend a korszakon belül)</label>
+        <input type="number" id="adminChronology" min="1" step="1" placeholder="pl. 1, 2, 3…" />
+      </div>
+      <div class="admin-field">
+        <label for="adminDesc">Leírás</label>
+        <textarea id="adminDesc" placeholder="Rövid leírás a pillanatról..."></textarea>
+      </div>
+      <div class="admin-field">
+        <label for="adminFront">Előlap kép</label>
+        <input type="text" id="adminFront" placeholder="assets/cards/mc_Xa.webp" />
+      </div>
+      <div class="admin-field">
+        <label for="adminBack">Hátlap kép</label>
+        <input type="text" id="adminBack" placeholder="assets/cards/mc_Xb.webp" />
+      </div>
     </div>
-    <div class="admin-field">
-      <label for="adminEra">Korszak</label>
-      <select id="adminEra"></select>
+
+    <!-- CHARACTER CARD FIELDS -->
+    <div id="adminCharacterFields" hidden>
+      <div class="admin-field">
+        <label for="adminCharPicker">Meglévő karakter szerkesztése</label>
+        <select id="adminCharPicker">
+          <option value="">— Új karakter —</option>
+        </select>
+      </div>
+      <div class="admin-field">
+        <label for="adminCharName">Név</label>
+        <input type="text" id="adminCharName" placeholder="pl. Bóna" />
+      </div>
+      <div class="admin-field">
+        <label for="adminCharAge">Életkor (szám, opcionális)</label>
+        <input type="number" id="adminCharAge" min="0" step="1" placeholder="pl. 37" />
+      </div>
+      <div class="admin-field">
+        <label for="adminCharAgeLabel">Életkor-felirat (opcionális, felülírja a számot)</label>
+        <input type="text" id="adminCharAgeLabel" placeholder="pl. 14–15 éves, varázsló" />
+      </div>
+      <div class="admin-field">
+        <label for="adminCharEra">Korszak</label>
+        <select id="adminCharEra"></select>
+      </div>
+      <div class="admin-field">
+        <label for="adminCharDesc">Leírás (életrajz)</label>
+        <textarea id="adminCharDesc" placeholder="Rövid leírás a karakterről..."></textarea>
+      </div>
+      <div class="admin-field">
+        <label for="adminCharFront">Előlap kép</label>
+        <input type="text" id="adminCharFront" placeholder="assets/cards/ch_Xa.webp" />
+      </div>
+      <div class="admin-field">
+        <label for="adminCharBack">Hátlap kép</label>
+        <input type="text" id="adminCharBack" placeholder="assets/cards/ch_Xb.webp" />
+      </div>
     </div>
-    <div class="admin-field">
-      <label for="adminChronology">Kronológia (sorrend a korszakon belül)</label>
-      <input type="number" id="adminChronology" min="1" step="1" placeholder="pl. 1, 2, 3…" />
-    </div>
-    <div class="admin-field">
-      <label for="adminDesc">Leírás</label>
-      <textarea id="adminDesc" placeholder="Rövid leírás a pillanatról..."></textarea>
-    </div>
-    <div class="admin-field">
-      <label for="adminFront">Előlap kép</label>
-      <input type="text" id="adminFront" placeholder="assets/cards/mc_Xa.webp" />
-    </div>
-    <div class="admin-field">
-      <label for="adminBack">Hátlap kép</label>
-      <input type="text" id="adminBack" placeholder="assets/cards/mc_Xb.webp" />
-    </div>
+
     <hr class="admin-divider" />
     <button class="admin-btn admin-btn-primary" id="adminSave">Mentés</button>
     <button class="admin-btn admin-btn-secondary" id="adminCancel" hidden>Mégsem</button>
@@ -242,16 +290,16 @@
     <p class="drawer-footer">Richard Fejes &amp; az Aranyelme műhely · 2026</p>
   </aside>
 
-  <script src="js/data-loader.js?v=16"></script>
-  <script src="js/map.js?v=16"></script>
-  <script src="js/cards.js?v=16"></script>
-  <script src="js/characters.js?v=16"></script>
-  <script src="js/legend.js?v=16"></script>
-  <script src="js/videos.js?v=16"></script>
-  <script src="js/timeline.js?v=16"></script>
-  <script src="js/chronicle.js?v=16"></script>
-  <script src="js/github-sync.js?v=16"></script>
-  <script src="js/admin.js?v=16"></script>
-  <script src="js/app.js?v=16"></script>
+  <script src="js/data-loader.js?v=17"></script>
+  <script src="js/map.js?v=17"></script>
+  <script src="js/cards.js?v=17"></script>
+  <script src="js/characters.js?v=17"></script>
+  <script src="js/legend.js?v=17"></script>
+  <script src="js/videos.js?v=17"></script>
+  <script src="js/timeline.js?v=17"></script>
+  <script src="js/chronicle.js?v=17"></script>
+  <script src="js/github-sync.js?v=17"></script>
+  <script src="js/admin.js?v=17"></script>
+  <script src="js/app.js?v=17"></script>
 </body>
 </html>

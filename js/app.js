@@ -26,8 +26,16 @@ let _currentMapVariant = 'present';
         CardModal.openQueue(cards, 0);
       }
     },
+    onCharacterPinClick: (character) => {
+      if (window.Admin && Admin.isActive()) {
+        Admin.editCharacter(character);
+        return;
+      }
+      CardModal.openCharacter(character.id);
+    },
   });
   MapEngine.renderHotspots(DataStore.getHotspotsForVariant(_currentMapVariant));
+  MapEngine.renderCharacterPins(DataStore.getCharacterPinsForVariant(_currentMapVariant));
 
   Timeline.init({
     onEraSelect: (eraName) => {
@@ -56,6 +64,7 @@ function _setMapVariant(variant) {
   if (window.MapEngine) {
     MapEngine.setVariant(variant);
     MapEngine.renderHotspots(DataStore.getHotspotsForVariant(variant));
+    MapEngine.renderCharacterPins(DataStore.getCharacterPinsForVariant(variant));
   }
   if (window.Legend) Legend.render(variant);
 }

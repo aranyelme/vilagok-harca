@@ -28,7 +28,7 @@ const MapEngine = (() => {
   let LODS = MAP_VARIANTS.present;
   let currentVariant = 'present';
 
-  let viewport, canvas, image, hotspotsLayer;
+  let viewport, canvas, image, hotspotsLayer, characterPinsLayer;
   let scale = 1, minScale = 0.3, maxScale = 4;
   let posX = 0, posY = 0;
   let viewportW = 0, viewportH = 0;
@@ -36,6 +36,8 @@ const MapEngine = (() => {
   let downX = 0, downY = 0;
   let onHotspotClick = null;
   let onHotspotDrag = null;
+  let onCharacterPinClick = null;
+  let onCharacterPinDrag = null;
   let pinchDist = null;
   let onPanZoom = null;
 
@@ -51,7 +53,9 @@ const MapEngine = (() => {
     canvas = document.getElementById('mapCanvas');
     image = document.getElementById('mapImage');
     hotspotsLayer = document.getElementById('hotspotsLayer');
+    characterPinsLayer = document.getElementById('characterPinsLayer');
     onHotspotClick = opts.onHotspotClick || null;
+    onCharacterPinClick = opts.onCharacterPinClick || null;
     onPanZoom = opts.onPanZoom || null;
 
     if (!viewport || !canvas || !image) return;
@@ -459,13 +463,16 @@ const MapEngine = (() => {
     if (preview) preview.hidden = true;
   }
 
-  function _startHotspotDrag(hotspot, btn, startEvent) {
+  // Generic pin drag. Translates pointer motion over `layer` into clamped
+  // percentage coordinates and reports them to `onDrag(x, y, phase)`. Used by
+  // both momentum hotspots and character pins.
+  function _startPinDrag(btn, startEvent, layer, startX, startY, onDrag) {
     startEvent.stopPropagation();
     const startClientX = startEvent.clientX;
     const startClientY = startEvent.clientY;
     let moved = false;
-    let curX = hotspot.x;
-    let curY = hotspot.y;
+    let curX = startX;
+    let curY = startY;
 
     try { btn.setPointerCapture(startEvent.pointerId); } catch (_) { /* noop */ }
     btn.classList.add('dragging');
@@ -476,7 +483,7 @@ const MapEngine = (() => {
       if (!moved && Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
       moved = true;
       // Measure the layer every move so wheel-zoom mid-drag still works.
-      const rect = hotspotsLayer.getBoundingClientRect();
+      const rect = layer.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
       const pctX = ((e.clientX - rect.left) / rect.width) * 100;
       const pctY = ((e.clientY - rect.top)  / rect.height) * 100;
@@ -484,7 +491,7 @@ const MapEngine = (() => {
       curY = +Math.max(0, Math.min(100, pctY)).toFixed(2);
       btn.style.left = curX + '%';
       btn.style.top  = curY + '%';
-      if (onHotspotDrag) onHotspotDrag({ hotspot, x: curX, y: curY, phase: 'move' });
+      onDrag(curX, curY, 'move');
     }
 
     function onUp(e) {
@@ -495,13 +502,101 @@ const MapEngine = (() => {
       try { btn.releasePointerCapture(startEvent.pointerId); } catch (_) { /* noop */ }
       if (moved) {
         btn._justDragged = true;
-        if (onHotspotDrag) onHotspotDrag({ hotspot, x: curX, y: curY, phase: 'end' });
+        onDrag(curX, curY, 'end');
       }
     }
 
     btn.addEventListener('pointermove', onMove);
     btn.addEventListener('pointerup', onUp);
     btn.addEventListener('pointercancel', onUp);
+  }
+
+  function _startHotspotDrag(hotspot, btn, startEvent) {
+    _startPinDrag(btn, startEvent, hotspotsLayer, hotspot.x, hotspot.y, (x, y, phase) => {
+      if (onHotspotDrag) onHotspotDrag({ hotspot, x, y, phase });
+    });
+  }
+
+  function _startCharacterPinDrag(character, btn, startEvent) {
+    const loc = character.map_location || {};
+    _startPinDrag(btn, startEvent, characterPinsLayer, loc.x, loc.y, (x, y, phase) => {
+      if (onCharacterPinDrag) onCharacterPinDrag({ character, x, y, phase });
+    });
+  }
+
+  // Numbered, draggable pins for characters that have a map_location. Rendered
+  // in their own layer so momentum-hotspot re-renders don't wipe them.
+  function renderCharacterPins(characters, opts = {}) {
+    if (!characterPinsLayer) return;
+    characterPinsLayer.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    (characters || []).forEach(ch => {
+      if (!ch.map_location) return;
+      const num = window.DataStore ? DataStore.getCharacterNumber(ch.id) : null;
+
+      const btn = document.createElement('button');
+      btn.className = 'hotspot character-pin';
+      btn.style.left = `${ch.map_location.x}%`;
+      btn.style.top  = `${ch.map_location.y}%`;
+      btn.dataset.id = `chpin_${ch.id}`;
+      btn.dataset.characterId = ch.id;
+      btn.setAttribute('aria-label', ch.name || 'Karakter');
+      if (opts.admin) btn.classList.add('admin-hotspot');
+
+      const numEl = document.createElement('span');
+      numEl.className = 'hotspot-num';
+      numEl.textContent = num != null ? String(num) : '·';
+      btn.appendChild(numEl);
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (btn._justDragged) { btn._justDragged = false; return; }
+        if (onCharacterPinClick) onCharacterPinClick(ch);
+      });
+      btn.addEventListener('pointerdown', (e) => {
+        if (!onCharacterPinDrag) return;
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        btn._justDragged = false;
+        _startCharacterPinDrag(ch, btn, e);
+      });
+      btn.addEventListener('mouseenter', () => _showCharacterPreview(ch, btn));
+      btn.addEventListener('mouseleave', _hidePreview);
+      btn.addEventListener('focus', () => _showCharacterPreview(ch, btn));
+      btn.addEventListener('blur', _hidePreview);
+      frag.appendChild(btn);
+    });
+    characterPinsLayer.appendChild(frag);
+  }
+
+  function _showCharacterPreview(ch, btn) {
+    const preview = document.getElementById('hotspotPreview');
+    if (!preview || !viewport || !ch) return;
+
+    const num = window.DataStore ? DataStore.getCharacterNumber(ch.id) : null;
+    const imgEl = document.getElementById('hotspotPreviewImg');
+    const titleEl = document.getElementById('hotspotPreviewTitle');
+    const eraEl = document.getElementById('hotspotPreviewEra');
+    const numEl = document.getElementById('hotspotPreviewNum');
+
+    if (numEl) numEl.textContent = num != null ? String(num) : '';
+    if (titleEl) titleEl.textContent = ch.name || ch.id;
+    if (eraEl) {
+      const ageBit = ch.age_label || (ch.age != null ? `${ch.age} éves` : '');
+      eraEl.textContent = [ageBit, ch.era].filter(Boolean).join(' · ');
+    }
+    if (imgEl) {
+      imgEl.alt = ch.name || '';
+      const thumb = (ch.front_image || '').replace(/\.webp$/i, '.thumb.webp');
+      imgEl.onerror = () => {
+        if (imgEl.src.endsWith('.thumb.webp') && ch.front_image) imgEl.src = ch.front_image;
+        else imgEl.style.visibility = 'hidden';
+      };
+      imgEl.style.visibility = '';
+      imgEl.src = thumb || ch.front_image || '';
+    }
+
+    preview.hidden = false;
+    _positionPreview(btn);
   }
 
   function filterHotspotsByEra(eraName) {
@@ -539,6 +634,7 @@ const MapEngine = (() => {
   return {
     init,
     renderHotspots,
+    renderCharacterPins,
     filterHotspotsByEra,
     setActiveHotspot,
     highlightHotspotByCardId,
@@ -551,6 +647,8 @@ const MapEngine = (() => {
     setAdminClickHandler(fn) { MapEngine._adminClickHandler = fn || null; },
     // Enable draggable hotspots by registering a callback. Pass null to disable.
     setHotspotDragHandler(fn) { onHotspotDrag = fn || null; },
+    // Enable draggable character pins. Pass null to disable.
+    setCharacterPinDragHandler(fn) { onCharacterPinDrag = fn || null; },
     _adminClickHandler: null,
   };
 })();
