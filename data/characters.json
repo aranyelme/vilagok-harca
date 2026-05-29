@@ -171,9 +171,9 @@
   },
   {
     "id": "ch_11",
-    "name": "Moéri",
-    "age": 13,
-    "age_label": "13–14 éves",
+    "name": "Morndó",
+    "age": 17,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "alakváltó-boszorkány",
@@ -189,8 +189,8 @@
   {
     "id": "ch_12",
     "name": "Moíri",
-    "age": 17,
-    "age_label": "17 éves",
+    "age": 13,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "alakváltó",
