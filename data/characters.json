@@ -53,11 +53,11 @@
   },
   {
     "id": "ch_05",
-    "name": "Göte",
-    "age": null,
-    "age_label": "kutató",
-    "era": "50 évvel később",
-    "era_order": 3,
+    "name": "Gőte",
+    "age": 22,
+    "age_label": null,
+    "era": "Békeidő",
+    "era_order": 1,
     "faction": "kutató",
     "front_image": "assets/cards/ch_5a.webp",
     "back_image": "assets/cards/ch_5b.webp",
@@ -153,7 +153,9 @@
     "front_image": "assets/cards/ch_12a.webp",
     "back_image": "assets/cards/ch_12b.webp",
     "bio": "Lökandó bátyja. Firindai szoros alakváltó.\nKatona akar lenni, mint az öccse.",
-    "related_card_ids": ["ch_02"]
+    "related_card_ids": [
+      "ch_02"
+    ]
   },
   {
     "id": "ch_15",
