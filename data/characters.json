@@ -10,7 +10,11 @@
     "front_image": "assets/cards/ch_1a.webp",
     "back_image": "assets/cards/ch_1b.webp",
     "bio": "Röplap: „Ne félj!\"\n\nPollen és Napsugár — hírvivő diplomata dédszülő — Tó völgye.\nA család tudja, hogy ételszállítmányokat blokkoltak a folyókon.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 42.18,
+      "y": 72.2
+    }
   },
   {
     "id": "ch_02",
@@ -23,7 +27,11 @@
     "front_image": "assets/cards/ch_2a.webp",
     "back_image": "assets/cards/ch_2b.webp",
     "bio": "Lökándó, Firóta unokája. Ő örökölte azt a kardot, amelyikkel Firóta a szorosban harcolt.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 18.19,
+      "y": 47.61
+    }
   },
   {
     "id": "ch_03",
@@ -36,7 +44,11 @@
     "front_image": "assets/cards/ch_3a.webp",
     "back_image": "assets/cards/ch_3b.webp",
     "bio": "Lih ★ — az, aki zip line-t épített a csatában. (Varázsló.)",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 65.54,
+      "y": 38.76
+    }
   },
   {
     "id": "ch_04",
@@ -49,7 +61,11 @@
     "front_image": "assets/cards/ch_4a.webp",
     "back_image": "assets/cards/ch_4b.webp",
     "bio": "Firóta — a háború hőse. A firindali szorosban kivívott csatát.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 28.74,
+      "y": 30.28
+    }
   },
   {
     "id": "ch_05",
@@ -62,7 +78,11 @@
     "front_image": "assets/cards/ch_5a.webp",
     "back_image": "assets/cards/ch_5b.webp",
     "bio": "A szemek megszállott kutatójaként a Nagykapu vezérlőtermét életre hívta.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 33.14,
+      "y": 21.71
+    }
   },
   {
     "id": "ch_06",
@@ -75,7 +95,11 @@
     "front_image": "assets/cards/ch_6a.webp",
     "back_image": "assets/cards/ch_6b.webp",
     "bio": "Lia, 14–15 éves. ◆ = Három kő nyaklánc. Nagyon érti, ahogy a tűz perzsel.\n\n— „Nem alakult volna ki a háború, ha a déglei nem piszkáltak volna a szobrot.\"",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 52.29,
+      "y": 47.05
+    }
   },
   {
     "id": "ch_07",
@@ -88,7 +112,11 @@
     "front_image": "assets/cards/ch_7a.webp",
     "back_image": "assets/cards/ch_7b.webp",
     "bio": "Rin — nagy harcos, minden harcos példaképe.\nSanti — Rin hű segítőtársa, altisztje.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 31.38,
+      "y": 33.86
+    }
   },
   {
     "id": "ch_08",
@@ -101,7 +129,11 @@
     "front_image": "assets/cards/ch_8a.webp",
     "back_image": "assets/cards/ch_8b.webp",
     "bio": "Sivatagi szállító.\nElvették az alakváltók a tavat, a zöldet, az erdőket. Lerombolták Merion faluját.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 35.21,
+      "y": 12.1
+    }
   },
   {
     "id": "ch_09",
@@ -114,7 +146,11 @@
     "front_image": "assets/cards/ch_9a.webp",
     "back_image": "assets/cards/ch_9b.webp",
     "bio": "Azt mondták neki: „Az egrek veszélyesek.\"\nA nagyszülei elmenekültek, és turistaként tért vissza.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 39.17,
+      "y": 43.28
+    }
   },
   {
     "id": "ch_10",
@@ -127,7 +163,11 @@
     "front_image": "assets/cards/ch_10a.webp",
     "back_image": "assets/cards/ch_10b.webp",
     "bio": "Morci — alakváltó macska.\nSokan meghaltak, diplomáták.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 19.95,
+      "y": 43.85
+    }
   },
   {
     "id": "ch_11",
@@ -140,7 +180,11 @@
     "front_image": "assets/cards/ch_11a.webp",
     "back_image": "assets/cards/ch_11b.webp",
     "bio": "Alakváltó és boszi keverék.\nKobrává tud változni, és a boszi varázs is megmaradt.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 20.33,
+      "y": 36.31
+    }
   },
   {
     "id": "ch_12",
@@ -155,7 +199,11 @@
     "bio": "Lökandó bátyja. Firindai szoros alakváltó.\nKatona akar lenni, mint az öccse.",
     "related_card_ids": [
       "ch_02"
-    ]
+    ],
+    "map_location": {
+      "x": 50.09,
+      "y": 45.82
+    }
   },
   {
     "id": "ch_15",
@@ -168,7 +216,11 @@
     "front_image": "assets/cards/ch_15a.webp",
     "back_image": "assets/cards/ch_15b.webp",
     "bio": "Azt mondták neki, hogy soha ne barátkozzon boszorkánnyal.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 68.87,
+      "y": 40.36
+    }
   },
   {
     "id": "ch_16",
@@ -181,7 +233,11 @@
     "front_image": "assets/cards/ch_16a.webp",
     "back_image": null,
     "bio": "Elf és macska keverék. Cute girl.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 23.03,
+      "y": 56.28
+    }
   },
   {
     "id": "ch_17",
@@ -194,6 +250,10 @@
     "front_image": "assets/cards/ch_17a.webp",
     "back_image": null,
     "bio": "Boszi és farkas keverék.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 42.68,
+      "y": 59.39
+    }
   }
 ]
