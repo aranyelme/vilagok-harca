@@ -10,7 +10,11 @@
     "front_image": "assets/cards/ch_1a.webp",
     "back_image": "assets/cards/ch_1b.webp",
     "bio": "Röplap: „Ne félj!\"\n\nPollen és Napsugár — hírvivő diplomata dédszülő — Tó völgye.\nA család tudja, hogy ételszállítmányokat blokkoltak a folyókon.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 42.18,
+      "y": 72.2
+    }
   },
   {
     "id": "ch_02",
@@ -23,7 +27,11 @@
     "front_image": "assets/cards/ch_2a.webp",
     "back_image": "assets/cards/ch_2b.webp",
     "bio": "Lökándó, Firóta unokája. Ő örökölte azt a kardot, amelyikkel Firóta a szorosban harcolt.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 18.19,
+      "y": 47.61
+    }
   },
   {
     "id": "ch_03",
@@ -36,7 +44,11 @@
     "front_image": "assets/cards/ch_3a.webp",
     "back_image": "assets/cards/ch_3b.webp",
     "bio": "Lih ★ — az, aki zip line-t épített a csatában. (Varázsló.)",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 65.54,
+      "y": 38.76
+    }
   },
   {
     "id": "ch_04",
@@ -49,7 +61,11 @@
     "front_image": "assets/cards/ch_4a.webp",
     "back_image": "assets/cards/ch_4b.webp",
     "bio": "Firóta — a háború hőse. A firindali szorosban kivívott csatát.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 28.74,
+      "y": 30.28
+    }
   },
   {
     "id": "ch_05",
@@ -62,7 +78,11 @@
     "front_image": "assets/cards/ch_5a.webp",
     "back_image": "assets/cards/ch_5b.webp",
     "bio": "A szemek megszállott kutatójaként a Nagykapu vezérlőtermét életre hívta.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 33.14,
+      "y": 21.71
+    }
   },
   {
     "id": "ch_06",
@@ -75,7 +95,11 @@
     "front_image": "assets/cards/ch_6a.webp",
     "back_image": "assets/cards/ch_6b.webp",
     "bio": "Lia, 14–15 éves. ◆ = Három kő nyaklánc. Nagyon érti, ahogy a tűz perzsel.\n\n— „Nem alakult volna ki a háború, ha a déglei nem piszkáltak volna a szobrot.\"",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 52.29,
+      "y": 47.05
+    }
   },
   {
     "id": "ch_07",
@@ -88,100 +112,132 @@
     "front_image": "assets/cards/ch_7a.webp",
     "back_image": "assets/cards/ch_7b.webp",
     "bio": "Rin — nagy harcos, minden harcos példaképe.\nSanti — Rin hű segítőtársa, altisztje.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 31.38,
+      "y": 33.86
+    }
   },
   {
     "id": "ch_08",
     "name": "Hino",
-    "age": null,
-    "age_label": "sivatagi szállító",
+    "age": 22,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "szállító",
     "front_image": "assets/cards/ch_8a.webp",
     "back_image": "assets/cards/ch_8b.webp",
-    "bio": "Sivatagi szállító.\nElvették az alakváltók a tavat, a zöldet, az erdőket. Lerombolták Merion faluját.",
-    "related_card_ids": []
+    "bio": "Jelenlegi foglalkozása: sivatagi szállító. Kisebb falvak és tanyák között szállítja az információt, a kaját, vizet, erőforrásokat - leginkább kereskedő, postás funkciót lát el.\n\nA szülei szintén itt éltek a nagyszüleikkel. Ezen a helyen erdős terület volt, ami elég árnyékot adott a boszorkányoknak, hogy fenntartsák az életvitelüket. A konfliktus során viszont az alakváltó seregek kipusztították a természeti adottságait ennek a területnek. A saját értékeikkel szembehelyezkedve elpusztították a falut (Merion) és az erdőt, ahol ezek a boszorkány telepesek éltek.",
+    "related_card_ids": [],
+    "map_location": {
+      "x": 35.21,
+      "y": 12.1
+    }
   },
   {
     "id": "ch_09",
     "name": "Koblán",
     "age": 14,
-    "age_label": "14 éves",
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "turista",
     "front_image": "assets/cards/ch_9a.webp",
     "back_image": "assets/cards/ch_9b.webp",
-    "bio": "Azt mondták neki: „Az egrek veszélyesek.\"\nA nagyszülei elmenekültek, és turistaként tért vissza.",
-    "related_card_ids": []
+    "bio": "Azt mondták neki a nagyszülei, hogy az ogrék veszélyesek - látták őket harcban, féltek tőlük, a bestialitásuk benyomása örök traumát hagyott bennük.\n\nAz ő nagyszülei alakváltoztatók voltak, de miután elhagyták a területet, néhány generáció után elvesztették ezt a képességüket.\n\nA nagyszülei elmenekültek a háború idején, és ő maga, Koblán, turistaként tért vissza.",
+    "related_card_ids": [],
+    "map_location": {
+      "x": 39.17,
+      "y": 43.28
+    }
   },
   {
     "id": "ch_10",
     "name": "Morci",
     "age": 13,
-    "age_label": "13 éves",
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "alakváltó",
     "front_image": "assets/cards/ch_10a.webp",
     "back_image": "assets/cards/ch_10b.webp",
-    "bio": "Morci — alakváltó macska.\nSokan meghaltak, diplomáták.",
-    "related_card_ids": []
+    "bio": "Azt mesélte a családja, hogy rengetegen meghaltak a háború során. Sok bajtársukat, barátjukat a nagyszüleik szeme láttára intéztek el. \n\nA család a traumák után nem engedik Morcit senkinek a közelébe. Ott laknak a védett fűzfa tövében pont ezért.\n\nVan egy nyaklánca mint hagyaték.",
+    "related_card_ids": [],
+    "map_location": {
+      "x": 35.71,
+      "y": 44.69
+    }
   },
   {
     "id": "ch_11",
-    "name": "Moéri",
-    "age": 13,
-    "age_label": "13–14 éves",
+    "name": "Morndó",
+    "age": 17,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "alakváltó-boszorkány",
     "front_image": "assets/cards/ch_11a.webp",
     "back_image": "assets/cards/ch_11b.webp",
-    "bio": "Alakváltó és boszi keverék.\nKobrává tud változni, és a boszi varázs is megmaradt.",
-    "related_card_ids": []
+    "bio": "Nagyon különleges alakváltó. Ő örökölte a nagyapja egyik képességét: meg tudta növelni egyes testrészeit. Nagyapja sisakját és páncélját is meg tudta így örökölni.\n\nNagyszülei a Firindai-szoros harcáról beszéltek előszeretettel neki és testvérének. A katonai sikerek elsődleges jelentőséggel bírtak.",
+    "related_card_ids": [],
+    "map_location": {
+      "x": 20.33,
+      "y": 36.31
+    }
   },
   {
     "id": "ch_12",
-    "name": "Mondó",
-    "age": 17,
-    "age_label": "17 éves",
+    "name": "Moíri",
+    "age": 13,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "alakváltó",
     "front_image": "assets/cards/ch_12a.webp",
     "back_image": "assets/cards/ch_12b.webp",
-    "bio": "Lökandó bátyja. Firindai szoros alakváltó.\nKatona akar lenni, mint az öccse.",
+    "bio": "Alakváltó és egy boszorkány gyermeke. Nagyon sok helyen kitagadják - igazából semelyik néphez sem tartozik igazán. Mindkét nép ismertetőjegyei felismerhetőek rajta. Óriáskobrává tud változni - emiatt félnek is tőle sokan, de a boszorkányok varázstudását is megörökölte.\n\nEgy kis faluban lakik a folyók összefolyásánál.\n\nAz alakváltó nagyszülei (maximalisták) úgy meséltek a háborúról mint egy generációs csalódás. A boszorkány nagyszülei pedig örülnek annak, ahogy záródott a konfliktus.",
     "related_card_ids": [
       "ch_02"
-    ]
+    ],
+    "map_location": {
+      "x": 50.09,
+      "y": 45.82
+    }
   },
   {
     "id": "ch_15",
     "name": "Zoy",
-    "age": 20,
-    "age_label": "20 éves",
+    "age": 11,
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": null,
     "front_image": "assets/cards/ch_15a.webp",
     "back_image": "assets/cards/ch_15b.webp",
-    "bio": "Azt mondták neki, hogy soha ne barátkozzon boszorkánnyal.",
-    "related_card_ids": []
+    "bio": "A nagyszüleik generációjában történt az egyik családtagjával, hogy egyedül rátalált egy boszorkány még kisgyermek korában, és magával vitte, hogy segítsen rajta. Természetesen kívülről ez emberrablásnak tűnt. A nagyszülei figyelmeztették és emlékeztették Zoy-t erre a történetre újra és újra: nem szabad boszorkányokkal barátkozni.",
+    "related_card_ids": [],
+    "map_location": {
+      "x": 68.87,
+      "y": 40.36
+    }
   },
   {
     "id": "ch_16",
     "name": "Lucy",
     "age": 13,
-    "age_label": "13 éves",
+    "age_label": null,
     "era": "50 évvel később",
     "era_order": 3,
     "faction": "elf-alakváltó",
     "front_image": "assets/cards/ch_16a.webp",
-    "back_image": null,
-    "bio": "Elf és macska keverék. Cute girl.",
-    "related_card_ids": []
+    "back_image": "",
+    "bio": "Az erdei alakváltók népségéhez tartozik - macska alakját tudja felvenni. A szülei is alakváltók voltak.\n\nA család átadta számára, hogy a háború során folyamatosan félelemben tartották őket az ogrék, akik a városukat is elpusztították a két folyó találkozásánál, illetve a konkrét földkérget is felszaggatták.\n\nEz a város, ahol laktak - amit az ogrék leromboltak - egy különleges hely volt. Egyedül itt éltek együtt nagy népességszámban boszorkányok és alakváltók a város két oldalán, de mégis egy helyen. Ezen a különleges helyen vállt vállnak vetve küzdött a két nép a megvadult ogrék ellen.",
+    "related_card_ids": [],
+    "map_location": {
+      "x": 45.95,
+      "y": 31.79
+    }
   },
   {
     "id": "ch_17",
@@ -194,6 +250,10 @@
     "front_image": "assets/cards/ch_17a.webp",
     "back_image": null,
     "bio": "Boszi és farkas keverék.",
-    "related_card_ids": []
+    "related_card_ids": [],
+    "map_location": {
+      "x": 64.04,
+      "y": 41.59
+    }
   }
 ]
