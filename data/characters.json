@@ -188,7 +188,7 @@
   },
   {
     "id": "ch_12",
-    "name": "Mondó",
+    "name": "Moíri",
     "age": 17,
     "age_label": "17 éves",
     "era": "50 évvel később",
@@ -196,7 +196,7 @@
     "faction": "alakváltó",
     "front_image": "assets/cards/ch_12a.webp",
     "back_image": "assets/cards/ch_12b.webp",
-    "bio": "Lökandó bátyja. Firindai szoros alakváltó.\nKatona akar lenni, mint az öccse.",
+    "bio": "Alakváltó és egy boszorkány gyermeke. Nagyon sok helyen kitagadják - igazából semelyik néphez sem tartozik igazán. Mindkét nép ismertetőjegyei felismerhetőek rajta. Óriáskobrává tud változni - emiatt félnek is tőle sokan, de a boszorkányok varázstudását is megörökölte.\n\nEgy kis faluban lakik a folyók összefolyásánál.\n\nAz alakváltó nagyszülei (maximalisták) úgy meséltek a háborúról mint egy generációs csalódás. A boszorkány nagyszülei pedig örülnek annak, ahogy záródott a konfliktus.",
     "related_card_ids": [
       "ch_02"
     ],
