@@ -55,16 +55,16 @@
     "name": "Firóta",
     "age": null,
     "age_label": "a háború hőse",
-    "era": "50 évvel később",
-    "era_order": 3,
+    "era": "A konfliktus",
+    "era_order": 2,
     "faction": "harcos",
     "front_image": "assets/cards/ch_4a.webp",
     "back_image": "assets/cards/ch_4b.webp",
     "bio": "Firóta — a háború hőse. A firindali szorosban kivívott csatát.",
     "related_card_ids": [],
     "map_location": {
-      "x": 28.74,
-      "y": 30.28
+      "x": 24.95,
+      "y": 71.71
     }
   },
   {
