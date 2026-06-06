@@ -38,16 +38,16 @@
     "name": "Lih",
     "age": null,
     "age_label": "varázsló",
-    "era": "50 évvel később",
-    "era_order": 3,
+    "era": "A konfliktus",
+    "era_order": 2,
     "faction": "varázsló",
     "front_image": "assets/cards/ch_3a.webp",
     "back_image": "assets/cards/ch_3b.webp",
     "bio": "Lih ★ — az, aki zip line-t épített a csatában. (Varázsló.)",
     "related_card_ids": [],
     "map_location": {
-      "x": 65.54,
-      "y": 38.76
+      "x": 54.62,
+      "y": 53.51
     }
   },
   {
